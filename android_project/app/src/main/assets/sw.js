@@ -1,12 +1,14 @@
 // COLREGS-3D Service Worker for Offline Mobile Support
-const CACHE_NAME = 'colregs-3d-v5';
+const CACHE_NAME = 'colregs-3d-v6';
 const ASSETS_TO_CACHE = [
   './',
+  './index.html',
   './simulator.html',
   './manifest.json',
   './js/three.min.js',
   './js/OrbitControls.js',
   './js/quiz_bank.js',
+  './js/colreg_text.js',
   './colreg-72-viet-ver.pdf',
   './colreg-72-eng-ver.pdf',
   './icons/icon.svg',

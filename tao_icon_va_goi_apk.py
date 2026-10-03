@@ -157,6 +157,7 @@ def create_mobile_zip(base_dir):
         os.path.join('js', 'three.min.js'),
         os.path.join('js', 'OrbitControls.js'),
         os.path.join('js', 'quiz_bank.js'),
+        os.path.join('js', 'colreg_text.js'),
         os.path.join('icons', 'icon-192.png'),
         os.path.join('icons', 'icon-512.png'),
         os.path.join('icons', 'icon.svg'),

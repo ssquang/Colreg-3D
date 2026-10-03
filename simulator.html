@@ -14,7 +14,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register('./sw.js?v=5').then(function(reg) {
+        navigator.serviceWorker.register('./sw.js?v=6').then(function(reg) {
           reg.update();
         }).catch(function() {});
       });
@@ -27,6 +27,7 @@
   <script src="js/three.min.js"></script>
   <script src="js/OrbitControls.js"></script>
   <script src="js/quiz_bank.js"></script>
+  <script src="js/colreg_text.js"></script>
   <script>
     if (typeof THREE === 'undefined') {
       const s1 = document.createElement('script');
@@ -504,54 +505,12 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Top-Left Main Screen HUD: Target Signs (Day Shapes & Night Lights) */
-    .top-left-signs-hud,
-    .top-left-hud {
-      position: absolute;
-      top: 56px;
-      left: 10px;
-      width: 220px;
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
-      border-radius: 10px;
-      padding: 6px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.75);
-      pointer-events: auto;
-      z-index: 25;
-      transition: all 0.25s ease;
-    }
-    .top-left-signs-hud.collapsed,
-    .top-left-hud.collapsed {
-      width: auto;
-      padding: 4px 8px;
-    }
-    .top-left-signs-hud.collapsed .hud-body,
-    .top-left-hud.collapsed .hud-body {
-      display: none !important;
-    }
-
-    .target-rule-badge {
-      font-size: 9px;
-      background: rgba(0, 229, 255, 0.15);
-      border: 1px solid rgba(0, 229, 255, 0.35);
-      color: #64ffda;
-      padding: 1px 6px;
-      border-radius: 3px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    /* Bottom-Right Main Screen HUD: Radar Scope & Telemetry (Above Ship Velocity) */
+    /* Unified Bottom-Right Main Screen HUD: Radar Scope & Target Signs */
     .bottom-right-radar-hud {
       position: fixed;
       bottom: 12px;
       right: 14px;
-      width: 235px;
+      width: 250px;
       background: var(--panel-bg);
       border: 1px solid #165236;
       border-radius: 10px;
@@ -572,6 +531,53 @@
     }
     .bottom-right-radar-hud.collapsed .hud-body {
       display: none !important;
+    }
+
+    /* Tab Switcher inside HUD Header */
+    .nav-hud-tab-bar {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      background: rgba(4, 16, 24, 0.6);
+      padding: 2px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 229, 255, 0.2);
+    }
+    .nav-hud-tab-btn {
+      background: transparent;
+      border: none;
+      color: #80deea;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .nav-hud-tab-btn.active {
+      background: rgba(0, 229, 255, 0.22);
+      color: #00e5ff;
+      box-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
+    }
+    .nav-hud-tab-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .target-rule-badge {
+      font-size: 9px;
+      background: rgba(0, 229, 255, 0.15);
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      color: #64ffda;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-weight: 700;
+      white-space: nowrap;
     }
 
     .hud-header {
@@ -836,6 +842,118 @@
       border: none;
       flex: 1;
       background: #ffffff;
+    }
+    .pdf-lang-btn {
+      background: rgba(10, 34, 48, 0.85);
+      border: 1px solid #1c4d62;
+      color: #8cd7f0;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .pdf-lang-btn.active {
+      background: #00e676;
+      color: #04141d;
+      border-color: #00e676;
+      box-shadow: 0 0 8px rgba(0, 230, 118, 0.4);
+    }
+    .reader-text-container {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: #06131c;
+      overflow: hidden;
+    }
+    .reader-toolbar {
+      background: #09202e;
+      border-bottom: 1px solid #1a4356;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .reader-rule-select {
+      background: #05141f;
+      border: 1px solid #00e5ff;
+      color: #e0f7fa;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      outline: none;
+      flex: 1;
+      max-width: 380px;
+    }
+    .reader-search-input {
+      background: #040e16;
+      border: 1px solid #1f5068;
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      outline: none;
+      width: 100%;
+    }
+    .reader-search-input:focus {
+      border-color: #00e5ff;
+      box-shadow: 0 0 6px rgba(0, 229, 255, 0.3);
+    }
+    .reader-zoom-btn {
+      background: #0a2536;
+      border: 1px solid #1e516b;
+      color: #80deea;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .reader-zoom-btn:hover {
+      background: #00e5ff;
+      color: #04121a;
+    }
+    .reader-text-body {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 18px 24px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: #d8eef8;
+      background: #071520;
+    }
+    .reader-text-body h2 {
+      color: #00e5ff;
+      font-size: 1.45rem;
+      margin: 18px 0 8px 0;
+      border-bottom: 1px solid rgba(0, 229, 255, 0.25);
+      padding-bottom: 4px;
+    }
+    .reader-text-body h3 {
+      color: #ffb300;
+      font-size: 1.25rem;
+      margin: 14px 0 6px 0;
+    }
+    .reader-text-body p {
+      margin-bottom: 10px;
+      white-space: pre-wrap;
+    }
+    .reader-highlight {
+      background: #ffab00;
+      color: #04121a;
+      padding: 0 2px;
+      border-radius: 2px;
+      font-weight: 700;
     }
     .pdf-fallback-notice {
       position: absolute;
@@ -1580,29 +1698,17 @@
         font-size: 13.5px;
       }
 
-      /* Top-Left Target Signs HUD on Mobile (Sleek, Compact, Clear Horizon) */
-      .top-left-signs-hud,
-      .top-left-hud {
-        top: 48px;
-        left: 6px;
-        width: min(200px, 48vw);
-        padding: 4px 6px;
-        gap: 3px;
-      }
-      .hud-visual-slot {
-        min-height: 26px;
-      }
-      .hud-signal-desc {
-        font-size: 7.5px;
-      }
-
-      /* Bottom-Right Radar HUD on Mobile: directly above Own Ship Velocity & Helm Console */
+      /* Bottom-Right Unified HUD on Mobile: directly above Own Ship Velocity & Helm Console */
       .bottom-right-radar-hud {
         bottom: 148px;
         right: 6px;
-        width: min(210px, 54vw);
+        width: min(235px, 58vw);
         padding: 4px 6px;
         gap: 3px;
+      }
+      .nav-hud-tab-btn {
+        font-size: 10px;
+        padding: 2px 6px;
       }
       .hud-radar-wrap {
         width: 88px;
@@ -1613,6 +1719,12 @@
       }
       .hud-telem-val {
         font-size: 9.5px;
+      }
+      .hud-visual-slot {
+        min-height: 26px;
+      }
+      .hud-signal-desc {
+        font-size: 7.5px;
       }
 
       /* Bottom Helm Console: Compact, High-contrast, Thumb-Friendly */
@@ -1902,43 +2014,7 @@
 
 
 
-  <!-- Top-Left Main Screen HUD: Target Signs (Day Shapes & Night Lights) -->
-  <div id="topLeftSignsHud" class="top-left-signs-hud top-left-hud">
-    <div class="hud-header">
-      <div class="hud-title">
-        <span>🎯</span> <span id="lblCardSignsTitle">DẤU HIỆU NHẬN BIẾT</span>
-      </div>
-      <div style="display:flex; align-items:center; gap:5px;">
-        <span id="targetRuleBadge" class="target-rule-badge">RULE 14</span>
-        <button id="btnToggleSignsHud" class="hud-toggle-btn" onclick="toggleSignsHud()" title="Thu gọn / Mở rộng">▼</button>
-      </div>
-    </div>
 
-    <div id="topLeftSignsBody" class="hud-body">
-      <!-- Target Day Shapes & Night Lights Signals Card -->
-      <div id="colregsSignalCard" class="hud-signal-card">
-        <div class="hud-signal-grid">
-          <!-- Day Shapes Box -->
-          <div id="dayShapeBox" class="hud-signal-box day">
-            <div id="lblDayShapesHeader" class="hud-signal-box-title">☀️ NGÀY (DAY)</div>
-            <div id="dayShapeVisual" class="hud-visual-slot"></div>
-            <div id="dayShapeDesc" class="hud-signal-desc">Không dấu hiệu đặc biệt</div>
-          </div>
-
-          <!-- Night Lights Box -->
-          <div id="nightLightBox" class="hud-signal-box night">
-            <div id="lblNightLightsHeader" class="hud-signal-box-title">🌙 ĐÊM (NIGHT)</div>
-            <div id="nightLightVisual" class="hud-visual-slot"></div>
-            <div id="nightLightDesc" class="hud-signal-desc">Đèn cột + Mạn Xanh/Đỏ</div>
-          </div>
-        </div>
-
-        <div id="colregsObligation" class="hud-obligation-txt">
-          ℹ <b>Nghĩa vụ:</b> Tàu cơ giới bình thường, tuân theo quy tắc tránh va đối đầu / cắt hướng tiêu chuẩn.
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Backdrop che màn hình khi mở ngăn kéo trên điện thoại -->
   <div id="drawerBackdrop" class="drawer-backdrop" onclick="closeMobileDrawers()"></div>
@@ -2107,48 +2183,86 @@
     </div>
   </div>
 
-  <!-- Bottom-Right Radar ARPA & Telemetry HUD (Above Own Ship Velocity) -->
+  <!-- Bottom-Right Unified HUD: Radar ARPA & Target Signs (Above Own Ship Velocity) -->
   <div id="bottomRightRadarHud" class="bottom-right-radar-hud">
     <div class="hud-header">
-      <div class="hud-title">
-        <span>📡</span> <span id="lblHudRadarHeader">RADAR ARPA</span>
+      <!-- Tab Bar to toggle between Radar and Target Signs -->
+      <div class="nav-hud-tab-bar">
+        <button id="btnTabNavRadar" class="nav-hud-tab-btn active" onclick="switchNavHudTab('radar')" title="Xem màn hình Radar ARPA">
+          📡 <span>RADAR</span>
+        </button>
+        <button id="btnTabNavSigns" class="nav-hud-tab-btn" onclick="switchNavHudTab('signs')" title="Xem Dấu hiệu nhận biết ngày & đêm">
+          🎯 <span>DẤU HIỆU</span>
+        </button>
       </div>
+
       <div class="hud-header-actions" style="display:flex; align-items:center; gap:4px;">
-        <select id="radarRangeSelect" class="radar-range-select" onchange="setRadarRange(this.value)">
-          <option value="3">3 NM</option>
-          <option value="6" selected>6 NM</option>
-          <option value="12">12 NM</option>
-        </select>
-        <button id="btnToggleRadarHud" class="hud-toggle-btn" onclick="toggleRadarHud()" title="Thu gọn / Mở rộng Radar">▼</button>
+        <span id="targetRuleBadge" class="target-rule-badge">RULE 14</span>
+        <button id="btnToggleRadarHud" class="hud-toggle-btn" onclick="toggleRadarHud()" title="Thu gọn / Mở rộng">▼</button>
       </div>
     </div>
 
     <div id="radarHudBody" class="hud-body">
-      <!-- Radar Scope & Telemetry Column -->
-      <div class="hud-radar-row">
-        <div class="hud-radar-wrap">
-          <canvas id="radarCanvas" width="160" height="160"></canvas>
+      <!-- PANE 1: Radar Scope & Telemetry -->
+      <div id="navPaneRadar" class="nav-pane active">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3px;">
+          <span style="font-size:10px; color:#80deea; font-weight:700;">📡 RADAR ARPA TRUE MOTION</span>
+          <select id="radarRangeSelect" class="radar-range-select" onchange="setRadarRange(this.value)">
+            <option value="3">3 NM</option>
+            <option value="6" selected>6 NM</option>
+            <option value="12">12 NM</option>
+          </select>
         </div>
-        <div class="hud-telemetry-col">
-          <div class="hud-telem-item">
-            <span class="hud-telem-lbl">CPA:</span>
-            <span id="telemetryCPA" class="hud-telem-val cpa-danger">0.00 NM</span>
+        <div class="hud-radar-row">
+          <div class="hud-radar-wrap">
+            <canvas id="radarCanvas" width="160" height="160"></canvas>
           </div>
-          <div class="hud-telem-item">
-            <span class="hud-telem-lbl">DIST:</span>
-            <span id="telemetryDist" class="hud-telem-val">6.00 NM</span>
+          <div class="hud-telemetry-col">
+            <div class="hud-telem-item">
+              <span class="hud-telem-lbl">CPA:</span>
+              <span id="telemetryCPA" class="hud-telem-val cpa-danger">0.00 NM</span>
+            </div>
+            <div class="hud-telem-item">
+              <span class="hud-telem-lbl">DIST:</span>
+              <span id="telemetryDist" class="hud-telem-val">6.00 NM</span>
+            </div>
+            <div class="hud-telem-item">
+              <span class="hud-telem-lbl">BRG:</span>
+              <span id="telemetryBearing" class="hud-telem-val">000°</span>
+            </div>
+            <div class="hud-telem-item">
+              <span class="hud-telem-lbl">TCPA:</span>
+              <span id="telemetryTCPA" class="hud-telem-val">13.8 min</span>
+            </div>
+            <div class="hud-telem-item" style="border-color:#1b5e39; background:rgba(6,26,20,0.85);">
+              <span class="hud-telem-lbl" style="color:#80deea;">ĐIỂM:</span>
+              <span id="scoreBigVal" class="hud-telem-val" style="color:var(--green-safe);">100/100</span>
+            </div>
           </div>
-          <div class="hud-telem-item">
-            <span class="hud-telem-lbl">BRG:</span>
-            <span id="telemetryBearing" class="hud-telem-val">000°</span>
+        </div>
+      </div>
+
+      <!-- PANE 2: Target Day Shapes & Night Lights Signs -->
+      <div id="navPaneSigns" class="nav-pane" style="display:none;">
+        <div id="colregsSignalCard" class="hud-signal-card" style="border:none; padding:0; background:transparent;">
+          <div class="hud-signal-grid">
+            <!-- Day Shapes Box -->
+            <div id="dayShapeBox" class="hud-signal-box day">
+              <div id="lblDayShapesHeader" class="hud-signal-box-title">☀️ NGÀY (DAY)</div>
+              <div id="dayShapeVisual" class="hud-visual-slot"></div>
+              <div id="dayShapeDesc" class="hud-signal-desc">Không dấu hiệu đặc biệt</div>
+            </div>
+
+            <!-- Night Lights Box -->
+            <div id="nightLightBox" class="hud-signal-box night">
+              <div id="lblNightLightsHeader" class="hud-signal-box-title">🌙 ĐÊM (NIGHT)</div>
+              <div id="nightLightVisual" class="hud-visual-slot"></div>
+              <div id="nightLightDesc" class="hud-signal-desc">Đèn cột + Mạn Xanh/Đỏ</div>
+            </div>
           </div>
-          <div class="hud-telem-item">
-            <span class="hud-telem-lbl">TCPA:</span>
-            <span id="telemetryTCPA" class="hud-telem-val">13.8 min</span>
-          </div>
-          <div class="hud-telem-item" style="border-color:#1b5e39; background:rgba(6,26,20,0.85);">
-            <span class="hud-telem-lbl" style="color:#80deea;">ĐIỂM:</span>
-            <span id="scoreBigVal" class="hud-telem-val" style="color:var(--green-safe);">100/100</span>
+
+          <div id="colregsObligation" class="hud-obligation-txt" style="margin-top:4px;">
+            ℹ <b>Nghĩa vụ:</b> Tàu cơ giới bình thường, tuân theo quy tắc tránh va đối đầu / cắt hướng tiêu chuẩn.
           </div>
         </div>
       </div>
@@ -2390,7 +2504,7 @@
   </div>
 
   <!-- ==========================================
-       COLREGS-72 PDF VIEWER MODAL
+       COLREGS-72 BILINGUAL E-READER & PDF MODAL
        ========================================== -->
   <div id="colregsPdfModal" class="pdf-modal-backdrop">
     <div class="pdf-modal-card">
@@ -2399,17 +2513,46 @@
           <span>📖</span> <span id="pdfModalTitleText">CÔNG ƯỚC QUỐC TẾ COLREG 72</span>
         </div>
         <div class="pdf-tabs">
-          <button id="pdfTabVi" class="pdf-tab active" onclick="switchPdfTab('vi')">🇻🇳 Tiếng Việt</button>
-          <button id="pdfTabEn" class="pdf-tab" onclick="switchPdfTab('en')">🇬🇧 English</button>
+          <!-- Reader View Mode Switcher -->
+          <button id="btnReaderModeText" class="pdf-tab active" onclick="switchReaderMode('text')">📖 Đọc Trong App (E-Reader)</button>
+          <button id="btnReaderModePdf" class="pdf-tab" onclick="switchReaderMode('pdf')">📄 Tệp PDF Gốc</button>
         </div>
-        <div style="display:flex; align-items:center; gap:8px;">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <!-- Language Switcher -->
+          <button id="pdfTabVi" class="pdf-lang-btn active" onclick="switchPdfTab('vi')">🇻🇳 VI</button>
+          <button id="pdfTabEn" class="pdf-lang-btn" onclick="switchPdfTab('en')">🇬🇧 EN</button>
           <a id="btnPdfOpenNewTab" href="colreg-72-viet-ver.pdf" target="_blank" class="pdf-btn-ext" title="Mở trong tab mới / Tải về">
-            ↗ Mở Tab Mới / Tải Về
+            ↗ Tải PDF
           </a>
           <button class="quiz-close-btn" onclick="closePdfModal()" title="Đóng">✕</button>
         </div>
       </div>
-      <div class="pdf-modal-body">
+
+      <!-- VIEW 1: Built-in Native E-Reader (Works 100% offline, anywhere, no PDF plugin needed) -->
+      <div id="readerTextView" class="reader-text-container">
+        <div class="reader-toolbar">
+          <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:200px;">
+            <span style="font-size:12px; color:#80deea; font-weight:700;">📑 MỤC LỤC:</span>
+            <select id="colregRulePicker" class="reader-rule-select" onchange="onSelectColregRule(this.value)">
+              <!-- Populated dynamically from COLREG_TEXT_DATA.toc -->
+            </select>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; flex:1; max-width:320px;">
+            <input id="colregSearchInput" type="text" class="reader-search-input" placeholder="🔍 Tìm kiếm (ví dụ: đối đầu, sương mù, Rule 14...)" oninput="onSearchColregText(this.value)" />
+          </div>
+          <div style="display:flex; align-items:center; gap:4px;">
+            <span style="font-size:11px; color:#8ca3af;">Cỡ chữ:</span>
+            <button class="reader-zoom-btn" onclick="changeReaderFontSize(-1)">A-</button>
+            <button class="reader-zoom-btn" onclick="changeReaderFontSize(1)">A+</button>
+          </div>
+        </div>
+        <div id="readerTextContent" class="reader-text-body">
+          <!-- Text rendered here -->
+        </div>
+      </div>
+
+      <!-- VIEW 2: Raw PDF Frame View -->
+      <div id="readerPdfView" class="pdf-modal-body" style="display:none;">
         <iframe id="colregsPdfFrame" src="colreg-72-viet-ver.pdf" title="COLREGs 72 Document"></iframe>
         <div id="pdfFallbackNotice" class="pdf-fallback-notice">
           <span style="color:#cfd8dc;">Nếu điện thoại của bạn không hiển thị PDF bên trên:</span>
@@ -3346,17 +3489,25 @@
     }
 
     // ==========================================
-    // HUD CONTROLLERS: TARGET SIGNS (TOP-LEFT) & RADAR ARPA (BOTTOM-RIGHT)
+    // UNIFIED BOTTOM-RIGHT HUD CONTROLLER
     // ==========================================
-    function toggleSignsHud() {
-      const hud = document.getElementById('topLeftSignsHud') || document.getElementById('topLeftHud');
-      const btn = document.getElementById('btnToggleSignsHud') || document.getElementById('btnToggleHud');
-      if (!hud) return;
-      hud.classList.toggle('collapsed');
-      if (btn) {
-        const isCollapsed = hud.classList.contains('collapsed');
-        btn.textContent = isCollapsed ? '▲' : '▼';
-        btn.title = isCollapsed ? 'Mở rộng dấu hiệu' : 'Thu gọn dấu hiệu';
+    function switchNavHudTab(tab) {
+      const tabRadar = document.getElementById('btnTabNavRadar');
+      const tabSigns = document.getElementById('btnTabNavSigns');
+      const paneRadar = document.getElementById('navPaneRadar');
+      const paneSigns = document.getElementById('navPaneSigns');
+      if (!tabRadar || !tabSigns || !paneRadar || !paneSigns) return;
+
+      if (tab === 'radar') {
+        tabRadar.classList.add('active');
+        tabSigns.classList.remove('active');
+        paneRadar.style.display = 'block';
+        paneSigns.style.display = 'none';
+      } else {
+        tabSigns.classList.add('active');
+        tabRadar.classList.remove('active');
+        paneSigns.style.display = 'block';
+        paneRadar.style.display = 'none';
       }
     }
 
@@ -3368,23 +3519,32 @@
       if (btn) {
         const isCollapsed = hud.classList.contains('collapsed');
         btn.textContent = isCollapsed ? '▲' : '▼';
-        btn.title = isCollapsed ? 'Mở rộng Radar' : 'Thu gọn Radar';
+        btn.title = isCollapsed ? 'Mở rộng HUD' : 'Thu gọn HUD';
       }
     }
 
-    // Backwards compatibility alias
+    // Backwards compatibility aliases
+    function toggleSignsHud() {
+      toggleRadarHud();
+    }
     function toggleTopLeftHud() {
-      toggleSignsHud();
+      toggleRadarHud();
     }
 
     // ==========================================
-    // COLREGS-72 PDF VIEWER MODAL CONTROLLER
+    // COLREGS-72 BILINGUAL E-READER & PDF CONTROLLER
     // ==========================================
+    let currentReaderLang = 'vi';
+    let currentReaderMode = 'text';
+    let readerFontSize = 15;
+
     function openPdfModal(lang = 'vi') {
       closeMobileDrawers();
       const modal = document.getElementById('colregsPdfModal');
       if (modal) modal.style.display = 'flex';
+      initColregReader();
       switchPdfTab(lang);
+      switchReaderMode('text');
     }
 
     function closePdfModal() {
@@ -3392,7 +3552,22 @@
       if (modal) modal.style.display = 'none';
     }
 
+    function switchReaderMode(mode) {
+      currentReaderMode = mode;
+      const btnText = document.getElementById('btnReaderModeText');
+      const btnPdf = document.getElementById('btnReaderModePdf');
+      const viewText = document.getElementById('readerTextView');
+      const viewPdf = document.getElementById('readerPdfView');
+
+      if (btnText) btnText.classList.toggle('active', mode === 'text');
+      if (btnPdf) btnPdf.classList.toggle('active', mode === 'pdf');
+      if (viewText) viewText.style.display = (mode === 'text') ? 'flex' : 'none';
+      if (viewPdf) viewPdf.style.display = (mode === 'pdf') ? 'flex' : 'none';
+    }
+
     function switchPdfTab(lang) {
+      currentReaderLang = lang;
+      const isEn = (lang === 'en');
       const tabVi = document.getElementById('pdfTabVi');
       const tabEn = document.getElementById('pdfTabEn');
       const frame = document.getElementById('colregsPdfFrame');
@@ -3400,21 +3575,131 @@
       const fallbackLink = document.getElementById('pdfFallbackLink');
       const title = document.getElementById('pdfModalTitleText');
 
-      const isEn = (lang === 'en');
-      const pdfFile = isEn ? 'colreg-72-eng-ver.pdf' : 'colreg-72-viet-ver.pdf';
-
       if (tabVi) tabVi.classList.toggle('active', !isEn);
       if (tabEn) tabEn.classList.toggle('active', isEn);
 
-      if (frame) {
-        frame.src = pdfFile;
-      }
+      const pdfFile = isEn ? 'colreg-72-eng-ver.pdf' : 'colreg-72-viet-ver.pdf';
+      if (frame) frame.src = pdfFile;
       if (extLink) extLink.href = pdfFile;
       if (fallbackLink) fallbackLink.href = pdfFile;
+
       if (title) {
         title.textContent = isEn
           ? 'INTERNATIONAL REGULATIONS FOR PREVENTING COLLISIONS AT SEA 1972'
-          : 'CÔNG ƯỚC QUỐC TẾ VỀ PHÒNG NGỪA ĐÂM VA TÀU THUYỀN TRÊN BIỂN 1972 (COLREGs 72)';
+          : 'CÔNG ƯỚC QUỐC TẾ VỀ PHÒNG NGỪA ĐÂM VA TÀU THUYỀN TRÊN BIỂN 1972 (COLREG 72)';
+      }
+
+      initColregRulePicker();
+      renderColregText();
+    }
+
+    function initColregReader() {
+      initColregRulePicker();
+      renderColregText();
+    }
+
+    function initColregRulePicker() {
+      const picker = document.getElementById('colregRulePicker');
+      if (!picker || typeof COLREG_TEXT_DATA === 'undefined') return;
+      const isEn = (currentReaderLang === 'en');
+
+      picker.innerHTML = `<option value="all">${isEn ? '📖 Show All Document' : '📖 Xem Toàn Bộ Văn Bản'}</option>`;
+
+      if (COLREG_TEXT_DATA.toc) {
+        COLREG_TEXT_DATA.toc.forEach(part => {
+          const optGroup = document.createElement('optgroup');
+          optGroup.label = isEn ? part.part_en : part.part_vi;
+          part.rules.forEach(r => {
+            const opt = document.createElement('option');
+            opt.value = `rule_${r.id}`;
+            opt.textContent = isEn ? r.en : r.vi;
+            optGroup.appendChild(opt);
+          });
+          picker.appendChild(optGroup);
+        });
+      }
+    }
+
+    function renderColregText(filterKeyword = '') {
+      const container = document.getElementById('readerTextContent');
+      if (!container || typeof COLREG_TEXT_DATA === 'undefined') return;
+
+      const isEn = (currentReaderLang === 'en');
+      const docData = isEn ? COLREG_TEXT_DATA.english : COLREG_TEXT_DATA.vietnamese;
+      if (!docData) return;
+      const pages = docData.pages || [];
+
+      let html = `<div style="max-width:850px; margin:0 auto; font-size:${readerFontSize}px;">`;
+      html += `<div style="text-align:center; margin-bottom:20px; border-bottom:1px solid rgba(0,229,255,0.3); padding-bottom:15px;">
+        <h1 style="color:#00e5ff; font-size:1.6rem; font-weight:800; margin-bottom:6px;">${docData.title}</h1>
+        <p style="color:#80deea; font-size:0.95rem; margin:0;">${docData.subtitle}</p>
+      </div>`;
+
+      const kw = (filterKeyword || '').trim().toLowerCase();
+
+      pages.forEach((pageText, pIdx) => {
+        let textToShow = pageText;
+
+        if (kw) {
+          if (!textToShow.toLowerCase().includes(kw)) {
+            return;
+          }
+          const regex = new RegExp(`(${kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+          textToShow = textToShow.replace(regex, '<mark class="reader-highlight">$1</mark>');
+        }
+
+        // Format rule headings
+        textToShow = textToShow
+          .replace(/(Điều\s+\d+[\.\s][^\n]+)/g, '<h3 style="color:#ffb300; margin-top:14px; margin-bottom:6px;">$1</h3>')
+          .replace(/(RULE\s+\d+[\.\s][^\n]+)/gi, '<h3 style="color:#ffb300; margin-top:14px; margin-bottom:6px;">$1</h3>')
+          .replace(/(PHẦN\s+[A-Z][^\n]*)/g, '<h2 style="color:#00e5ff; margin-top:20px; border-bottom:1px solid #16485e; padding-bottom:4px;">$1</h2>')
+          .replace(/(PART\s+[A-Z][^\n]*)/gi, '<h2 style="color:#00e5ff; margin-top:20px; border-bottom:1px solid #16485e; padding-bottom:4px;">$1</h2>');
+
+        html += `<div id="page_node_${pIdx + 1}" class="reader-page-card" style="background:rgba(6,20,30,0.6); border:1px solid rgba(0,229,255,0.15); border-radius:8px; padding:18px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; color:#4fc3f7; font-size:12px; margin-bottom:10px; border-bottom:1px dashed #173b4d; padding-bottom:4px;">
+            <span>📄 ${isEn ? 'Page' : 'Trang'} ${pIdx + 1} / ${pages.length}</span>
+            <span>COLREGs 72</span>
+          </div>
+          <div style="line-height:1.7; white-space:pre-wrap;">${textToShow}</div>
+        </div>`;
+      });
+
+      if (kw && html.indexOf('reader-page-card') === -1) {
+        html += `<div style="text-align:center; padding:40px 20px; color:#ffb300;">
+          <h3>🔍 Không tìm thấy kết quả phù hợp với "${filterKeyword}"</h3>
+          <p style="color:#8ca3af;">Hãy thử tìm từ khóa khác (ví dụ: đối đầu, sương mù, còi, Rule 14, overtaking...)</p>
+        </div>`;
+      }
+
+      html += `</div>`;
+      container.innerHTML = html;
+    }
+
+    function onSelectColregRule(val) {
+      if (val === 'all') {
+        renderColregText();
+        const container = document.getElementById('readerTextContent');
+        if (container) container.scrollTop = 0;
+        return;
+      }
+      const ruleNum = val.replace('rule_', '');
+      const isEn = (currentReaderLang === 'en');
+      const searchTarget = isEn ? `RULE ${ruleNum}` : `Điều ${ruleNum}`;
+      onSearchColregText(searchTarget);
+    }
+
+    function onSearchColregText(query) {
+      renderColregText(query);
+      const container = document.getElementById('readerTextContent');
+      if (container) container.scrollTop = 0;
+    }
+
+    function changeReaderFontSize(delta) {
+      readerFontSize = Math.max(12, Math.min(24, readerFontSize + delta));
+      const container = document.getElementById('readerTextContent');
+      if (container) {
+        const wrap = container.firstElementChild;
+        if (wrap) wrap.style.fontSize = `${readerFontSize}px`;
       }
     }
 
@@ -5901,8 +6186,8 @@
       // Compass Bearing to target
       let bearing = (THREE.MathUtils.radToDeg(Math.atan2(dx, dz)) + 360) % 360;
 
-      // Check Collision (< 0.08 NM / ~150 meters)
-      if (currentDist < 0.08 && !hasCollided) {
+      // Check Collision (< 0.16 NM / ~300 meters - Matching 3D hull dimensions)
+      if (currentDist <= 0.16 && !hasCollided) {
         hasCollided = true;
         score = 0;
         document.getElementById('collisionVignette').classList.add('active');
@@ -5911,13 +6196,13 @@
         showCollisionModal();
       }
 
-      // Check Safe Passing (passed CPA safely with >= 1.0 NM)
-      if (!hasCollided && !hasSafelyPassed && tcpa <= 0.005 && minDistanceRecorded >= 1.0 && currentDist > minDistanceRecorded + 0.15) {
+      // Check Safe Passing (passed CPA safely with minDistanceRecorded >= 1.0 NM)
+      if (!hasCollided && !hasSafelyPassed && tcpa <= 0 && minDistanceRecorded >= 1.0 && currentDist > minDistanceRecorded + 0.20) {
         hasSafelyPassed = true;
         AudioEngine.playChime();
         document.getElementById('safeAura').classList.add('active');
         updateStatusPill('success', '✅ ĐÃ VƯỢT QUA AN TOÀN (SAFE PASSING)');
-        showSafePassModal(cpa);
+        showSafePassModal(minDistanceRecorded);
       }
 
       // Evaluation & Scoring
@@ -5932,15 +6217,11 @@
     }
 
     // ==========================================
-    // EVALUATION & SCORING SYSTEM
+    // EVALUATION & SCORING SYSTEM (STRICT COLREGS 72)
     // ==========================================
     function evaluateScoring(cpa, tcpa, currentDist) {
       if (hasCollided) {
         updateScoreUI(0, 'ĐÃ ĐÂM VA', 'Xảy ra tai nạn đâm va trên biển (-100đ)!');
-        return;
-      }
-      if (hasSafelyPassed) {
-        updateScoreUI(100, 'XUẤT SẮC', `Đã vượt qua an toàn với CPA = ${cpa.toFixed(2)} NM.`);
         return;
       }
 
@@ -5951,91 +6232,116 @@
       const courseChange = (ownShip.course - baseOwnCourse + 540) % 360 - 180;
       const s = SCENARIOS[currentScenarioId] || SCENARIOS.head_on;
 
+      // 1. RULE COMPLIANCE EVALUATION
       if (s.id === 'rule_19') {
-        if (courseChange < -8) {
-          currentScore -= 50;
-          verdict = 'VI PHẠM';
-          reason = 'Rule 19: Cấm bẻ mạn trái khi phát hiện mục tiêu trước mạn ngang bằng Radar (-50đ)!';
-          updateStatusPill('danger', '⚠ VI PHẠM RULE 19 (BẺ TRÁI RADAR)');
-        } else if (courseChange > 15) {
+        // Tầm nhìn xa hạn chế / Sương mù
+        if (courseChange < -5) {
+          currentScore = Math.min(currentScore, 15);
+          verdict = 'VI PHẠM NGUY HIỂM';
+          reason = 'Rule 19: CẤM TUYỆT ĐỐI bẻ mạn trái khi phát hiện mục tiêu trước mạn ngang trong sương mù (-85đ)!';
+          updateStatusPill('danger', '🚨 VI PHẠM RULE 19 (CẤM BẺ TRÁI RADAR)');
+        } else if (courseChange >= 18) {
           verdict = 'XUẤT SẮC';
-          reason = 'Điều động radar chuẩn: Bẻ mạn phải và duy trì tốc độ an toàn (Rule 19).';
-        } else if (currentDist < 2.5 && tcpa > 0) {
-          currentScore -= 30;
+          reason = 'Điều động radar chuẩn: Bẻ mạn phải dứt khoát sớm và duy trì tốc độ an toàn (Rule 19).';
+        } else if (currentDist < 3.0 && tcpa > 0) {
+          currentScore = Math.min(currentScore, 45);
           verdict = 'CẦN HÀNH ĐỘNG';
-          reason = 'Sương mù: Cần chủ động cơ động sớm qua mạn phải (-30đ).';
+          reason = 'Trong sương mù: Cần chủ động cơ động sớm qua mạn phải (-55đ).';
+          updateStatusPill('warning', '⚠ SƯƠNG MÙ: CẦN HÀNH ĐỘNG SỚM');
         }
       } else if (s.targetType === 'nuc' || s.targetType === 'ram' || s.targetType === 'fishing' || s.targetType === 'sailing' || s.targetType === 'cbd') {
         // Rule 18 Responsibilities between vessels
-        if (Math.abs(courseChange) >= 15 || ownShip.speed <= baseOwnSpeed * 0.6) {
+        const hasAvoided = Math.abs(courseChange) >= 20 || ownShip.speed <= baseOwnSpeed * 0.6;
+        if (hasAvoided && cpa >= 1.0) {
           verdict = 'XUẤT SẮC';
           reason = `Đã chủ động nhường đường thích đáng cho tàu [${(s.targetType).toUpperCase()}] theo Rule 18.`;
-        } else if (currentDist < 2.5 && tcpa > 0) {
-          currentScore -= 35;
+        } else if (currentDist < 3.0 && tcpa > 0) {
+          currentScore = Math.min(currentScore, 40);
           verdict = 'CHƯA TRÁNH ĐƯỜNG';
-          reason = `Rule 18: Tàu cơ giới bắt buộc phải nhường đường sớm cho tàu [${(s.targetType).toUpperCase()}] (-35đ)!`;
+          reason = `Rule 18: Tàu cơ giới bắt buộc phải nhường đường sớm cho tàu [${(s.targetType).toUpperCase()}] (-60đ)!`;
           updateStatusPill('warning', '⚠ NGHĨA VỤ NHƯỜNG ĐƯỜNG (RULE 18)');
         }
       } else if (s.type === 'head_on') {
-        if (courseChange > 15) {
+        // Rule 14: Đối đầu - CẢ HAI TÀU PHẢI BẺ PHẢI
+        if (courseChange < -5) {
+          currentScore = Math.min(currentScore, 10);
+          verdict = 'VI PHẠM NGUY HIỂM';
+          reason = 'Rule 14: CẤM TUYỆT ĐỐI bẻ mạn trái trong tình huống đối đầu! Bạn đang cắt thẳng vào luồng đi của tàu bạn (-90đ)!';
+          updateStatusPill('danger', '🚨 VI PHẠM RULE 14 (BẺ TRÁI CỰC KỲ NGUY HIỂM)');
+        } else if (courseChange >= 15) {
           verdict = 'XUẤT SẮC';
-          reason = `Đã bẻ mạn phải +${Math.round(courseChange)}° đúng Rule 14.`;
-        } else if (courseChange < -8) {
-          currentScore -= 45;
-          verdict = 'VI PHẠM';
-          reason = 'CẢNH BÁO: Bẻ mạn trái cắt mũi tàu đối diện (-45đ)!';
-          updateStatusPill('warning', '⚠ BẺ TRÁI NGUY HIỂM (RULE 14)');
-        } else if (currentDist < 2.5 && tcpa > 0) {
-          currentScore -= 30;
-          verdict = 'CẦN HÀNH ĐỘNG';
-          reason = 'Hai tàu đang tiến gần, cần bẻ phải dứt khoát (-30đ)!';
-          updateStatusPill('warning', '⚠ NGUY CƠ ĐÂM VA (ACTION REQUIRED)');
+          reason = `Đã bẻ mạn phải +${Math.round(courseChange)}° đúng Rule 14 (Pass Port-to-Port).`;
+        } else if (currentDist < 3.0 && tcpa > 0) {
+          currentScore = Math.min(currentScore, 40);
+          verdict = 'CHƯA TRÁNH VA';
+          reason = 'Rule 14: Hai tàu đối đầu cần bẻ phải dứt khoát sớm (-60đ)!';
+          updateStatusPill('warning', '⚠ NGUY CƠ ĐÂM VA: CẦN BẺ PHẢI');
         }
       } else if (s.type === 'crossing_give_way') {
-        if (courseChange > 15 || ownShip.speed <= baseOwnSpeed * 0.7) {
+        // Rule 15: Cắt hướng - Tàu ta là Give-way (thấy tàu bạn mạn phải)
+        if (courseChange < -5) {
+          currentScore = Math.min(currentScore, 15);
+          verdict = 'VI PHẠM QUY TẮC 15';
+          reason = 'Rule 15 & 16: CẤM bẻ trái cắt qua trước mũi tàu bạn được ưu tiên (-85đ)!';
+          updateStatusPill('danger', '🚨 VI PHẠM RULE 15 (CẤM CẮT MŨI)');
+        } else if (courseChange >= 15 || ownShip.speed <= baseOwnSpeed * 0.65) {
           verdict = 'XUẤT SẮC';
-          reason = 'Đã nhường đường sang mạn phải / giảm tốc an toàn (Rule 15 & 16).';
-        } else if (courseChange < -8) {
-          currentScore -= 50;
-          verdict = 'VI PHẠM';
-          reason = 'Cấm bẻ trái cắt trước mũi tàu được ưu tiên (-50đ)!';
-          updateStatusPill('warning', '⚠ VI PHẠM QUY TẮC 15');
-        } else if (currentDist < 2.5 && tcpa > 0) {
-          currentScore -= 35;
-          verdict = 'CHƯA TRÁNH ĐƯỜNG';
-          reason = 'Là tàu Give-way nhưng chưa đổi hướng rõ rệt (-35đ).';
+          reason = 'Đã nhường đường sang mạn phải / giảm tốc an toàn đi sau lái tàu bạn (Rule 15 & 16).';
+        } else if (currentDist < 3.0 && tcpa > 0) {
+          currentScore = Math.min(currentScore, 40);
+          verdict = 'CHƯA NHƯỜNG ĐƯỜNG';
+          reason = 'Là tàu Give-way nhưng chưa bẻ phải hoặc giảm tốc nhường đường (-60đ).';
+          updateStatusPill('warning', '⚠ NGHĨA VỤ NHƯỜNG ĐƯỜNG (GIVE-WAY)');
         }
       } else if (s.type === 'crossing_stand_on') {
+        // Rule 17: Tàu Stand-on
         if (Math.abs(courseChange) <= 10) {
           verdict = 'XUẤT SẮC';
-          reason = 'Giữ nguyên hướng & tốc độ (Stand-on Vessel - Rule 17).';
+          reason = 'Giữ nguyên hướng & vận tốc chuẩn quy tắc tàu Stand-on (Rule 17).';
+        } else if (currentDist > 2.0) {
+          currentScore = Math.min(currentScore, 60);
+          verdict = 'CHÚ Ý QUY TẮC 17';
+          reason = 'Tàu Stand-on không được tùy tiện đổi hướng khi cự ly còn xa (-40đ).';
+          updateStatusPill('warning', '⚠ GIỮ NGUYÊN HƯỚNG & TỐC ĐỘ');
         } else {
-          currentScore -= 20;
-          verdict = 'CHÚ Ý';
-          reason = 'Tàu Stand-on nên duy trì hướng ổn định (Rule 17).';
+          verdict = 'HÀNH ĐỘNG KHẨN CẤP';
+          reason = 'Cự ly gần: Tàu Stand-on tự mình điều động tránh va khi tàu bạn không nhường (Rule 17b/c).';
         }
       } else if (s.type === 'overtaking_give_way') {
-        if (Math.abs(courseChange) >= 12 || cpa >= 0.9) {
+        if (Math.abs(courseChange) >= 12 || cpa >= 1.0) {
           verdict = 'XUẤT SẮC';
           reason = 'Đã mở rộng cự ly an toàn khi vượt tàu phía trước (Rule 13).';
-        } else if (currentDist < 1.5 && tcpa > 0) {
-          currentScore -= 30;
-          verdict = 'CẢNH BÁO';
-          reason = 'Tàu vượt phải chủ động giữ khoảng cách an toàn (-30đ)!';
+        } else if (currentDist < 2.0 && tcpa > 0) {
+          currentScore = Math.min(currentScore, 45);
+          verdict = 'CẢNH BÁO CỰ LÝ';
+          reason = 'Tàu vượt phải chủ động giữ khoảng cách rộng với tàu bị vượt (-55đ)!';
         }
       } else if (s.type === 'overtaking_stand_on') {
         if (Math.abs(courseChange) <= 8) {
           verdict = 'XUẤT SẮC';
           reason = 'Giữ nguyên hướng & tốc độ cho tàu bạn vượt an toàn (Rule 17).';
         } else {
-          currentScore -= 20;
+          currentScore = Math.min(currentScore, 65);
           verdict = 'CHÚ Ý';
-          reason = 'Không nên đổi hướng đột ngột khi đang được vượt (-20đ).';
+          reason = 'Không nên đổi hướng đột ngột khi đang được vượt (-35đ).';
         }
       }
 
-      if (cpa < 0.8 && tcpa > 0) {
-        currentScore -= 20;
+      // 2. CPA & CLEARANCE DISTANCE PENALTIES (Áp dụng bất kể kịch bản nào)
+      const effectiveDist = (tcpa > 0) ? cpa : minDistanceRecorded;
+
+      if (effectiveDist < 0.3) {
+        currentScore = Math.min(currentScore, 20);
+        if (verdict === 'XUẤT SẮC') verdict = 'QUÁ GẦN NGUY HIỂM';
+        reason = `CPA/Cự ly tối thiểu cực kỳ nguy hiểm (${effectiveDist.toFixed(2)} NM < 0.3 NM)!`;
+      } else if (effectiveDist < 0.6) {
+        currentScore = Math.min(currentScore, 45);
+        if (verdict === 'XUẤT SẮC') verdict = 'CỰ LÝ CHƯA AN TOÀN';
+        reason = `Cự ly tiếp cận quá sát (${effectiveDist.toFixed(2)} NM < 0.6 NM), chưa đạt chuẩn an toàn 1.0 NM.`;
+      } else if (effectiveDist < 1.0) {
+        currentScore = Math.min(currentScore, 75);
+        if (verdict === 'XUẤT SẮC') verdict = 'ĐẠT (CẦN MỞ RỘNG)';
+        reason = `Cự ly an toàn đạt ${effectiveDist.toFixed(2)} NM, nên mở rộng thêm ≥ 1.0 NM.`;
       }
 
       score = Math.max(0, Math.min(100, currentScore));
@@ -6048,58 +6354,109 @@
       const isEn = (currentLang === 'en');
       const verdictMapEn = {
         'XUẤT SẮC': 'EXCELLENT',
+        'VI PHẠM NGUY HIỂM': 'DANGEROUS VIOLATION',
         'VI PHẠM': 'VIOLATION',
+        'VI PHẠM QUY TẮC 15': 'RULE 15 VIOLATION',
         'CẦN HÀNH ĐỘNG': 'ACTION REQUIRED',
         'CHƯA TRÁNH ĐƯỜNG': 'GIVE-WAY REQUIRED',
+        'CHƯA TRÁNH VA': 'AVOIDANCE REQUIRED',
+        'CHƯA NHƯỜNG ĐƯỜNG': 'GIVE-WAY REQUIRED',
         'CHÚ Ý': 'CAUTION',
+        'CHÚ Ý QUY TẮC 17': 'RULE 17 CAUTION',
         'CẢNH BÁO': 'WARNING',
+        'CẢNH BÁO CỰ LÝ': 'CLEARANCE WARNING',
+        'HÀNH ĐỘNG KHẨN CẤP': 'IN EXTREMIS ACTION',
+        'QUÁ GẦN NGUY HIỂM': 'CRITICAL NEAR-MISS',
+        'CỰ LÝ CHƯA AN TOÀN': 'UNSAFE CLEARANCE',
+        'ĐẠT (CẦN MỞ RỘNG)': 'MARGINAL CLEARANCE',
         'ĐÃ ĐÂM VA': 'COLLISION'
       };
-      tagElem.textContent = isEn && verdictMapEn[tag] ? verdictMapEn[tag] : tag;
+      if (tagElem) {
+        tagElem.textContent = isEn && verdictMapEn[tag] ? verdictMapEn[tag] : tag;
 
-      if (sc >= 80) {
-        tagElem.style.color = 'var(--green-safe)';
-        document.getElementById('scoreBigVal').style.color = 'var(--green-safe)';
-      } else if (sc >= 50) {
-        tagElem.style.color = 'var(--amber-warn)';
-        document.getElementById('scoreBigVal').style.color = 'var(--amber-warn)';
-      } else {
-        tagElem.style.color = 'var(--red-danger)';
-        document.getElementById('scoreBigVal').style.color = 'var(--red-danger)';
+        if (sc >= 80) {
+          tagElem.style.color = 'var(--green-safe)';
+          document.getElementById('scoreBigVal').style.color = 'var(--green-safe)';
+        } else if (sc >= 50) {
+          tagElem.style.color = 'var(--amber-warn)';
+          document.getElementById('scoreBigVal').style.color = 'var(--amber-warn)';
+        } else {
+          tagElem.style.color = 'var(--red-danger)';
+          document.getElementById('scoreBigVal').style.color = 'var(--red-danger)';
+        }
       }
 
-      document.getElementById('scoreSubDesc').textContent = desc;
+      const descElem = document.getElementById('scoreSubDesc');
+      if (descElem) descElem.textContent = desc;
     }
 
     function updateStatusPill(type, text) {
       const pill = document.getElementById('navStatusPill');
+      if (!pill) return;
       pill.className = 'nav-status-pill ' + (type === 'danger' ? 'danger' : type === 'warning' ? 'warning' : type === 'success' ? 'success' : '');
       pill.textContent = text;
     }
 
     function updateTelemetryUI(dist, bearing, cpa, tcpa, relSpd) {
       const isEn = (currentLang === 'en');
-      document.getElementById('telemetryDist').textContent = `${dist.toFixed(2)} NM`;
-      document.getElementById('telemetryBearing').textContent = `${Math.round(bearing).toString().padStart(3, '0')}° ` + (isEn ? '(Bow Relative)' : '(Mũi Tàu)');
+      const distElem = document.getElementById('telemetryDist');
+      if (distElem) distElem.textContent = `${dist.toFixed(2)} NM`;
+      const brgElem = document.getElementById('telemetryBearing');
+      if (brgElem) brgElem.textContent = `${Math.round(bearing).toString().padStart(3, '0')}°`;
 
       const cpaElem = document.getElementById('telemetryCPA');
-      cpaElem.textContent = `${cpa.toFixed(2)} NM`;
-      if (cpa < 1.0) {
-        cpaElem.className = 'telemetry-val cpa-danger';
-      } else if (cpa < 2.0) {
-        cpaElem.className = 'telemetry-val cpa-warn';
-      } else {
-        cpaElem.className = 'telemetry-val cpa-safe';
+      if (cpaElem) {
+        cpaElem.textContent = `${cpa.toFixed(2)} NM`;
+        if (cpa < 0.6) {
+          cpaElem.className = 'hud-telem-val cpa-danger';
+        } else if (cpa < 1.2) {
+          cpaElem.className = 'hud-telem-val cpa-warn';
+        } else {
+          cpaElem.className = 'hud-telem-val cpa-safe';
+        }
       }
 
       const tcpaElem = document.getElementById('telemetryTCPA');
-      if (tcpa <= 0.005) {
-        tcpaElem.textContent = isEn ? 'PAST (PASSED)' : 'ĐÃ VƯỢT QUA (PAST)';
-        tcpaElem.style.color = 'var(--amber-warn)';
-      } else {
-        const mins = tcpa * 60;
-        tcpaElem.textContent = `${mins.toFixed(1)} min`;
-        tcpaElem.style.color = '#e3f5fd';
+      if (tcpaElem) {
+        if (hasCollided) {
+          tcpaElem.textContent = isEn ? 'COLLIDED' : 'ĐÃ ĐÂM VA';
+          tcpaElem.style.color = 'var(--red-danger)';
+        } else if (dist <= 0.25) {
+          tcpaElem.textContent = isEn ? 'CRITICAL NEAR' : 'CỰC GẦN (DANGER)';
+          tcpaElem.style.color = 'var(--red-danger)';
+        } else if (tcpa > 0) {
+          const totalSecs = Math.round(tcpa * 3600);
+          if (totalSecs < 60) {
+            tcpaElem.textContent = isEn ? `${totalSecs}s (CLOSING)` : `${totalSecs} giây (TIẾP CẬN)`;
+          } else {
+            const mins = tcpa * 60;
+            tcpaElem.textContent = `${mins.toFixed(1)} min`;
+          }
+          if (cpa < 0.8 && tcpa * 60 < 2.5) {
+            tcpaElem.style.color = 'var(--red-danger)';
+          } else if (cpa < 1.2) {
+            tcpaElem.style.color = 'var(--amber-warn)';
+          } else {
+            tcpaElem.style.color = '#e3f5fd';
+          }
+        } else {
+          // tcpa <= 0: Vessels have passed closest point of approach
+          if (dist > minDistanceRecorded + 0.05) {
+            if (minDistanceRecorded >= 1.0) {
+              tcpaElem.textContent = isEn ? `PASSED (${minDistanceRecorded.toFixed(1)}NM)` : `ĐÃ QUA (${minDistanceRecorded.toFixed(1)}NM)`;
+              tcpaElem.style.color = 'var(--green-safe)';
+            } else if (minDistanceRecorded >= 0.5) {
+              tcpaElem.textContent = isEn ? `PASSED CLOSE (${minDistanceRecorded.toFixed(1)}NM)` : `ĐÃ QUA GẦN (${minDistanceRecorded.toFixed(1)}NM)`;
+              tcpaElem.style.color = 'var(--amber-warn)';
+            } else {
+              tcpaElem.textContent = isEn ? `NEAR MISS (${minDistanceRecorded.toFixed(2)}NM)` : `SUÝT VA (${minDistanceRecorded.toFixed(2)}NM)`;
+              tcpaElem.style.color = 'var(--red-danger)';
+            }
+          } else {
+            tcpaElem.textContent = isEn ? 'CROSSING' : 'ĐANG QUA MẠN';
+            tcpaElem.style.color = 'var(--amber-warn)';
+          }
+        }
       }
 
       document.getElementById('telemetryRelSpeed').textContent = `${relSpd.toFixed(1)} kts`;
