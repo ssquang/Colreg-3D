@@ -1,0 +1,30 @@
+{
+  "name": "COLREGS-3D Mô Phỏng Hàng Hải",
+  "short_name": "COLREGS 3D",
+  "description": "Mô phỏng buồng lái 3D tránh va hàng hải quốc tế COLREGs 72 và trắc nghiệm 500 câu",
+  "start_url": "./simulator.html",
+  "display": "standalone",
+  "background_color": "#040c14",
+  "theme_color": "#00e5ff",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

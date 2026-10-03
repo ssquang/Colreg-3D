@@ -1,0 +1,18 @@
+# Node & dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+dist/
+build/
+android/
+www/
+*.zip
+*.exe
+
+# Python
+__pycache__/
+*.pyc
+
+# Local cache
+.gemini/

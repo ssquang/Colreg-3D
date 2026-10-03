@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#04121d" />
+      <stop offset="100%" stop-color="#02080f" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background with rounded corners and cyan border -->
+  <rect x="16" y="16" width="480" height="480" rx="96" fill="url(#bgGrad)" stroke="#00e5ff" stroke-width="8" />
+
+  <!-- Outer Helm Wheel Rim -->
+  <circle cx="256" cy="230" r="130" fill="none" stroke="#00e5ff" stroke-width="12" filter="url(#glow)" />
+  <circle cx="256" cy="230" r="85" fill="none" stroke="#00e5ff" stroke-width="6" opacity="0.8" />
+
+  <!-- 8 Wheel Spokes with Handles -->
+  <g stroke="#00e5ff" stroke-width="10" stroke-linecap="round" filter="url(#glow)">
+    <!-- 0 deg -->
+    <line x1="256" y1="145" x2="256" y2="70" />
+    <circle cx="256" cy="65" r="8" fill="#00e5ff" />
+    <!-- 180 deg -->
+    <line x1="256" y1="315" x2="256" y2="390" />
+    <circle cx="256" cy="395" r="8" fill="#00e5ff" />
+    <!-- 90 deg -->
+    <line x1="341" y1="230" x2="416" y2="230" />
+    <circle cx="421" cy="230" r="8" fill="#00e5ff" />
+    <!-- 270 deg -->
+    <line x1="171" y1="230" x2="96" y2="230" />
+    <circle cx="91" cy="230" r="8" fill="#00e5ff" />
+    <!-- 45 deg -->
+    <line x1="316" y1="170" x2="369" y2="117" />
+    <circle cx="373" cy="113" r="8" fill="#00e5ff" />
+    <!-- 135 deg -->
+    <line x1="316" y1="290" x2="369" y2="343" />
+    <circle cx="373" cy="347" r="8" fill="#00e5ff" />
+    <!-- 225 deg -->
+    <line x1="196" y1="290" x2="143" y2="343" />
+    <circle cx="139" cy="347" r="8" fill="#00e5ff" />
+    <!-- 315 deg -->
+    <line x1="196" y1="170" x2="143" y2="117" />
+    <circle cx="139" cy="113" r="8" fill="#00e5ff" />
+  </g>
+
+  <!-- Central Anchor Symbol -->
+  <g fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Anchor Ring -->
+    <circle cx="256" cy="190" r="16" fill="none" stroke="#ffffff" stroke-width="6" />
+    <!-- Anchor Shaft -->
+    <line x1="256" y1="206" x2="256" y2="280" />
+    <!-- Anchor Stock (crossbar) -->
+    <line x1="230" y1="220" x2="282" y2="220" />
+    <!-- Anchor Arms (curved) -->
+    <path d="M 216 260 Q 256 304 296 260" stroke-width="9" />
+    <polygon points="214,250 216,264 228,260" fill="#ffffff" />
+    <polygon points="298,250 296,264 284,260" fill="#ffffff" />
+  </g>
+
+  <!-- Center Hub -->
+  <circle cx="256" cy="230" r="16" fill="#00e5ff" />
+  <circle cx="256" cy="230" r="6" fill="#ffffff" />
+
+  <!-- App Label Banner -->
+  <text x="256" y="440" font-family="'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="44" fill="#ffffff" text-anchor="middle" letter-spacing="4">
+    COLREGS 3D
+  </text>
+  <text x="256" y="468" font-family="'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="18" fill="#00e5ff" text-anchor="middle" letter-spacing="2">
+    IMO STANDARD 1972
+  </text>
+</svg>
