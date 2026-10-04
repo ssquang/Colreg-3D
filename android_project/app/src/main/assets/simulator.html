@@ -2447,14 +2447,6 @@
       <button id="btnOpenInstructorTop" class="cam-btn" onclick="LMSEngine.openInstructorStudio()" style="border-color:#ba68c8; color:#e1bee7; font-weight:700;" title="Chế Độ Giảng Viên (Instructor Studio)">
         🎓 <span class="btn-txt">Giảng Viên</span>
       </button>
-      <!-- Offline Leaderboard Button -->
-      <button id="btnOpenLeaderboardTop" class="cam-btn" onclick="LMSEngine.openLeaderboard()" style="border-color:#ffb74d; color:#ffe082; font-weight:700;" title="Bảng Xếp Hạng Học Viên Offline (LMS Leaderboard)">
-        🏆 <span class="btn-txt">Xếp Hạng</span>
-      </button>
-      <!-- WebXR & Gyro VR 360 Button -->
-      <button id="btnOpenVRTop" class="cam-btn" onclick="setCameraMode('vr')" style="border-color:#7c4dff; color:#b388ff; font-weight:700;" title="Buồng Lái Thực Tế Ảo (WebXR & Gyro 360°)">
-        🥽 <span class="btn-txt">VR 360°</span>
-      </button>
       <!-- Bridge Control Panel Drawer Button -->
       <button id="btnOpenBridgeTop" class="cam-btn" onclick="openMobileDrawer('left')" style="border-color:#00e5ff; color:#00e5ff; font-weight:700;" title="Mở Bảng Điều Khiển (Bridge Controls)">
         ⚙ <span class="btn-txt">Bảng Điều Khiển</span>
@@ -2481,21 +2473,18 @@
       <div id="simSpeedBadge" class="sim-speed-badge">SIM SPEED: 1.0x</div>
     </div>
 
-    <!-- 1. Chế độ góc nhìn 3D (Tự do, Buồng lái, Hải đồ) -->
+    <!-- 1. Chế độ góc nhìn 3D (Tự do, Buồng lái 360°, Hải đồ) -->
     <div>
       <div class="section-title">🔭 GÓC NHÌN 3D (CAMERA VIEWS):</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:5px;">
-        <button id="btnViewOrbit" class="cam-btn active" onclick="setCameraMode('orbit')" title="Góc nhìn tự do (Orbit)">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
+        <button id="btnViewOrbit" class="cam-btn active" onclick="setCameraMode('orbit')" title="Góc nhìn tự do xoay quanh tàu (Orbit View)">
           🔭 <span>Tự do</span>
         </button>
-        <button id="btnViewBridge" class="cam-btn" onclick="setCameraMode('bridge')" title="Góc nhìn buồng lái (Bridge)">
-          🚢 <span>Buồng lái</span>
+        <button id="btnViewBridge" class="cam-btn" onclick="setCameraMode('bridge')" title="Buồng lái 360° (Gyroscope & Cảm ứng vuốt xoay xung quanh)">
+          🚢 <span>Buồng lái (360°)</span>
         </button>
-        <button id="btnViewTop" class="cam-btn" onclick="setCameraMode('top')" title="Góc nhìn hải đồ (Top-down)">
+        <button id="btnViewTop" class="cam-btn" onclick="setCameraMode('top')" title="Góc nhìn hải đồ từ trên cao (Top-down Navigation)">
           🗺️ <span>Hải đồ</span>
-        </button>
-        <button id="btnViewVR" class="cam-btn" onclick="setCameraMode('vr')" title="Buồng lái VR 360° (WebXR & Con quay hồi chuyển)" style="border-color:#7c4dff; color:#b388ff;">
-          🥽 <span>VR 360°</span>
         </button>
       </div>
     </div>
@@ -2604,16 +2593,13 @@
       </div>
     </div>
 
-    <!-- 4. Tín hiệu âm thanh còi & chớp sáng Part D (Rule 34 & 35) -->
+    <!-- 4. Tín hiệu âm thanh còi Part D (Rule 34 & 35) -->
     <div>
-      <div class="section-title">📢 TÍN HIỆU CÒI & ĐÈN CHỚP (PART D):</div>
+      <div class="section-title">📢 TÍN HIỆU CÒI HÀNG HẢI (RULE 34 & 35):</div>
       <div style="display:flex; gap:6px; margin-bottom:6px;">
-        <button id="btnSoundToggle" class="btn-sim-toggle" onclick="toggleSound()" style="flex:1; font-weight:700;" title="Bật/Tắt âm thanh còi">
+        <button id="btnSoundToggle" class="btn-sim-toggle" onclick="toggleSound()" style="flex:1; width:100%; font-weight:700;" title="Bật/Tắt âm thanh còi">
           🔊 Âm thanh: BẬT
         </button>
-        <div id="mastheadLightHudIndicator" class="masthead-hud-indicator" title="Đèn chớp trắng cột buồm (Rule 34b) đồng bộ">
-          <span class="indicator-bulb">⚪</span> ĐÈN CỘT BUỒM
-        </div>
       </div>
       
       <!-- Rule 34 Maneuver Signals Grid -->
@@ -2720,34 +2706,13 @@
 
     <!-- 7. Thi Trắc Nghiệm COLREGs 72 -->
     <div>
-      <div class="section-title">📝 KIỂM TRA TRẮC NGHIỆM & LMS:</div>
+      <div class="section-title">📝 KIỂM TRA TRẮC NGHIỆM & GIẢNG VIÊN:</div>
       <button onclick="openQuizModal()" style="width:100%; padding:9px; background:#ffb300; color:#04141d; font-family:'Barlow Condensed',sans-serif; font-size:14.5px; font-weight:800; border:none; border-radius:7px; cursor:pointer; box-shadow:0 0 12px rgba(255,179,0,0.35); display:flex; align-items:center; justify-content:center; gap:6px;">
         📝 THI TRẮC NGHIỆM (10 CÂU TỪ BỘ 500 CÂU)
       </button>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:6px;">
-        <button onclick="LMSEngine.openInstructorStudio()" class="btn-lms btn-lms-purple" style="font-size:12px; padding:7px 4px;">
-          🎓 Giảng Viên
-        </button>
-        <button onclick="LMSEngine.openLeaderboard()" class="btn-lms btn-lms-cyan" style="font-size:12px; padding:7px 4px;">
-          🏆 Bảng Điểm LMS
-        </button>
-      </div>
-    </div>
-
-    <!-- 7b. Thực Tế Ảo Buồng Lái WebXR & Gyro 360° -->
-    <div>
-      <div class="section-title">🥽 THỰC TẾ ẢO BUỒNG LÁI (WEBXR & GYRO 360°):</div>
-      <button onclick="setCameraMode('vr')" style="width:100%; padding:9px; background:linear-gradient(135deg, #6200ea, #7c4dff); color:#ffffff; font-family:'Barlow Condensed',sans-serif; font-size:14.5px; font-weight:800; border:none; border-radius:7px; cursor:pointer; box-shadow:0 0 14px rgba(124,77,255,0.45); display:flex; align-items:center; justify-content:center; gap:6px;">
-        🥽 BẬT BUỒNG LÁI VR 360° (HEADSET / GYRO)
+      <button onclick="LMSEngine.openInstructorStudio()" class="btn-lms btn-lms-purple" style="width:100%; font-size:12.5px; padding:7px 4px; margin-top:6px;">
+        🎓 Chế Độ Giảng Viên (Instructor Studio)
       </button>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:6px;">
-        <button onclick="VREngine.toggleGyro()" class="btn-lms" style="border-color:#00e5ff; color:#80deea; font-size:12px; padding:7px 4px;">
-          📱 Cảm Biến Gyro
-        </button>
-        <button onclick="VREngine.resetHeading()" class="btn-lms" style="border-color:#7c4dff; color:#b388ff; font-size:12px; padding:7px 4px;">
-          🎯 Cân Bằng Tâm
-        </button>
-      </div>
     </div>
 
     <!-- 8. Đọc Công Ước Quốc Tế COLREG 72 PDF -->
@@ -2826,17 +2791,21 @@
       <!-- PANE 2: Target Day Shapes & Night Lights Signs -->
       <div id="navPaneSigns" class="nav-pane" style="display:none;">
         <div id="colregsSignalCard" class="hud-signal-card" style="border:none; padding:0; background:transparent;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; background:rgba(0,229,255,0.08); padding:3px 8px; border-radius:4px; border:1px solid rgba(0,229,255,0.25);">
+            <span id="targetRuleBadge" style="font-weight:700; color:#80deea; font-size:11px;">RULE 14: POWER</span>
+            <span id="targetAspectBadge" style="background:#00e5ff; color:#04121a; font-weight:800; font-size:10px; padding:1px 6px; border-radius:3px;">GÓC MẠN: 000° (ĐỐI ĐẦU)</span>
+          </div>
           <div class="hud-signal-grid">
             <!-- Day Shapes Box -->
             <div id="dayShapeBox" class="hud-signal-box day">
-              <div id="lblDayShapesHeader" class="hud-signal-box-title">☀️ NGÀY (DAY)</div>
+              <div id="lblDayShapesHeader" class="hud-signal-box-title">☀️ DẤU HIỆU NGÀY (DAY SHAPES)</div>
               <div id="dayShapeVisual" class="hud-visual-slot"></div>
-              <div id="dayShapeDesc" class="hud-signal-desc">Không dấu hiệu đặc biệt</div>
+              <div id="dayShapeDesc" class="hud-signal-desc">Không dấu hiệu riêng</div>
             </div>
 
             <!-- Night Lights Box -->
             <div id="nightLightBox" class="hud-signal-box night">
-              <div id="lblNightLightsHeader" class="hud-signal-box-title">🌙 ĐÊM (NIGHT)</div>
+              <div id="lblNightLightsHeader" class="hud-signal-box-title">🌙 ĐÈN NHÌN THẤY THỰC TẾ (NIGHT LIGHTS)</div>
               <div id="nightLightVisual" class="hud-visual-slot"></div>
               <div id="nightLightDesc" class="hud-signal-desc">Đèn cột + Mạn Xanh/Đỏ</div>
             </div>
@@ -3341,93 +3310,7 @@
     </div>
   </div>
 
-  <!-- ==========================================
-       MILESTONE M4: OFFLINE LMS LEADERBOARD MODAL (BẢNG XẾP HẠNG)
-       ========================================== -->
-  <div id="leaderboardModal" class="leaderboard-modal-backdrop">
-    <div class="leaderboard-card">
-      <div class="leaderboard-header">
-        <div class="leaderboard-title">
-          <span>🏆</span> <span id="lblLeaderboardTitle">BẢNG XẾP HẠNG HỌC VIÊN OFFLINE (LMS LEADERBOARD)</span>
-        </div>
-        <button class="quiz-close-btn" onclick="LMSEngine.closeLeaderboard()" title="Đóng / Close">✕</button>
-      </div>
 
-      <div class="leaderboard-body">
-        <!-- 1. Quick Score Submission Form -->
-        <div class="instructor-section" style="border-color:#00e5ff;">
-          <div class="instructor-section-title">
-            <span>💾 LƯU ĐIỂM HỌC VIÊN MỚI VÀO HỆ THỐNG:</span>
-            <span style="font-size:0.75rem; color:#80deea;">Tự động lưu vào IndexedDB & LocalStorage 100% Offline</span>
-          </div>
-          <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr auto; gap:10px; align-items:flex-end;">
-            <div class="form-field">
-              <label class="form-label">Họ Tên Học Viên (Cadet Name):</label>
-              <input id="lmsCandidateName" type="text" class="form-input" placeholder="Ví dụ: Thuyền viên Nguyễn Văn A" />
-            </div>
-            <div class="form-field">
-              <label class="form-label">Điểm Lý Thuyết (40%):</label>
-              <input id="lmsQuizScore" type="number" class="form-input" min="0" max="100" value="80" />
-            </div>
-            <div class="form-field">
-              <label class="form-label">Điểm Điều Động (60%):</label>
-              <input id="lmsNavScore" type="number" class="form-input" min="0" max="100" value="85" />
-            </div>
-            <div class="form-field">
-              <label class="form-label">Tổng Điểm Tính Toán:</label>
-              <div id="lmsTotalScorePreview" style="font-size:1.15rem; font-weight:800; color:#00e5ff; padding:6px 0;">83 / 100</div>
-            </div>
-            <button class="btn-lms btn-lms-cyan" onclick="LMSEngine.handleSaveFormSubmit()" style="height:36px;">
-              💾 Lưu Điểm
-            </button>
-          </div>
-        </div>
-
-        <!-- 2. Leaderboard Toolbar & Filters -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-          <div style="display:flex; align-items:center; gap:8px; flex:1; max-width:320px;">
-            <input id="lmsSearchInput" type="text" class="form-input" placeholder="🔍 Tìm học viên..." oninput="LMSEngine.renderLeaderboardTable()" style="width:100%;" />
-          </div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="form-label">Sắp xếp:</span>
-            <select id="lmsSortSelect" class="form-select" onchange="LMSEngine.renderLeaderboardTable()">
-              <option value="score_desc">Điểm cao nhất (Rank 1 ➔ N)</option>
-              <option value="score_asc">Điểm thấp nhất</option>
-              <option value="date_desc">Mới nhất trước</option>
-              <option value="name_asc">Tên học viên A-Z</option>
-            </select>
-            <button class="btn-lms btn-lms-secondary" onclick="LMSEngine.exportLeaderboardCSV()" title="Xuất dữ liệu ra file CSV">
-              📥 Xuất CSV
-            </button>
-            <button class="btn-lms btn-lms-danger" onclick="LMSEngine.clearLeaderboardPrompt()" title="Xóa toàn bộ bảng điểm">
-              🗑 Xóa Bảng Điểm
-            </button>
-          </div>
-        </div>
-
-        <!-- 3. Leaderboard Records Table -->
-        <div style="overflow-x:auto; border:1px solid #163e50; border-radius:8px;">
-          <table class="leaderboard-table">
-            <thead>
-              <tr>
-                <th style="width:50px; text-align:center;">HẠNG</th>
-                <th>HỌC VIÊN / SĨ QUAN</th>
-                <th style="text-align:center;">LÝ THUYẾT (40%)</th>
-                <th style="text-align:center;">ĐIỀU ĐỘNG (60%)</th>
-                <th style="text-align:center;">TỔNG ĐIỂM</th>
-                <th style="text-align:center;">XẾP LOẠI</th>
-                <th>THỜI GIAN</th>
-                <th style="width:60px; text-align:center;">XÓA</th>
-              </tr>
-            </thead>
-            <tbody id="leaderboardTableBody">
-              <!-- Dynamically populated rows -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <script>
     // ==========================================
@@ -3553,77 +3436,18 @@
       shipGroup.add(group);
     }
 
-    // Trigger synchronized masthead flashes for a vessel
+    // Trigger synchronized masthead flashes for a vessel (Disabled per user request: no flashing lights on course change)
     function triggerVesselMastheadFlash(targetGroup, blastEvents) {
-      const startTime = performance.now() / 1000;
-      blastEvents.forEach(evt => {
-        activeMastheadFlashes.push({
-          targetGroup: targetGroup || (window.ownShip ? window.ownShip.mesh : null),
-          start: startTime + evt.offsetSec,
-          end: startTime + evt.offsetSec + evt.duration,
-          duration: evt.duration,
-          isOwn: !targetGroup || (window.ownShip && targetGroup === window.ownShip.mesh)
-        });
-      });
+      // Flashing light disabled on maneuver/whistle
+      return;
     }
 
     // Frame-rate independent update of all masthead flashing lights
     function updateMastheadFlashes(nowSec) {
-      for (let i = activeMastheadFlashes.length - 1; i >= 0; i--) {
-        if (nowSec > activeMastheadFlashes[i].end + 0.25) {
-          activeMastheadFlashes.splice(i, 1);
-        }
-      }
-
-      const isNight = typeof isNightMode !== 'undefined' ? isNightMode : false;
-      const maxIntensity = isNight ? 7.0 : 10.0;
-      let ownFlashing = false;
-
-      const vessels = [];
-      if (window.ownShip && window.ownShip.mesh) {
-        vessels.push({ group: window.ownShip.mesh, isOwn: true });
-      }
-      if (window.targets && Array.isArray(window.targets)) {
-        window.targets.forEach(t => {
-          if (t && t.mesh) vessels.push({ group: t.mesh, isOwn: false });
-        });
-      } else if (window.targetShip && window.targetShip.mesh) {
-        vessels.push({ group: window.targetShip.mesh, isOwn: false });
-      }
-
-      vessels.forEach(v => {
-        const flashGroup = v.group.getObjectByName('mastheadFlashingLight');
-        if (!flashGroup) return;
-        const ptLight = flashGroup.getObjectByName('flashPtLight');
-        const bulb = flashGroup.getObjectByName('flashBulb');
-        const halo = flashGroup.getObjectByName('flashHalo');
-
-        const activeFlash = activeMastheadFlashes.find(f => (f.targetGroup === v.group || (v.isOwn && !f.targetGroup)) && nowSec >= f.start && nowSec <= f.end);
-        if (activeFlash) {
-          if (v.isOwn) ownFlashing = true;
-          const elapsed = nowSec - activeFlash.start;
-          const remaining = activeFlash.end - nowSec;
-          let alpha = 1.0;
-          if (elapsed < 0.08) {
-            alpha = elapsed / 0.08;
-          } else if (remaining < 0.15) {
-            alpha = remaining / 0.15;
-          }
-          alpha = Math.max(0.0, Math.min(1.0, alpha));
-
-          if (ptLight) ptLight.intensity = maxIntensity * alpha;
-          if (bulb) bulb.material.opacity = alpha;
-          if (halo) halo.material.opacity = 0.95 * alpha;
-        } else {
-          if (ptLight) ptLight.intensity = 0.0;
-          if (bulb) bulb.material.opacity = 0.0;
-          if (halo) halo.material.opacity = 0.0;
-        }
-      });
-
+      activeMastheadFlashes.length = 0;
       const hudLamp = document.getElementById('mastheadLightHudIndicator');
       if (hudLamp) {
-        hudLamp.classList.toggle('active', ownFlashing);
+        hudLamp.classList.remove('active');
       }
     }
 
@@ -4027,7 +3851,7 @@
         const sig = RULE_34_SIGNALS[sigKey] || RULE_34_SIGNALS.STARBOARD;
 
         AudioEngine.playPattern(sig.blasts, {
-          syncLight: sig.flashes > 0
+          syncLight: false
         });
 
         showSignalBanner(`RULE 34: ${sig.name.toUpperCase()}`);
@@ -6827,9 +6651,73 @@
 
     // ==========================================
     // COLREGS DAY SHAPES & NIGHT LIGHTS DISPLAY
+    // MATHEMATICALLY COMPLIANT WITH ASPECT ANGLE (GÓC MẠN QUAN SÁT)
     // ==========================================
-    function updateCOLREGsSigns(type) {
+    function calculateTargetAspect(own, tgt) {
+      if (!own || !tgt) return 0;
+      const dx = own.x - tgt.x;
+      const dz = own.z - tgt.z;
+      const brgToOwn = (THREE.MathUtils.radToDeg(Math.atan2(dx, dz)) + 360) % 360;
+      const aspect = (brgToOwn - tgt.course + 720) % 360;
+      return aspect;
+    }
+
+    function getAspectSector(aspectDeg) {
+      const q = (aspectDeg % 360 + 360) % 360;
+      if (q >= 355 || q <= 5) {
+        return {
+          id: 'head_on',
+          nameVi: 'ĐỐI ĐẦU',
+          nameEn: 'HEAD-ON',
+          sideVi: 'Trước mũi tàu bạn (Right Ahead)',
+          sideEn: 'Right ahead',
+          masthead: true,
+          portLight: true,   // Red
+          stbdLight: true,   // Green
+          sternLight: false
+        };
+      } else if (q > 5 && q <= 112.5) {
+        return {
+          id: 'starboard',
+          nameVi: 'MẠN PHẢI',
+          nameEn: 'STARBOARD',
+          sideVi: 'Mạn phải tàu bạn (Green Side)',
+          sideEn: 'Starboard side',
+          masthead: true,
+          portLight: false,
+          stbdLight: true,   // Green
+          sternLight: false
+        };
+      } else if (q > 112.5 && q < 247.5) {
+        return {
+          id: 'stern',
+          nameVi: 'SAU LÁI',
+          nameEn: 'STERN',
+          sideVi: 'Sau lái tàu bạn (Aft Sector 135°)',
+          sideEn: 'Stern sector',
+          masthead: false,
+          portLight: false,
+          stbdLight: false,
+          sternLight: true   // White Sternlight only
+        };
+      } else {
+        return {
+          id: 'port',
+          nameVi: 'MẠN TRÁI',
+          nameEn: 'PORT',
+          sideVi: 'Mạn trái tàu bạn (Red Side)',
+          sideEn: 'Port side',
+          masthead: true,
+          portLight: true,   // Red
+          stbdLight: false,
+          sternLight: false
+        };
+      }
+    }
+
+    function updateCOLREGsSigns(type, targetObj) {
       const badgeEl = document.getElementById('targetRuleBadge');
+      const aspectBadgeEl = document.getElementById('targetAspectBadge');
       const dayVisualEl = document.getElementById('dayShapeVisual');
       const dayDescEl = document.getElementById('dayShapeDesc');
       const nightVisualEl = document.getElementById('nightLightVisual');
@@ -6838,7 +6726,20 @@
 
       if (!dayVisualEl || !nightVisualEl) return;
 
-      switch (type) {
+      const tgt = targetObj || (window.targetShip ? window.targetShip : null);
+      const vType = type || (tgt ? tgt.type : 'power');
+      const isEn = (currentLang === 'en');
+
+      const aspectDeg = tgt ? calculateTargetAspect(window.ownShip, tgt) : 0;
+      const sec = getAspectSector(aspectDeg);
+
+      if (aspectBadgeEl) {
+        const aspectStr = Math.round(aspectDeg).toString().padStart(3, '0') + '°';
+        aspectBadgeEl.textContent = isEn ? `ASPECT: ${aspectStr} (${sec.nameEn})` : `GÓC MẠN: ${aspectStr} (${sec.nameVi})`;
+      }
+
+      // 1. Day Shape Representation (COLREGs 72 Part C)
+      switch (vType) {
         case 'nuc':
           if (badgeEl) badgeEl.textContent = 'RULE 27(a): NUC';
           dayVisualEl.innerHTML = `
@@ -6847,15 +6748,7 @@
               <circle cx="14" cy="37" r="9" fill="#111111" stroke="#ffffff" stroke-width="1.5" />
             </svg>
           `;
-          if (dayDescEl) dayDescEl.textContent = '● ● 2 QUẢ CẦU ĐEN THẲNG ĐỨNG';
-          nightVisualEl.innerHTML = `
-            <div style="display:flex; flex-direction:column; gap:6px; align-items:center;">
-              <span style="width:12px; height:12px; border-radius:50%; background:#ff1744; box-shadow:0 0 10px #ff1744; display:inline-block;"></span>
-              <span style="width:12px; height:12px; border-radius:50%; background:#ff1744; box-shadow:0 0 10px #ff1744; display:inline-block;"></span>
-            </div>
-          `;
-          if (nightDescEl) nightDescEl.textContent = '🔴 🔴 ĐỎ TRÊN ĐỎ (RED OVER RED) 360°';
-          if (obligationEl) obligationEl.innerHTML = 'ℹ <b>Khẩu quyết:</b> <i>"2 CẦU: MẤT LÁI - 2 ĐỎ: MẤT ĐIỀU ĐỘNG"</i>.<br/>Rule 18: Tàu ta <b>BẮT BUỘC NHƯỜNG ĐƯỜNG</b>, giữ cự ly cách xa an toàn!';
+          if (dayDescEl) dayDescEl.textContent = isEn ? '● ● Two black balls in a vertical line' : '● ● 2 QUẢ CẦU ĐEN THẲNG ĐỨNG';
           break;
 
         case 'ram':
@@ -6867,16 +6760,7 @@
               <circle cx="14" cy="45" r="7" fill="#111111" stroke="#ffffff" stroke-width="1.2" />
             </svg>
           `;
-          if (dayDescEl) dayDescEl.textContent = '● ◆ ● CẦU - TRÁM - CẦU THẲNG ĐỨNG';
-          nightVisualEl.innerHTML = `
-            <div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
-              <span style="width:11px; height:11px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;"></span>
-              <span style="width:11px; height:11px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff;"></span>
-              <span style="width:11px; height:11px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;"></span>
-            </div>
-          `;
-          if (nightDescEl) nightDescEl.textContent = '🔴 ⚪ 🔴 ĐỎ - TRẮNG - ĐỎ (RED WHITE RED)';
-          if (obligationEl) obligationEl.innerHTML = 'ℹ <b>Khẩu quyết:</b> <i>"CẦU - TRÁM - CẦU: HẠN CHẾ ĐIỀU ĐỘNG"</i>.<br/>Rule 18: Tàu ta <b>BẮT BUỘC NHƯỜNG ĐƯỜNG</b> cho tàu đang nạo vét / đặt cáp / khảo sát biển!';
+          if (dayDescEl) dayDescEl.textContent = isEn ? '● ◆ ● Ball - Diamond - Ball vertical' : '● ◆ ● CẦU - TRÁM - CẦU THẲNG ĐỨNG';
           break;
 
         case 'cbd':
@@ -6886,16 +6770,7 @@
               <rect x="7" y="6" width="14" height="34" rx="2" fill="#111111" stroke="#ffffff" stroke-width="1.5" />
             </svg>
           `;
-          if (dayDescEl) dayDescEl.textContent = '■ 1 HÌNH TRỤ ĐEN (BLACK CYLINDER)';
-          nightVisualEl.innerHTML = `
-            <div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
-              <span style="width:11px; height:11px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;"></span>
-              <span style="width:11px; height:11px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;"></span>
-              <span style="width:11px; height:11px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;"></span>
-            </div>
-          `;
-          if (nightDescEl) nightDescEl.textContent = '🔴 🔴 🔴 3 ĐÈN ĐỎ THẲNG ĐỨNG 360°';
-          if (obligationEl) obligationEl.innerHTML = 'ℹ <b>Khẩu quyết:</b> <i>"1 TRỤ ĐEN: TÀU MỚN NƯỚC KHỐNG CHẾ"</i>.<br/>Tàu ta điều động đặc biệt thận trọng, <b>tuyệt đối không gây cản trở</b> luồng sâu của tàu CBD!';
+          if (dayDescEl) dayDescEl.textContent = isEn ? '■ One black cylinder' : '■ 1 HÌNH TRỤ ĐEN (BLACK CYLINDER)';
           break;
 
         case 'fishing':
@@ -6906,15 +6781,7 @@
               <polygon points="14,23 23,40 5,40" fill="#111111" stroke="#ffffff" stroke-width="1.2" />
             </svg>
           `;
-          if (dayDescEl) dayDescEl.textContent = '▶◀ 2 HÌNH NÓN ĐỐI ĐỈNH (ĐỒNG HỒ CÁT)';
-          nightVisualEl.innerHTML = `
-            <div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
-              <span style="width:11px; height:11px; border-radius:50%; background:#00e676; box-shadow:0 0 8px #00e676;"></span>
-              <span style="width:11px; height:11px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff;"></span>
-            </div>
-          `;
-          if (nightDescEl) nightDescEl.textContent = '🟢 ⚪ XANH LỤC TRÊN TRẮNG (TRAWLING)';
-          if (obligationEl) obligationEl.innerHTML = 'ℹ <b>Khẩu quyết:</b> <i>"2 NÓN ĐỐI ĐỈNH: TÀU ĐANG ĐÁNH CÁ"</i>.<br/>Rule 18: Tàu cơ giới <b>bắt buộc nhường đường</b>, cấm cắt qua mạn sau lái thả lưới!';
+          if (dayDescEl) dayDescEl.textContent = isEn ? '▶◀ Two cones apexes together' : '▶◀ 2 HÌNH NÓN ĐỐI ĐỈNH (ĐỒNG HỒ CÁT)';
           break;
 
         case 'sailing':
@@ -6924,15 +6791,7 @@
               <polygon points="4,6 24,6 14,32" fill="#111111" stroke="#ffffff" stroke-width="1.2" />
             </svg>
           `;
-          if (dayDescEl) dayDescEl.textContent = '▼ 1 HÌNH NÓN CHÚC ĐỈNH XUỐNG DƯỚI';
-          nightVisualEl.innerHTML = `
-            <div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
-              <span style="width:11px; height:11px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;"></span>
-              <span style="width:11px; height:11px; border-radius:50%; background:#00e676; box-shadow:0 0 8px #00e676;"></span>
-            </div>
-          `;
-          if (nightDescEl) nightDescEl.textContent = '🔴 🟢 ĐỎ TRÊN XANH LỤC ĐỈNH CỘT BUỒM';
-          if (obligationEl) obligationEl.innerHTML = 'ℹ <b>Khẩu quyết:</b> <i>"NÓN CHÚC ĐỈNH: THUYỀN BUỒM KẾT HỢP CHẠY MÁY"</i>.<br/>Rule 18: Tàu cơ giới <b>phải chủ động nhường đường</b> cho tàu thuyền buồm!';
+          if (dayDescEl) dayDescEl.textContent = isEn ? '▼ One cone apex downwards' : '▼ 1 HÌNH NÓN CHÚC ĐỈNH (NẾU KẾT HỢP MÁY)';
           break;
 
         case 'pilot':
@@ -6943,15 +6802,7 @@
               <rect x="17" y="2" width="15" height="22" fill="#d32f2f" />
             </svg>
           `;
-          if (dayDescEl) dayDescEl.textContent = '🏳️ CỜ HIỆU HOA TIÊU "HOTEL" (TRẮNG/ĐỎ)';
-          nightVisualEl.innerHTML = `
-            <div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
-              <span style="width:11px; height:11px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff;"></span>
-              <span style="width:11px; height:11px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;"></span>
-            </div>
-          `;
-          if (nightDescEl) nightDescEl.textContent = '⚪ 🔴 TRẮNG TRÊN ĐỎ (PILOT AHEAD)';
-          if (obligationEl) obligationEl.innerHTML = 'ℹ <b>Khẩu quyết:</b> <i>"CỜ TRẮNG ĐỎ / TRẮNG TRÊN ĐỎ: HOA TIÊU DẪN LUỒNG"</i>.<br/>Tàu ta giảm tốc độ, cảnh giác cao và hợp tác tạo vùng nước lặng an toàn.';
+          if (dayDescEl) dayDescEl.textContent = isEn ? '🏳️ White/Red Pilot flag "Hotel"' : '🏳️ CỜ HIỆU HOA TIÊU "HOTEL" (TRẮNG/ĐỎ)';
           break;
 
         case 'towing':
@@ -6961,17 +6812,7 @@
               <polygon points="14,4 23,22 14,40 5,22" fill="#111111" stroke="#ffffff" stroke-width="1.2" />
             </svg>
           `;
-          if (dayDescEl) dayDescEl.textContent = '◆ 1 QUẢ TRÁM ĐEN (ĐOÀN LAI > 200M)';
-          nightVisualEl.innerHTML = `
-            <div style="display:flex; flex-direction:column; gap:3px; align-items:center;">
-              <span style="width:9px; height:9px; border-radius:50%; background:#ffffff; box-shadow:0 0 6px #fff;"></span>
-              <span style="width:9px; height:9px; border-radius:50%; background:#ffffff; box-shadow:0 0 6px #fff;"></span>
-              <span style="width:9px; height:9px; border-radius:50%; background:#ffffff; box-shadow:0 0 6px #fff;"></span>
-              <div style="font-size:8.5px; color:#ffeb3b; margin-top:1px;">🟡 Đèn lai vàng đuôi</div>
-            </div>
-          `;
-          if (nightDescEl) nightDescEl.textContent = '3 ĐÈN CỘT TRẮNG + ĐÈN LAI VÀNG SAU LÁI';
-          if (obligationEl) obligationEl.innerHTML = 'ℹ <b>Khẩu quyết:</b> <i>"1 QUẢ TRÁM: ĐOÀN LAI DÀI TRÊN 200M"</i>.<br/>Cáp lai dắt dài và ngập sâu dưới nước nguy hiểm. <b>TUYỆT ĐỐI CẤM</b> cắt ngang giữa tàu kéo và sà lan!';
+          if (dayDescEl) dayDescEl.textContent = isEn ? '◆ One black diamond (Tow > 200m)' : '◆ 1 QUẢ TRÁM ĐEN (ĐOÀN LAI > 200M)';
           break;
 
         case 'anchor':
@@ -6981,44 +6822,328 @@
               <circle cx="14" cy="19" r="10" fill="#111111" stroke="#ffffff" stroke-width="1.5" />
             </svg>
           `;
-          if (dayDescEl) dayDescEl.textContent = '● 1 HÌNH CẦU ĐEN Ở MŨI TÀU THẢ NEO';
-          nightVisualEl.innerHTML = `
-            <div style="display:flex; align-items:center; gap:5px;">
-              <span style="width:12px; height:12px; border-radius:50%; background:#ffffff; box-shadow:0 0 10px #ffffff;"></span>
-              <span style="font-size:9px; color:#cfd8dc;">Đèn neo 360° mũi/lái</span>
-            </div>
-          `;
-          if (nightDescEl) nightDescEl.textContent = '⚪ ĐÈN TRẮNG CHIẾU SÁNG 360° MŨI & LÁI';
-          if (obligationEl) obligationEl.innerHTML = 'ℹ <b>Khẩu quyết:</b> <i>"1 CẦU ĐEN MŨI: TÀU ĐANG THẢ NEO"</i>.<br/>Tàu neo cố định không vận tốc. Tàu ta chủ động giữ cự ly cách xa an toàn!';
+          if (dayDescEl) dayDescEl.textContent = isEn ? '● One black ball forward' : '● 1 HÌNH CẦU ĐEN Ở MŨI TÀU THẢ NEO';
           break;
 
         case 'power':
         default:
           if (badgeEl) badgeEl.textContent = 'RULE 14/15: POWER';
           dayVisualEl.innerHTML = `
-            <div style="color:#78909c; font-size:10px; font-style:italic; padding-top:12px;">Không mang dấu hiệu riêng</div>
+            <div style="color:#78909c; font-size:10px; font-style:italic; padding-top:12px;">${isEn ? 'No day shape required' : 'Không có dấu hiệu riêng ban ngày'}</div>
           `;
-          if (dayDescEl) dayDescEl.textContent = 'Tàu cơ giới hành trình bình thường ban ngày';
-          nightVisualEl.innerHTML = `
-            <div style="display:flex; align-items:center; gap:5px;">
-              <span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 6px #ff1744;" title="Đèn mạn trái đỏ"></span>
-              <span style="width:11px; height:11px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff;" title="Đèn cột trắng"></span>
-              <span style="width:10px; height:10px; border-radius:50%; background:#00e676; box-shadow:0 0 6px #00e676;" title="Đèn mạn phải xanh"></span>
-            </div>
-          `;
-          if (nightDescEl) nightDescEl.textContent = 'Đèn cột Trắng 225°, Mạn Đỏ 112.5° & Xanh 112.5°';
-          if (obligationEl) obligationEl.innerHTML = 'ℹ <b>Nghĩa vụ:</b> Đối đầu: cả 2 tàu cùng bẻ phải (Rule 14). Cắt hướng: tàu nhìn thấy tàu kia bên mạn phải phải nhường đường (Rule 15).';
+          if (dayDescEl) dayDescEl.textContent = isEn ? 'Power-driven vessel in normal navigation' : 'Tàu cơ giới hành trình bình thường ban ngày';
           break;
       }
 
-      const isEn = (currentLang === 'en');
-      const signInfo = isEn ? (COLREGS_SIGNS_EN[type] || COLREGS_SIGNS_EN.power) : (COLREGS_SIGNS_VI[type] || COLREGS_SIGNS_VI.power);
-      if (signInfo) {
-        if (badgeEl && signInfo.badge) badgeEl.textContent = signInfo.badge;
-        if (dayDescEl && signInfo.day) dayDescEl.textContent = signInfo.day;
-        if (nightDescEl && signInfo.night) nightDescEl.textContent = signInfo.night;
-        if (obligationEl && signInfo.ob) obligationEl.innerHTML = signInfo.ob;
+      // 2. Night Lights System Dynamically Reflecting Aspect Angle
+      let lightsVisualHtml = '';
+      let lightsDescText = '';
+      let obligationText = '';
+
+      if (vType === 'anchor') {
+        lightsVisualHtml = `
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+            <span style="width:13px; height:13px; border-radius:50%; background:#ffffff; box-shadow:0 0 12px #ffffff;" title="Đèn neo trắng 360°"></span>
+            <span style="font-size:9.5px; color:#cfd8dc; font-weight:700;">⚪ ĐÈN NEO 360°</span>
+          </div>
+        `;
+        lightsDescText = isEn
+          ? 'White all-round anchor light visible 360° (Running lights extinguished).'
+          : 'Đèn neo trắng 360° toàn quầng (Đèn mạn & đèn lái tắt hoàn toàn).';
+        obligationText = isEn
+          ? 'ℹ Rule 30: Vessel at anchor. Keep well clear.'
+          : 'ℹ <b>Rule 30:</b> Tàu đang thả neo cố định. Tàu ta chủ động giữ cự ly cách xa an toàn!';
+      } else if (vType === 'nuc') {
+        const specialHtml = `
+          <div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
+            <span style="width:12px; height:12px; border-radius:50%; background:#ff1744; box-shadow:0 0 10px #ff1744;" title="Đèn đỏ 360°"></span>
+            <span style="width:12px; height:12px; border-radius:50%; background:#ff1744; box-shadow:0 0 10px #ff1744;" title="Đèn đỏ 360°"></span>
+          </div>
+        `;
+        let runningHtml = '';
+        if (sec.id === 'stern') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff; margin-top:3px;" title="Đèn lái trắng 135°"></span>`;
+          lightsDescText = isEn
+            ? '🔴 🔴 Red over Red (360°) + ⚪ Sternlight (135°). Masthead & sidelights invisible from stern.'
+            : '🔴 🔴 2 Đèn Đỏ 360° + ⚪ Đèn lái Trắng 135° (Nhìn từ sau lái: đèn cột & đèn mạn bị khuất).';
+        } else if (sec.id === 'starboard') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#00e676; box-shadow:0 0 8px #00e676; margin-top:3px;" title="Đèn mạn phải xanh 112.5°"></span>`;
+          lightsDescText = isEn
+            ? '🔴 🔴 Red over Red (360°) + 🟢 Starboard green sidelight (112.5°).'
+            : '🔴 🔴 2 Đèn Đỏ 360° + 🟢 Đèn mạn Xanh lục (Nhìn thấy mạn phải).';
+        } else if (sec.id === 'port') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744; margin-top:3px;" title="Đèn mạn trái đỏ 112.5°"></span>`;
+          lightsDescText = isEn
+            ? '🔴 🔴 Red over Red (360°) + 🔴 Port red sidelight (112.5°).'
+            : '🔴 🔴 2 Đèn Đỏ 360° + 🔴 Đèn mạn Đỏ (Nhìn thấy mạn trái).';
+        } else {
+          runningHtml = `<div style="display:flex; gap:10px; margin-top:3px;"><span style="width:9px; height:9px; border-radius:50%; background:#ff1744; box-shadow:0 0 6px #ff1744;"></span><span style="width:9px; height:9px; border-radius:50%; background:#00e676; box-shadow:0 0 6px #00e676;"></span></div>`;
+          lightsDescText = isEn
+            ? '🔴 🔴 Red over Red (360°) + 🔴 Port & 🟢 Starboard sidelights (Head-on).'
+            : '🔴 🔴 2 Đèn Đỏ 360° + Cả 2 đèn mạn Đỏ & Xanh (Đối đầu trực diện).';
+        }
+        lightsVisualHtml = `<div style="display:flex; flex-direction:column; align-items:center;">${specialHtml}${runningHtml}</div>`;
+        obligationText = isEn
+          ? 'ℹ Rule 18(a)(i): Vessel Not Under Command. Give-way mandatory!'
+          : 'ℹ <b>Rule 18(a)(i):</b> Tàu mất khả năng điều động (NUC). Tàu ta <b>BẮT BUỘC NHƯỜNG ĐƯỜNG</b>!';
+      } else if (vType === 'ram') {
+        const specialHtml = `
+          <div style="display:flex; flex-direction:column; gap:3px; align-items:center;">
+            <span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;"></span>
+            <span style="width:10px; height:10px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff;"></span>
+            <span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;"></span>
+          </div>
+        `;
+        let runningHtml = '';
+        if (sec.id === 'stern') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff; margin-top:3px;" title="Đèn lái trắng 135°"></span>`;
+          lightsDescText = '🔴 ⚪ 🔴 Đỏ-Trắng-Đỏ 360° + ⚪ Đèn lái Trắng 135° (Sau lái).';
+        } else if (sec.id === 'starboard') {
+          runningHtml = `<div style="display:flex; align-items:center; gap:6px; margin-top:3px;"><span style="width:10px; height:10px; border-radius:50%; background:#ffffff;" title="Đèn cột"></span><span style="width:9px; height:9px; border-radius:50%; background:#00e676;" title="Đèn mạn xanh"></span></div>`;
+          lightsDescText = '🔴 ⚪ 🔴 Đỏ-Trắng-Đỏ + ⚪ Đèn cột trắng 225° + 🟢 Đèn mạn Xanh lục (Mạn phải).';
+        } else if (sec.id === 'port') {
+          runningHtml = `<div style="display:flex; align-items:center; gap:6px; margin-top:3px;"><span style="width:9px; height:9px; border-radius:50%; background:#ff1744;" title="Đèn mạn đỏ"></span><span style="width:10px; height:10px; border-radius:50%; background:#ffffff;" title="Đèn cột"></span></div>`;
+          lightsDescText = '🔴 ⚪ 🔴 Đỏ-Trắng-Đỏ + ⚪ Đèn cột trắng 225° + 🔴 Đèn mạn Đỏ (Mạn trái).';
+        } else {
+          runningHtml = `<div style="display:flex; align-items:center; gap:5px; margin-top:3px;"><span style="width:9px; height:9px; border-radius:50%; background:#ff1744;"></span><span style="width:11px; height:11px; border-radius:50%; background:#ffffff;"></span><span style="width:9px; height:9px; border-radius:50%; background:#00e676;"></span></div>`;
+          lightsDescText = '🔴 ⚪ 🔴 Đỏ-Trắng-Đỏ + ⚪ Đèn cột + Cả 2 đèn mạn Đỏ & Xanh (Đối đầu).';
+        }
+        lightsVisualHtml = `<div style="display:flex; flex-direction:column; align-items:center;">${specialHtml}${runningHtml}</div>`;
+        obligationText = 'ℹ <b>Rule 18(a)(ii):</b> Tàu hạn chế khả năng điều động (RAM). Tàu ta <b>BẮT BUỘC NHƯỜNG ĐƯỜNG</b>!';
+      } else if (vType === 'cbd') {
+        const specialHtml = `
+          <div style="display:flex; flex-direction:column; gap:3px; align-items:center;">
+            <span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;"></span>
+            <span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;"></span>
+            <span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;"></span>
+          </div>
+        `;
+        let runningHtml = '';
+        if (sec.id === 'stern') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff; margin-top:3px;" title="Đèn lái trắng 135°"></span>`;
+          lightsDescText = '🔴 🔴 🔴 3 Đèn Đỏ 360° + ⚪ Đèn lái Trắng 135° (Sau lái).';
+        } else if (sec.id === 'starboard') {
+          runningHtml = `<div style="display:flex; align-items:center; gap:6px; margin-top:3px;"><span style="width:10px; height:10px; border-radius:50%; background:#ffffff;"></span><span style="width:9px; height:9px; border-radius:50%; background:#00e676;"></span></div>`;
+          lightsDescText = '🔴 🔴 🔴 3 Đèn Đỏ + ⚪ Đèn cột trắng + 🟢 Đèn mạn Xanh lục (Mạn phải).';
+        } else if (sec.id === 'port') {
+          runningHtml = `<div style="display:flex; align-items:center; gap:6px; margin-top:3px;"><span style="width:9px; height:9px; border-radius:50%; background:#ff1744;"></span><span style="width:10px; height:10px; border-radius:50%; background:#ffffff;"></span></div>`;
+          lightsDescText = '🔴 🔴 🔴 3 Đèn Đỏ + ⚪ Đèn cột trắng + 🔴 Đèn mạn Đỏ (Mạn trái).';
+        } else {
+          runningHtml = `<div style="display:flex; align-items:center; gap:5px; margin-top:3px;"><span style="width:9px; height:9px; border-radius:50%; background:#ff1744;"></span><span style="width:11px; height:11px; border-radius:50%; background:#ffffff;"></span><span style="width:9px; height:9px; border-radius:50%; background:#00e676;"></span></div>`;
+          lightsDescText = '🔴 🔴 🔴 3 Đèn Đỏ + ⚪ Đèn cột + Cả 2 đèn mạn Đỏ & Xanh (Đối đầu).';
+        }
+        lightsVisualHtml = `<div style="display:flex; flex-direction:column; align-items:center;">${specialHtml}${runningHtml}</div>`;
+        obligationText = 'ℹ <b>Rule 18(d):</b> Tàu mớn nước khống chế (CBD). Tàu ta <b>tuyệt đối không gây cản trở luồng sâu</b>!';
+      } else if (vType === 'fishing') {
+        const specialHtml = `
+          <div style="display:flex; flex-direction:column; gap:3px; align-items:center;">
+            <span style="width:11px; height:11px; border-radius:50%; background:#00e676; box-shadow:0 0 8px #00e676;" title="Đèn xanh lục 360°"></span>
+            <span style="width:11px; height:11px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff;" title="Đèn trắng 360°"></span>
+          </div>
+        `;
+        let runningHtml = '';
+        if (sec.id === 'stern') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff; margin-top:3px;" title="Đèn lái trắng 135°"></span>`;
+          lightsDescText = '🟢 ⚪ Xanh trên Trắng (Trawling 360°) + ⚪ Đèn lái Trắng 135° (Sau lái).';
+        } else if (sec.id === 'starboard') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#00e676; box-shadow:0 0 8px #00e676; margin-top:3px;" title="Đèn mạn phải xanh"></span>`;
+          lightsDescText = '🟢 ⚪ Xanh trên Trắng + 🟢 Đèn mạn Xanh lục (Không có đèn cột trắng!).';
+        } else if (sec.id === 'port') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744; margin-top:3px;" title="Đèn mạn trái đỏ"></span>`;
+          lightsDescText = '🟢 ⚪ Xanh trên Trắng + 🔴 Đèn mạn Đỏ (Không có đèn cột trắng!).';
+        } else {
+          runningHtml = `<div style="display:flex; gap:10px; margin-top:3px;"><span style="width:9px; height:9px; border-radius:50%; background:#ff1744;"></span><span style="width:9px; height:9px; border-radius:50%; background:#00e676;"></span></div>`;
+          lightsDescText = '🟢 ⚪ Xanh trên Trắng + Cả 2 đèn mạn Đỏ & Xanh (Đối đầu).';
+        }
+        lightsVisualHtml = `<div style="display:flex; flex-direction:column; align-items:center;">${specialHtml}${runningHtml}</div>`;
+        obligationText = 'ℹ <b>Rule 18(a)(iii):</b> Tàu đang đánh cá. Tàu cơ giới <b>bắt buộc nhường đường</b>, cấm cắt ngang sau lái!';
+      } else if (vType === 'sailing') {
+        const specialHtml = `
+          <div style="display:flex; flex-direction:column; gap:3px; align-items:center;">
+            <span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;" title="Đỏ đỉnh cột buồm"></span>
+            <span style="width:10px; height:10px; border-radius:50%; background:#00e676; box-shadow:0 0 8px #00e676;" title="Xanh lục đỉnh cột buồm"></span>
+          </div>
+        `;
+        let runningHtml = '';
+        if (sec.id === 'stern') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff; margin-top:3px;" title="Đèn lái trắng 135°"></span>`;
+          lightsDescText = '🔴 🟢 Đỏ trên Xanh (Đỉnh cột 360°) + ⚪ Đèn lái Trắng 135° (Sau lái).';
+        } else if (sec.id === 'starboard') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#00e676; box-shadow:0 0 8px #00e676; margin-top:3px;" title="Đèn mạn phải xanh"></span>`;
+          lightsDescText = '🔴 🟢 Đỏ trên Xanh + 🟢 Đèn mạn Xanh lục (Thuyền buồm KHÔNG có đèn cột trắng!).';
+        } else if (sec.id === 'port') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744; margin-top:3px;" title="Đèn mạn trái đỏ"></span>`;
+          lightsDescText = '🔴 🟢 Đỏ trên Xanh + 🔴 Đèn mạn Đỏ (Thuyền buồm KHÔNG có đèn cột trắng!).';
+        } else {
+          runningHtml = `<div style="display:flex; gap:10px; margin-top:3px;"><span style="width:9px; height:9px; border-radius:50%; background:#ff1744;"></span><span style="width:9px; height:9px; border-radius:50%; background:#00e676;"></span></div>`;
+          lightsDescText = '🔴 🟢 Đỏ trên Xanh + Cả 2 đèn mạn Đỏ & Xanh (Đối đầu trực diện).';
+        }
+        lightsVisualHtml = `<div style="display:flex; flex-direction:column; align-items:center;">${specialHtml}${runningHtml}</div>`;
+        obligationText = 'ℹ <b>Rule 18(a)(iv):</b> Tàu thuyền buồm. Tàu cơ giới <b>bắt buộc nhường đường</b>!';
+      } else if (vType === 'pilot') {
+        const specialHtml = `
+          <div style="display:flex; flex-direction:column; gap:3px; align-items:center;">
+            <span style="width:10px; height:10px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff;" title="Trắng đỉnh cột"></span>
+            <span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;" title="Đỏ đỉnh cột"></span>
+          </div>
+        `;
+        let runningHtml = '';
+        if (sec.id === 'stern') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#ffffff; box-shadow:0 0 8px #ffffff; margin-top:3px;" title="Đèn lái trắng 135°"></span>`;
+          lightsDescText = '⚪ 🔴 Trắng trên Đỏ (Pilot 360°) + ⚪ Đèn lái Trắng 135° (Sau lái).';
+        } else if (sec.id === 'starboard') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#00e676; box-shadow:0 0 8px #00e676; margin-top:3px;" title="Đèn mạn phải xanh"></span>`;
+          lightsDescText = '⚪ 🔴 Trắng trên Đỏ (Pilot 360°) + 🟢 Đèn mạn Xanh lục (Mạn phải).';
+        } else if (sec.id === 'port') {
+          runningHtml = `<span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744; margin-top:3px;" title="Đèn mạn trái đỏ"></span>`;
+          lightsDescText = '⚪ 🔴 Trắng trên Đỏ (Pilot 360°) + 🔴 Đèn mạn Đỏ (Mạn trái).';
+        } else {
+          runningHtml = `<div style="display:flex; gap:10px; margin-top:3px;"><span style="width:9px; height:9px; border-radius:50%; background:#ff1744;"></span><span style="width:9px; height:9px; border-radius:50%; background:#00e676;"></span></div>`;
+          lightsDescText = '⚪ 🔴 Trắng trên Đỏ (Pilot 360°) + Cả 2 đèn mạn Đỏ & Xanh (Đối đầu).';
+        }
+        lightsVisualHtml = `<div style="display:flex; flex-direction:column; align-items:center;">${specialHtml}${runningHtml}</div>`;
+        obligationText = 'ℹ <b>Rule 29:</b> Tàu hoa tiêu dẫn luồng. Giảm tốc độ, hợp tác tạo vùng nước lặng an toàn.';
+      } else if (vType === 'towing') {
+        if (sec.id === 'stern') {
+          lightsVisualHtml = `
+            <div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
+              <span style="width:11px; height:11px; border-radius:50%; background:#ffd600; box-shadow:0 0 10px #ffd600;" title="Đèn lai vàng 135°"></span>
+              <span style="width:11px; height:11px; border-radius:50%; background:#ffffff; box-shadow:0 0 10px #ffffff;" title="Đèn lái trắng 135°"></span>
+              <div style="font-size:8.5px; color:#ffd600; font-weight:700;">🟡 LAI VÀNG TRÊN ⚪ LÁI TRẮNG</div>
+            </div>
+          `;
+          lightsDescText = 'Sau lái đoàn lai: 🟡 ĐÈN LAI VÀNG 135° ở trên + ⚪ ĐÈN LÁI TRẮNG 135° ở dưới.';
+        } else if (sec.id === 'starboard') {
+          lightsVisualHtml = `
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="display:flex; flex-direction:column; gap:3px;">
+                <span style="width:9px; height:9px; border-radius:50%; background:#ffffff; box-shadow:0 0 6px #fff;"></span>
+                <span style="width:9px; height:9px; border-radius:50%; background:#ffffff; box-shadow:0 0 6px #fff;"></span>
+                <span style="width:9px; height:9px; border-radius:50%; background:#ffffff; box-shadow:0 0 6px #fff;"></span>
+              </div>
+              <span style="width:11px; height:11px; border-radius:50%; background:#00e676; box-shadow:0 0 8px #00e676;" title="Đèn mạn xanh lục"></span>
+            </div>
+          `;
+          lightsDescText = 'Mạn phải: 3 Đèn cột trắng thẳng đứng (Đoàn lai > 200m) + 🟢 Đèn mạn Xanh lục.';
+        } else if (sec.id === 'port') {
+          lightsVisualHtml = `
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="width:11px; height:11px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;" title="Đèn mạn đỏ"></span>
+              <div style="display:flex; flex-direction:column; gap:3px;">
+                <span style="width:9px; height:9px; border-radius:50%; background:#ffffff; box-shadow:0 0 6px #fff;"></span>
+                <span style="width:9px; height:9px; border-radius:50%; background:#ffffff; box-shadow:0 0 6px #fff;"></span>
+                <span style="width:9px; height:9px; border-radius:50%; background:#ffffff; box-shadow:0 0 6px #fff;"></span>
+              </div>
+            </div>
+          `;
+          lightsDescText = 'Mạn trái: 🔴 Đèn mạn Đỏ + 3 Đèn cột trắng thẳng đứng (Đoàn lai > 200m).';
+        } else {
+          lightsVisualHtml = `
+            <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+              <div style="display:flex; flex-direction:column; gap:3px; align-items:center;">
+                <span style="width:9px; height:9px; border-radius:50%; background:#ffffff; box-shadow:0 0 6px #fff;"></span>
+                <span style="width:9px; height:9px; border-radius:50%; background:#ffffff; box-shadow:0 0 6px #fff;"></span>
+                <span style="width:9px; height:9px; border-radius:50%; background:#ffffff; box-shadow:0 0 6px #fff;"></span>
+              </div>
+              <div style="display:flex; gap:12px; margin-top:2px;">
+                <span style="width:9px; height:9px; border-radius:50%; background:#ff1744;"></span>
+                <span style="width:9px; height:9px; border-radius:50%; background:#00e676;"></span>
+              </div>
+            </div>
+          `;
+          lightsDescText = 'Đối đầu: 3 Đèn cột trắng thẳng đứng + Cả 2 đèn mạn Đỏ & Xanh.';
+        }
+        obligationText = 'ℹ <b>Rule 24:</b> Đoàn lai dài > 200m. Cáp kéo chìm nguy hiểm, <b>TUYỆT ĐỐI CẤM</b> cắt ngang giữa tàu kéo và sà lan!';
+      } else {
+        // Power-Driven Vessel (Commercial cargo, container, tanker, power, warship, patrol)
+        if (sec.id === 'stern') {
+          lightsVisualHtml = `
+            <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+              <span style="width:13px; height:13px; border-radius:50%; background:#ffffff; box-shadow:0 0 12px #ffffff;" title="Đèn lái trắng 135°"></span>
+              <span style="font-size:9.5px; color:#cfd8dc; font-weight:700;">⚪ ĐÈN LÁI TRẮNG (135°)</span>
+            </div>
+          `;
+          lightsDescText = isEn
+            ? 'Stern view: ONLY White Sternlight (135°) visible. Masthead and sidelights invisible.'
+            : 'Sau lái: CHỈ THẤY ĐÈN LÁI TRẮNG 135° (Đèn cột & đèn mạn bị khuất hoàn toàn).';
+          obligationText = isEn
+            ? 'ℹ Rule 13: Overtaking situation. Overtaking vessel shall keep out of the way.'
+            : 'ℹ <b>Rule 13:</b> Tình huống Vượt tàu. Tàu vượt phải chủ động giữ cách xa an toàn và nhường đường cho tàu bị vượt!';
+        } else if (sec.id === 'starboard') {
+          lightsVisualHtml = `
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="width:12px; height:12px; border-radius:50%; background:#ffffff; box-shadow:0 0 10px #ffffff;" title="Đèn cột trắng 225°"></span>
+              <span style="width:11px; height:11px; border-radius:50%; background:#00e676; box-shadow:0 0 8px #00e676;" title="Đèn mạn phải xanh lục 112.5°"></span>
+            </div>
+          `;
+          lightsDescText = isEn
+            ? 'Starboard aspect: White Masthead light (225°) & Starboard Green sidelight (112.5°).'
+            : 'Mạn phải tàu bạn: Thấy ĐÈN CỘT TRẮNG (225°) & ĐÈN MẠN XANH LỤC (112.5°).';
+          obligationText = isEn
+            ? 'ℹ Rule 15 & 17: Seeing green light on your port side: Own Ship is Stand-on (keep course & speed).'
+            : 'ℹ <b>Rule 15 & 17:</b> Thấy mạn phải (đèn Xanh) của tàu bạn ở bên mạn trái của ta ➔ Tàu ta là Stand-on, giữ nguyên hướng và tốc độ!';
+        } else if (sec.id === 'port') {
+          lightsVisualHtml = `
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="width:11px; height:11px; border-radius:50%; background:#ff1744; box-shadow:0 0 8px #ff1744;" title="Đèn mạn trái đỏ 112.5°"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#ffffff; box-shadow:0 0 10px #ffffff;" title="Đèn cột trắng 225°"></span>
+            </div>
+          `;
+          lightsDescText = isEn
+            ? 'Port aspect: White Masthead light (225°) & Port Red sidelight (112.5°).'
+            : 'Mạn trái tàu bạn: Thấy ĐÈN CỘT TRẮNG (225°) & ĐÈN MẠN ĐỎ (112.5°).';
+          obligationText = isEn
+            ? 'ℹ Rule 15 & 16: Seeing red light on your starboard side: Own Ship is Give-way! Alter course to starboard early.'
+            : 'ℹ <b>Rule 15 & 16:</b> Thấy mạn trái (đèn Đỏ) của tàu bạn ở bên mạn phải của ta ➔ Tàu ta là Give-way, <b>bắt buộc nhường đường</b> sang mạn phải!';
+        } else {
+          lightsVisualHtml = `
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:#ff1744; box-shadow:0 0 7px #ff1744;" title="Đèn mạn trái đỏ"></span>
+              <span style="width:12px; height:12px; border-radius:50%; background:#ffffff; box-shadow:0 0 10px #ffffff;" title="Đèn cột trắng"></span>
+              <span style="width:10px; height:10px; border-radius:50%; background:#00e676; box-shadow:0 0 7px #00e676;" title="Đèn mạn phải xanh"></span>
+            </div>
+          `;
+          lightsDescText = isEn
+            ? 'Head-on: White Masthead light + BOTH Red (port) & Green (starboard) sidelights.'
+            : 'Đối đầu trực diện: Thấy ĐÈN CỘT TRẮNG + CẢ 2 ĐÈN MẠN (ĐỎ TRÁI & XANH PHẢI).';
+          obligationText = isEn
+            ? 'ℹ Rule 14: Head-on situation. Both vessels shall alter course to starboard to pass port-to-port.'
+            : 'ℹ <b>Rule 14:</b> Hai tàu đối đầu trực diện. <b>CẢ HAI TÀU ĐỀU PHẢI BẺ LÁI SANG PHẢI</b> để đi qua mạn trái của nhau!';
+        }
       }
+
+      nightVisualEl.innerHTML = lightsVisualHtml;
+      if (nightDescEl) nightDescEl.textContent = lightsDescText;
+      if (obligationEl) obligationEl.innerHTML = obligationText;
+    }
+
+    function updateTargetLights3D(target) {
+      if (!target || !target.mesh) return;
+      const isNight = isNightMode || (environment && environment.fog);
+      if (!isNight) return;
+
+      const aspect = calculateTargetAspect(ownShip, target);
+      const sec = getAspectSector(aspect);
+
+      target.mesh.traverse(child => {
+        if (!child.userData || !child.userData.isNightLight) return;
+        if (child.userData.isAllRound) {
+          child.visible = true;
+          return;
+        }
+        const col = child.userData.lightColor;
+        const px = child.position.x;
+        const pz = child.position.z;
+        if (col === 0xff1744 || px < -0.1) {
+          child.visible = sec.portLight;
+        } else if (col === 0x00e676 || px > 0.1) {
+          child.visible = sec.stbdLight;
+        } else if (pz < -1.5) {
+          child.visible = sec.sternLight;
+        } else {
+          child.visible = sec.masthead;
+        }
+      });
     }
 
     // Handler when user changes Target Ship Type: reset both ships to initial state
@@ -8689,6 +8814,8 @@
 
       // 7. UI Telemetry Readout
       updateTelemetryUI(primaryTgt.dist, primaryTgt.bearing, primaryTgt.cpa, primaryTgt.tcpa, primaryTgt.rel_speed);
+      updateCOLREGsSigns(primaryTgt.type, primaryTgt);
+      updateTargetLights3D(primaryTgt);
 
       // 8. Displays
       drawRadar(primaryTgt.x - ownShip.x, primaryTgt.z - ownShip.z, primaryTgt.rel_vx, primaryTgt.rel_vz, primaryTgt.cpa, primaryTgt.tcpa);
@@ -9070,9 +9197,10 @@
     }
 
     // ==========================================
-    // CAMERA MODES
+    // CAMERA MODES (TỰ DO, BUỒNG LÁI 360°, HẢI ĐỒ)
     // ==========================================
     function setCameraMode(mode) {
+      if (mode === 'vr') mode = 'bridge'; // Hợp nhất VR 360° vào Buồng lái
       cameraMode = mode;
       const bOrbit = document.getElementById('btnViewOrbit');
       if (bOrbit) bOrbit.classList.toggle('active', mode === 'orbit');
@@ -9080,10 +9208,6 @@
       if (bBridge) bBridge.classList.toggle('active', mode === 'bridge');
       const bTop = document.getElementById('btnViewTop');
       if (bTop) bTop.classList.toggle('active', mode === 'top');
-      const bVR = document.getElementById('btnViewVR');
-      if (bVR) bVR.classList.toggle('active', mode === 'vr');
-      const bVRTop = document.getElementById('btnOpenVRTop');
-      if (bVRTop) bVRTop.classList.toggle('active', mode === 'vr');
 
       if (!camera) return;
 
@@ -9097,15 +9221,11 @@
       } else if (mode === 'bridge') {
         if (controls) controls.enabled = false;
         camera.up.set(0, 1, 0);
-        if (typeof VREngine !== 'undefined') VREngine.onExitVR();
+        if (typeof VREngine !== 'undefined') VREngine.onEnterVR();
       } else if (mode === 'top') {
         if (controls) controls.enabled = false;
         camera.up.set(0, 0, 1); // North (+Z) is UP on screen
         if (typeof VREngine !== 'undefined') VREngine.onExitVR();
-      } else if (mode === 'vr') {
-        if (controls) controls.enabled = false;
-        camera.up.set(0, 1, 0);
-        if (typeof VREngine !== 'undefined') VREngine.onEnterVR();
       }
     }
 
@@ -9121,24 +9241,13 @@
           camera.position.z += deltaZ;
           controls.target.set(ownPosX, 0.6, ownPosZ);
         }
-      } else if (cameraMode === 'bridge') {
-        const rad = THREE.MathUtils.degToRad(ownShip.course);
-        const bridgeOffsetZ = 0.30;
-        const camX = ownPosX - Math.sin(rad) * bridgeOffsetZ;
-        const camZ = ownPosZ + Math.cos(rad) * bridgeOffsetZ;
-        const camY = 0.88;
-
-        camera.position.set(camX, camY, camZ);
-        const lookX = camX - Math.sin(rad) * 30;
-        const lookZ = camZ + Math.cos(rad) * 30;
-        camera.lookAt(lookX, 0.65, lookZ);
-      } else if (cameraMode === 'top') {
-        camera.position.set(ownPosX, 65, ownPosZ);
-        camera.lookAt(ownPosX, 0, ownPosZ);
-      } else if (cameraMode === 'vr') {
+      } else if (cameraMode === 'bridge' || cameraMode === 'vr') {
         if (typeof VREngine !== 'undefined') {
           VREngine.update(camera, ownShip);
         }
+      } else if (cameraMode === 'top') {
+        camera.position.set(ownPosX, 65, ownPosZ);
+        camera.lookAt(ownPosX, 0, ownPosZ);
       }
     }
 
@@ -10771,7 +10880,7 @@
       }
 
       function onPointerDown(e) {
-        if (!isVRActive || (cameraMode !== 'vr' && cameraMode !== 'bridge')) return;
+        if (!isVRActive || cameraMode !== 'bridge') return;
         if (e.target && (e.target.closest('button') || e.target.closest('.modal-content') || e.target.closest('.panel') || e.target.closest('#radarPanel') || e.target.closest('.hud-header'))) return;
         isDragging = true;
         dragStartX = e.clientX;
@@ -10794,7 +10903,7 @@
       }
 
       function onTouchStart(e) {
-        if (!isVRActive || (cameraMode !== 'vr' && cameraMode !== 'bridge')) return;
+        if (!isVRActive || cameraMode !== 'bridge') return;
         if (e.touches.length === 1) {
           const t = e.touches[0];
           if (t.target && (t.target.closest('button') || t.target.closest('.modal-content') || t.target.closest('.panel') || t.target.closest('#radarPanel') || t.target.closest('.hud-header'))) return;
@@ -10826,9 +10935,6 @@
             if (state === 'granted') {
               gyroEnabled = true;
               initialAlpha = null;
-              if (typeof showSignalBanner === 'function') showSignalBanner('CẢM BIẾN CON QUAY HỒI CHUYỂN: ĐÃ KÍCH HOẠT (360° GYRO)');
-            } else {
-              if (typeof showSignalBanner === 'function') showSignalBanner('CẢM BIẾN BỊ TỪ CHỐI - DÙNG CHẠM/VUỐT MÀN HÌNH ĐỂ XOAY 360°');
             }
           }).catch(function (err) {
             console.warn('Gyro permission request error:', err);
@@ -10838,6 +10944,7 @@
 
       function onEnterVR() {
         isVRActive = true;
+        gyroEnabled = true; // Mặc định bật Gyro
         initialAlpha = null;
         yawOffset = 0;
         pitchOffset = 0;
@@ -10861,10 +10968,6 @@
         }
 
         requestGyroPermission();
-        showVRHud();
-        if (typeof showSignalBanner === 'function') {
-          showSignalBanner('🥽 BUỒNG LÁI 360° VR: ĐÃ KÍCH HOẠT (Xoay đầu/điện thoại hoặc vuốt màn hình)');
-        }
       }
 
       function onExitVR() {
@@ -10880,50 +10983,15 @@
         initialAlpha = currentAlpha;
         yawOffset = 0;
         pitchOffset = 0;
-        if (typeof showSignalBanner === 'function') {
-          showSignalBanner('🎯 ĐÃ CÂN BẰNG TÂM GÓC NHÌN BUỒNG LÁI (CENTER VIEW)');
-        }
       }
 
       function toggleGyro() {
         gyroEnabled = !gyroEnabled;
-        if (typeof showSignalBanner === 'function') {
-          showSignalBanner(gyroEnabled ? '📱 CON QUAY HỒI CHUYỂN: BẬT' : '📱 CON QUAY HỒI CHUYỂN: TẮT (DÙNG CHẠM/VUỐT)');
-        }
       }
 
       function showVRHud() {
-        if (!vrHudElement) {
-          vrHudElement = document.createElement('div');
-          vrHudElement.id = 'vrCockpitHud';
-          vrHudElement.style.cssText = `
-            position: fixed;
-            top: 54px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(4, 18, 26, 0.90);
-            border: 1.5px solid #7c4dff;
-            box-shadow: 0 4px 20px rgba(124, 77, 255, 0.55);
-            border-radius: 20px;
-            padding: 6px 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 1000;
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 13px;
-            color: #b388ff;
-            pointer-events: auto;
-          `;
-          vrHudElement.innerHTML = `
-            <span>🥽 <b>BUỒNG LÁI VR 360°</b></span>
-            <button onclick="VREngine.resetHeading()" style="background:#7c4dff; border:none; color:#fff; border-radius:12px; padding:3px 9px; font-size:11px; font-weight:bold; cursor:pointer;" title="Đặt lại hướng nhìn thẳng mũi tàu">🎯 Cân Bằng</button>
-            <button onclick="VREngine.toggleGyro()" style="background:#00e5ff; border:none; color:#04121a; border-radius:12px; padding:3px 9px; font-size:11px; font-weight:bold; cursor:pointer;" title="Bật/Tắt con quay hồi chuyển">📱 Gyro</button>
-            <button onclick="setCameraMode('bridge')" style="background:#e53935; border:none; color:#fff; border-radius:12px; padding:3px 9px; font-size:11px; font-weight:bold; cursor:pointer;" title="Thoát chế độ VR">✕ Thoát</button>
-          `;
-          document.body.appendChild(vrHudElement);
-        }
-        vrHudElement.style.display = 'flex';
+        // Gỡ bỏ giao diện HUD nổi: Buồng lái 360 giữ góc nhìn thông thoáng tối đa cho thuyền viên
+        return;
       }
 
       function hideVRHud() {
