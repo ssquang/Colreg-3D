@@ -208,5 +208,11 @@ def test_calculations():
 
 
 if __name__ == "__main__":
+    print("\n--- PHASE 1: LEGACY NAUTICAL MATH & KEYWORD AUDIT ---")
     test_calculations()
+    print("\n--- PHASE 2: COMPREHENSIVE E2E 4-TIER SUITE (230 TESTS) ---")
+    from tests.run_all_tests import main as run_e2e_tests
+    exit_code = run_e2e_tests()
+    sys.exit(exit_code)
+
 
