@@ -2576,14 +2576,14 @@
       <div class="env-card">
         <div class="env-row">
           <span class="env-lbl">💨 GIÓ & 🌊 SÓNG (BEAUFORT):</span>
-          <span id="beaufortReadoutVal" class="env-val">Cấp 3 | Sóng 0.8m</span>
+          <span id="beaufortReadoutVal" class="env-val">Cấp 0 | Sóng 0m</span>
         </div>
         <div style="margin-top:3px;">
           <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#90a4ae; margin-bottom:2px;">
             <span>Cấp gió Beaufort:</span>
-            <span id="beaufortLevelBadge" style="color:#00e5ff; font-weight:700;">Cấp 3: Gió vừa (Gentle Breeze)</span>
+            <span id="beaufortLevelBadge" style="color:#00e5ff; font-weight:700;">Cấp 0: Gió lặng (Calm)</span>
           </div>
-          <input id="beaufortSlider" class="slider-custom cyan" type="range" min="0" max="8" value="3" oninput="onBeaufortChange()" />
+          <input id="beaufortSlider" class="slider-custom cyan" type="range" min="0" max="8" value="0" oninput="onBeaufortChange()" />
         </div>
         <div style="display:flex; gap:6px; margin-top:3px;">
           <div style="flex:1;">
@@ -2591,12 +2591,12 @@
             <input id="windDirSlider" class="slider-custom cyan" type="range" min="0" max="359" value="270" oninput="onBeaufortChange()" />
           </div>
           <div style="flex:1;">
-            <div style="font-size:9.5px; color:#90a4ae;">Vận tốc gió: <span id="windSpdVal">7 - 10 kts</span></div>
-            <div id="waveHeightVal" style="font-size:9.5px; color:#80deea; font-weight:700; margin-top:2px;">🌊 Sóng: 0.6 - 1.0 m (Cấp 3)</div>
+            <div style="font-size:9.5px; color:#90a4ae;">Vận tốc gió: <span id="windSpdVal">0 kts</span></div>
+            <div id="waveHeightVal" style="font-size:9.5px; color:#80deea; font-weight:700; margin-top:2px;">🌊 Sóng: 0 m (Cấp 0)</div>
           </div>
         </div>
         <div id="seaStateDescVal" style="font-size:9px; color:#b0bec5; font-style:italic; margin-top:4px; line-height:1.2;">
-          Tình trạng biển: Sóng ngắn, vài bọt trắng nhỏ.
+          Tình trạng biển: Mặt biển phẳng lặng như gương.
         </div>
       </div>
 
@@ -3083,12 +3083,6 @@
 
         <div id="quizQuestionText" class="quiz-question-txt">
           Đang nạp câu hỏi trắc nghiệm...
-        </div>
-
-        <!-- Maritime COLREGs Mnemonic & Core Rule Guidance Box -->
-        <div id="quizMnemonicBox" class="quiz-mnemonic-box">
-          <div class="quiz-mnemonic-title"><span>💡</span> <span id="quizMnemonicTitleTxt">KHẨU QUYẾT HÀNG HẢI & NGUYÊN TẮC CỐT LÕI</span></div>
-          <div id="quizMnemonicContent" class="quiz-mnemonic-desc">Đang nạp khẩu quyết điều động...</div>
         </div>
 
         <div id="quizOptionsList" class="quiz-options-list">
@@ -5268,13 +5262,17 @@
       renderQuizQuestion(0);
     }
 
-    // Helper: Tạo bối cảnh tình huống thực tế và khẩu quyết hàng hải sống động cho từng câu hỏi
-    function getQuizScenarioAndMnemonic(q, isEn) {
+    // Lọc bỏ toàn bộ tiền tố hoặc cụm trong ngoặc vuông [ ... ] để giữ câu hỏi thuần túy
+    function cleanQuizQuestionText(raw) {
+      if (!raw) return '';
+      return raw.replace(/\[[^\]]*\]/g, '').replace(/\s+/g, ' ').trim();
+    }
+
+    // Helper: Bối cảnh tình huống thực tế cho từng câu hỏi
+    function getQuizScenario(q, isEn) {
       const qText = (q.q_vi || q.question_vi || '').toLowerCase();
-      const expText = (q.explain_vi || q.exp_vi || '').toLowerCase();
       const cat = (q.category || '').toLowerCase();
 
-      // 1. TÌNH HUỐNG HÀNG HẢI THỰC TẾ (MARITIME SITUATION)
       let scenario = '';
       if (cat.includes('đèn') || cat.includes('night') || qText.includes('ban đêm') || qText.includes('đèn')) {
         scenario = isEn
@@ -5298,41 +5296,7 @@
           : '⚓ Tình huống thực tế: Tình huống pháp lý và nghiệp vụ hàng hải thực tế yêu cầu Sĩ quan boong nắm vững và áp dụng chuẩn xác Công ước Quốc tế COLREGs 72.';
       }
 
-      // 2. KHẨU QUYẾT GHI NHỚ COLREGS (COLREG MNEMONICS & GUIDANCE)
-      let mnemonic = '';
-      if (qText.includes('đỏ trên trắng') || (expText.includes('đánh cá') && !expText.includes('lưới cào'))) {
-        mnemonic = isEn ? '💡 Mnemonic: "Red over White: Fishing at night" — Rule 26(c)' : '💡 Khẩu quyết: "Đỏ trên trắng: Đánh cá cưng" (Tàu đánh cá không bằng lưới cào) — Rule 26(c)';
-      } else if (qText.includes('xanh trên trắng') || expText.includes('lưới cào') || expText.includes('trawling')) {
-        mnemonic = isEn ? '💡 Mnemonic: "Green over White: Trawling at night" — Rule 26(b)' : '💡 Khẩu quyết: "Xanh trên trắng: Cào lướt sóng" (Tàu đánh cá bằng lưới cào) — Rule 26(b)';
-      } else if (qText.includes('trắng trên đỏ') || expText.includes('hoa tiêu') || expText.includes('pilot')) {
-        mnemonic = isEn ? '💡 Mnemonic: "White over Red: Pilot ahead" — Rule 29' : '💡 Khẩu quyết: "Trắng trên đỏ: Hoa tiêu đó" (Tàu hoa tiêu đang làm nhiệm vụ) — Rule 29';
-      } else if (qText.includes('2 đỏ') || qText.includes('mất khả năng điều động') || expText.includes('nuc') || expText.includes('mất khả năng')) {
-        mnemonic = isEn ? '💡 Mnemonic: "Red over Red: Captain is dead / Not Under Command" — Rule 27(a)' : '💡 Khẩu quyết: "Đỏ trên đỏ: Tàu nguy to — Mất khả năng điều động (NUC)" — Rule 27(a)';
-      } else if (qText.includes('đỏ - trắng - đỏ') || expText.includes('ram') || expText.includes('hạn chế khả năng')) {
-        mnemonic = isEn ? '💡 Mnemonic: "Red - White - Red: Restricted in Ability to Manoeuvre (RAM)" — Rule 27(b)' : '💡 Khẩu quyết: "Đỏ - Trắng - Đỏ: Hạn chế điều động chẳng màng (Tàu RAM)" — Rule 27(b)';
-      } else if (qText.includes('3 đỏ') || expText.includes('cbd') || expText.includes('mớn nước')) {
-        mnemonic = isEn ? '💡 Mnemonic: "Three Red lights in line: Constrained by Draft (CBD)" — Rule 28' : '💡 Khẩu quyết: "3 đỏ thẳng hàng: Mớn nước khống chế (Tàu CBD)" — Rule 28';
-      } else if (qText.includes('mắc cạn') || expText.includes('mắc cạn') || expText.includes('aground')) {
-        mnemonic = isEn ? '💡 Mnemonic: "Vessel Aground: Three black balls / Two red lights plus anchor lights" — Rule 30(d)' : '💡 Khẩu quyết: "Mắc cạn: 3 quả cầu đen ban ngày / 2 đèn đỏ + đèn neo ban đêm" — Rule 30(d)';
-      } else if (qText.includes('đối đầu') || expText.includes('head-on') || expText.includes('đối đầu')) {
-        mnemonic = isEn ? '💡 Mnemonic: "Head-on: Both vessels alter to starboard, pass port-to-port" — Rule 14' : '💡 Khẩu quyết: "Gặp đối đầu: Cùng bẻ sang phải, đi mạn trái nhau (Port to Port)" — Rule 14';
-      } else if (qText.includes('cắt hướng') || expText.includes('crossing') || expText.includes('cắt hướng')) {
-        mnemonic = isEn ? '💡 Mnemonic: "Crossing from starboard: You must give way, avoid crossing ahead" — Rule 15' : '💡 Khẩu quyết: "Cắt hướng nhìn thấy mạn phải tàu kia: Phải nhường đường, tránh cắt trước mũi" — Rule 15';
-      } else if (qText.includes('vượt') || expText.includes('overtaking') || expText.includes('vượt')) {
-        mnemonic = isEn ? '💡 Mnemonic: "Overtaking vessel: Any vessel overtaking another shall keep out of the way" — Rule 13' : '💡 Khẩu quyết: "Tàu vượt mọi tàu: Bất luận là loại tàu nào, tàu vượt phải chủ động tránh" — Rule 13';
-      } else if (qText.includes('tàu buồm') || expText.includes('buồm') || expText.includes('sailing')) {
-        mnemonic = isEn ? '💡 Mnemonic: "Port tack yields to starboard tack; windward yields to leeward" — Rule 12' : '💡 Khẩu quyết: "Gió mạn trái nhường gió mạn phải; cùng mạn gió thì trên gió nhường dưới gió" — Rule 12';
-      } else if (qText.includes('ưu tiên') || expText.includes('thứ tự') || expText.includes('hierarchy')) {
-        mnemonic = isEn ? '💡 Mnemonic: "Power yields to Sail, Sail to Fish, Fish to RAM & NUC" — Rule 18' : '💡 Khẩu quyết: "Máy nhường Buồm, Buồm nhường Cá, Cá nhường RAM & NUC" — Rule 18';
-      } else if (qText.includes('ngắn') || qText.includes('còi') || expText.includes('whistle') || expText.includes('rule 34')) {
-        mnemonic = isEn ? '💡 Mnemonic: "1 short: Starboard, 2 short: Port, 3 short: Astern, 5 short: Danger/Doubt" — Rule 34' : '💡 Khẩu quyết: "1 ngắn bẻ phải, 2 ngắn bẻ trái, 3 ngắn lùi máy, 5 ngắn cảnh báo nghi ngờ" — Rule 34';
-      } else if (qText.includes('sương mù') || expText.includes('sương mù') || expText.includes('rule 35')) {
-        mnemonic = isEn ? '💡 Mnemonic: "Fog signals: 1 prolonged = underway; 2 prolonged = stopped; 1 prolonged + 2 short = RAM/NUC/Fish" — Rule 35' : '💡 Khẩu quyết: "Sương mù: 2 phút 1 dài (đang chạy); 2 phút 2 dài (dừng trôi); 1 dài 2 ngắn (RAM/NUC/Cá)" — Rule 35';
-      } else {
-        mnemonic = isEn ? '💡 Golden Rule: "Action to avoid collision shall be positive, made in ample time with good seamanship" — Rule 8' : '💡 Quy tắc vàng: "Hành động tránh va phải rõ ràng, kịp thời, đủ lớn và giữ cự ly an toàn" — Rule 8';
-      }
-
-      return { scenario, mnemonic };
+      return scenario;
     }
 
     function renderQuizQuestion(idx) {
@@ -5353,22 +5317,13 @@
         titleEl.textContent = isEn ? 'COLREGs 72 MARITIME QUIZ' : 'BÀI THI TRẮC NGHIỆM COLREGs 72';
       }
 
-      // Populate Real-World Scenario & Maritime Mnemonic
-      const meta = getQuizScenarioAndMnemonic(q, isEn);
+      // Populate Real-World Scenario
       const scBox = document.getElementById('quizScenarioBox');
       const scTitle = document.getElementById('quizScenarioTitleTxt');
       const scContent = document.getElementById('quizScenarioContent');
       if (scBox && scContent) {
         if (scTitle) scTitle.textContent = isEn ? 'MARITIME OPERATIONAL SITUATION' : 'TÌNH HUỐNG HÀNG HẢI THỰC TẾ';
-        scContent.textContent = meta.scenario;
-      }
-
-      const mnBox = document.getElementById('quizMnemonicBox');
-      const mnTitle = document.getElementById('quizMnemonicTitleTxt');
-      const mnContent = document.getElementById('quizMnemonicContent');
-      if (mnBox && mnContent) {
-        if (mnTitle) mnTitle.textContent = isEn ? 'COLREG MNEMONIC & CORE GUIDANCE' : 'KHẨU QUYẾT GHI NHỚ & CĂN CỨ QUY TẮC';
-        mnContent.textContent = meta.mnemonic;
+        scContent.textContent = getQuizScenario(q, isEn);
       }
 
       const svgBox = document.getElementById('quizSvgBox');
@@ -5376,11 +5331,11 @@
         svgBox.innerHTML = q.svg || '';
       }
 
+      // Hiển thị câu hỏi thuần túy, lọc bỏ hoàn toàn các phần trong ngoặc vuông [ ]
       const qText = document.getElementById('quizQuestionText');
       if (qText) {
-        const qContent = isEn ? (q.q_en || q.question_en) : (q.q_vi || q.question_vi);
-        const ruleLabel = q.rule || q.category || 'COLREGs 72';
-        qText.innerHTML = `<span style="color:#00e5ff; font-weight:700;">[${ruleLabel}]</span> ${qContent}`;
+        const rawContent = isEn ? (q.q_en || q.question_en) : (q.q_vi || q.question_vi);
+        qText.textContent = cleanQuizQuestionText(rawContent);
       }
 
       const optList = document.getElementById('quizOptionsList');
@@ -5505,32 +5460,30 @@
           const expText = isEn ? (q.explain_en || q.exp_en || '') : (q.explain_vi || q.exp_vi || '');
           const ruleLabel = q.rule || q.category || 'COLREGs 72';
 
+          const pureQuestion = cleanQuizQuestionText(qText);
           const item = document.createElement('div');
           item.className = `quiz-review-item ${isCorrect ? 'correct' : 'wrong'}`;
           item.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span style="font-weight:700; color:#00e5ff; font-size:0.86rem;">
-                ${isEn ? 'Question' : 'Câu'} ${i + 1}: [${ruleLabel}]
+                ${isEn ? 'Question' : 'Câu'} ${i + 1}
               </span>
               <span style="font-weight:700; font-size:0.82rem; color:${isCorrect ? '#00e676' : '#ff5252'};">
                 ${isCorrect ? (isEn ? '✓ CORRECT (+10)' : '✓ ĐÚNG (+10đ)') : (isEn ? '✗ INCORRECT (0)' : '✗ SAI (0đ)')}
               </span>
             </div>
             <div style="font-size:0.86rem; color:#ffffff; font-weight:600; line-height:1.4;">
-              ${qText}
+              ${pureQuestion}
             </div>
             <div style="font-size:0.80rem; color:#b0bec5; font-family:'IBM Plex Mono', monospace; display:flex; flex-direction:column; gap:2px; margin-top:2px;">
               <div>${isEn ? 'Your answer' : 'Bạn chọn'}: <b style="color:${isCorrect ? '#00e676' : '#ff5252'};">${userAns !== null ? letters[userAns] + '. ' + opts[userAns] : (isEn ? 'Not answered' : 'Chưa trả lời')}</b></div>
               <div>${isEn ? 'Correct answer' : 'Đáp án chuẩn'}: <b style="color:#00e676;">${letters[q.ans]}. ${opts[q.ans]}</b></div>
             </div>
             <div style="font-size:0.78rem; line-height:1.35; color:#b2ebf2; background:rgba(0,77,107,0.25); padding:6px 8px; border-radius:6px; margin-top:4px; border-left:3px solid #00e5ff;">
-              🌊 <b>${isEn ? 'Maritime Scenario' : 'Tình huống'}:</b> ${getQuizScenarioAndMnemonic(q, isEn).scenario}
+              🌊 <b>${isEn ? 'Maritime Scenario' : 'Tình huống'}:</b> ${getQuizScenario(q, isEn)}
             </div>
             <div style="font-size:0.80rem; line-height:1.4; color:#80deea; background:rgba(0,229,255,0.08); padding:8px; border-radius:6px; margin-top:4px;">
               💡 <b>${isEn ? 'Explanation & Rule' : 'Giải thích & Quy tắc'}:</b> ${expText}
-            </div>
-            <div style="font-size:0.78rem; line-height:1.35; color:#ffe082; background:rgba(255,179,0,0.12); padding:6px 8px; border-radius:6px; margin-top:4px; border-left:3px solid #ffca28;">
-              ${getQuizScenarioAndMnemonic(q, isEn).mnemonic}
             </div>
           `;
           reviewList.appendChild(item);
@@ -5598,26 +5551,26 @@
 
     // Thang đo Beaufort & tương quan Cấp sóng / Độ cao sóng biển chuẩn WMO
     const BEAUFORT_DATA = [
-      { level: 0, nameVi: 'Cấp 0: Gió lặng (Calm)', nameEn: 'Beaufort 0: Calm', spdKts: 0.5, spdRange: '< 1 kt', waveHeight: 0.0, waveRange: '0 m', seaState: 0, seaDescVi: 'Mặt biển phẳng lặng như gương', seaDescEn: 'Mirror-like sea', amp: 0.0, freq: 0.6 },
-      { level: 1, nameVi: 'Cấp 1: Gió nhẹ (Light Air)', nameEn: 'Beaufort 1: Light Air', spdKts: 2, spdRange: '1 - 3 kts', waveHeight: 0.1, waveRange: '0.1 m', seaState: 1, seaDescVi: 'Gợn sóng lăn tăn không bọt', seaDescEn: 'Ripples without crests', amp: 0.10, freq: 0.9 },
-      { level: 2, nameVi: 'Cấp 2: Gió nhẹ vừa (Light Breeze)', nameEn: 'Beaufort 2: Light Breeze', spdKts: 5, spdRange: '4 - 6 kts', waveHeight: 0.3, waveRange: '0.2 - 0.3 m', seaState: 2, seaDescVi: 'Sóng nhỏ lăn tăn, đỉnh chưa vỡ bọt', seaDescEn: 'Small wavelets', amp: 0.22, freq: 1.1 },
-      { level: 3, nameVi: 'Cấp 3: Gió vừa (Gentle Breeze)', nameEn: 'Beaufort 3: Gentle Breeze', spdKts: 9, spdRange: '7 - 10 kts', waveHeight: 0.8, waveRange: '0.6 - 1.0 m', seaState: 3, seaDescVi: 'Sóng ngắn, vài bọt trắng nhỏ', seaDescEn: 'Large wavelets, scattered whitecaps', amp: 0.40, freq: 1.3 },
-      { level: 4, nameVi: 'Cấp 4: Gió khá mạnh (Moderate Breeze)', nameEn: 'Beaufort 4: Moderate Breeze', spdKts: 14, spdRange: '11 - 16 kts', waveHeight: 1.3, waveRange: '1.0 - 1.5 m', seaState: 4, seaDescVi: 'Sóng dài hơn, nhiều bọt trắng ("ngựa biển")', seaDescEn: 'Small waves, frequent whitecaps', amp: 0.65, freq: 1.5 },
-      { level: 5, nameVi: 'Cấp 5: Gió mạnh (Fresh Breeze)', nameEn: 'Beaufort 5: Fresh Breeze', spdKts: 19, spdRange: '17 - 21 kts', waveHeight: 2.2, waveRange: '2.0 - 2.5 m', seaState: 5, seaDescVi: 'Sóng cuộn rõ rệt, bọt trắng diện rộng', seaDescEn: 'Moderate waves, extensive white foam', amp: 0.95, freq: 1.7 },
-      { level: 6, nameVi: 'Cấp 6: Gió rất mạnh (Strong Breeze)', nameEn: 'Beaufort 6: Strong Breeze', spdKts: 24, spdRange: '22 - 27 kts', waveHeight: 3.5, waveRange: '3.0 - 4.0 m', seaState: 6, seaDescVi: 'Sóng lớn cuộn bọt trắng, bụi nước bay', seaDescEn: 'Large waves, extensive spray', amp: 1.35, freq: 2.0 },
-      { level: 7, nameVi: 'Cấp 7: Gió gần bão (Near Gale)', nameEn: 'Beaufort 7: Near Gale', spdKts: 30, spdRange: '28 - 33 kts', waveHeight: 4.8, waveRange: '4.0 - 5.5 m', seaState: 7, seaDescVi: 'Biển động dữ dội, sóng lớn dựng đứng', seaDescEn: 'Sea heaps up, white foam blown in streaks', amp: 1.75, freq: 2.3 },
-      { level: 8, nameVi: 'Cấp 8: Gió bão (Gale)', nameEn: 'Beaufort 8: Gale', spdKts: 37, spdRange: '34 - 40 kts', waveHeight: 6.5, waveRange: '5.5 - 7.5 m', seaState: 8, seaDescVi: 'Biển động rất dữ dội, sóng cao cuộn trào', seaDescEn: 'Moderately high waves of greater length', amp: 2.20, freq: 2.6 }
+      { level: 0, nameVi: 'Cấp 0: Gió lặng (Calm)', nameEn: 'Beaufort 0: Calm', spdKts: 0.0, spdRange: '0 kts', waveHeight: 0.0, waveRange: '0 m', seaState: 0, seaDescVi: 'Mặt biển phẳng lặng như gương', seaDescEn: 'Mirror-like sea', amp: 0.0, freq: 0.0 },
+      { level: 1, nameVi: 'Cấp 1: Gió nhẹ (Light Air)', nameEn: 'Beaufort 1: Light Air', spdKts: 2, spdRange: '1 - 3 kts', waveHeight: 0.1, waveRange: '0.1 m', seaState: 1, seaDescVi: 'Gợn sóng lăn tăn không bọt', seaDescEn: 'Ripples without crests', amp: 0.14, freq: 1.0 },
+      { level: 2, nameVi: 'Cấp 2: Gió nhẹ vừa (Light Breeze)', nameEn: 'Beaufort 2: Light Breeze', spdKts: 5, spdRange: '4 - 6 kts', waveHeight: 0.3, waveRange: '0.2 - 0.3 m', seaState: 2, seaDescVi: 'Sóng nhỏ lăn tăn, đỉnh chưa vỡ bọt', seaDescEn: 'Small wavelets', amp: 0.28, freq: 1.2 },
+      { level: 3, nameVi: 'Cấp 3: Gió vừa (Gentle Breeze)', nameEn: 'Beaufort 3: Gentle Breeze', spdKts: 9, spdRange: '7 - 10 kts', waveHeight: 0.8, waveRange: '0.6 - 1.0 m', seaState: 3, seaDescVi: 'Sóng ngắn, vài bọt trắng nhỏ', seaDescEn: 'Large wavelets, scattered whitecaps', amp: 0.48, freq: 1.4 },
+      { level: 4, nameVi: 'Cấp 4: Gió khá mạnh (Moderate Breeze)', nameEn: 'Beaufort 4: Moderate Breeze', spdKts: 14, spdRange: '11 - 16 kts', waveHeight: 1.3, waveRange: '1.0 - 1.5 m', seaState: 4, seaDescVi: 'Sóng dài hơn, nhiều bọt trắng ("ngựa biển")', seaDescEn: 'Small waves, frequent whitecaps', amp: 0.75, freq: 1.6 },
+      { level: 5, nameVi: 'Cấp 5: Gió mạnh (Fresh Breeze)', nameEn: 'Beaufort 5: Fresh Breeze', spdKts: 19, spdRange: '17 - 21 kts', waveHeight: 2.2, waveRange: '2.0 - 2.5 m', seaState: 5, seaDescVi: 'Sóng cuộn rõ rệt, bọt trắng diện rộng', seaDescEn: 'Moderate waves, extensive white foam', amp: 1.10, freq: 1.8 },
+      { level: 6, nameVi: 'Cấp 6: Gió rất mạnh (Strong Breeze)', nameEn: 'Beaufort 6: Strong Breeze', spdKts: 24, spdRange: '22 - 27 kts', waveHeight: 3.5, waveRange: '3.0 - 4.0 m', seaState: 6, seaDescVi: 'Sóng lớn cuộn bọt trắng, bụi nước bay', seaDescEn: 'Large waves, extensive spray', amp: 1.55, freq: 2.1 },
+      { level: 7, nameVi: 'Cấp 7: Gió gần bão (Near Gale)', nameEn: 'Beaufort 7: Near Gale', spdKts: 30, spdRange: '28 - 33 kts', waveHeight: 4.8, waveRange: '4.0 - 5.5 m', seaState: 7, seaDescVi: 'Biển động dữ dội, sóng lớn dựng đứng', seaDescEn: 'Sea heaps up, white foam blown in streaks', amp: 2.00, freq: 2.4 },
+      { level: 8, nameVi: 'Cấp 8: Gió bão (Gale)', nameEn: 'Beaufort 8: Gale', spdKts: 37, spdRange: '34 - 40 kts', waveHeight: 6.5, waveRange: '5.5 - 7.5 m', seaState: 8, seaDescVi: 'Biển động rất dữ dội, sóng cao cuộn trào', seaDescEn: 'Moderately high waves of greater length', amp: 2.55, freq: 2.7 }
     ];
 
-    // Environmental vectors, weather & navigation zones
+    // Environmental vectors, weather & navigation zones (Mặc định mở app: gió = 0, sóng = 0)
     let environment = {
       fog: false,
       fogDensity: 0.045,
       visibilityNM: 6.0,
-      beaufort: 3,
-      waveHeight: 0.8,
-      seaState: 3,
-      wind: { direction: 270, speed: 9, leewayCoeff: 0.04 },
+      beaufort: 0,
+      waveHeight: 0.0,
+      seaState: 0,
+      wind: { direction: 270, speed: 0.0, leewayCoeff: 0.04 },
       current: { set: 0, drift: 0 }, // Dòng chảy đã được loại bỏ, không tính dạt
       zoneType: 'OPEN_SEA', // 'OPEN_SEA' | 'TSS' | 'NARROW_CHANNEL'
       ialaRegion: 'A',      // 'A' | 'B'
@@ -6018,7 +5971,8 @@
       gridHelper.position.y = 0.01;
       scene.add(gridHelper);
 
-      const planeGeo = new THREE.PlaneGeometry(400, 400, 64, 64);
+      // Lưới 84x84 cho độ chi tiết gợn sóng sắc nét chân thực
+      const planeGeo = new THREE.PlaneGeometry(420, 420, 84, 84);
       planeGeo.rotateX(-Math.PI / 2);
       const posAttr = planeGeo.attributes.position;
       planeGeo.userData = {
@@ -6030,9 +5984,9 @@
         planeGeo.userData.origZ[i] = posAttr.getZ(i);
       }
       const planeMat = new THREE.MeshStandardMaterial({
-        color: 0x0a4d78,
-        roughness: 0.25,
-        metalness: 0.55,
+        color: 0x073f66,
+        roughness: 0.16,
+        metalness: 0.70,
       });
       waterMesh = new THREE.Mesh(planeGeo, planeMat);
       waterMesh.receiveShadow = true;
@@ -6153,54 +6107,111 @@
       onBeaufortChange();
     }
 
-    // Hoạt họa sóng biển 3D động chân thực theo cấp gió/sóng Beaufort
+    // Hoạt họa sóng biển 3D động sinh động với gợn sóng đa tần & biến dạng Gerstner
     function updateOceanWaves(timeSec) {
       if (!waterMesh || !waterMesh.geometry) return;
       const geo = waterMesh.geometry;
       const posAttr = geo.attributes.position;
       if (!posAttr || !geo.userData || !geo.userData.origX) return;
 
-      const bData = BEAUFORT_DATA[Math.max(0, Math.min(8, environment.beaufort || 3))] || BEAUFORT_DATA[3];
+      const bLevel = Math.max(0, Math.min(8, environment.beaufort || 0));
+      const bData = BEAUFORT_DATA[bLevel] || BEAUFORT_DATA[0];
       const amp = bData.amp;
       const freq = bData.freq;
-
-      if (amp <= 0.001) {
-        for (let i = 0; i < posAttr.count; i++) posAttr.setY(i, 0);
-        posAttr.needsUpdate = true;
-        return;
-      }
-
-      const windRad = THREE.MathUtils.degToRad((environment.wind ? environment.wind.direction : 270) || 270);
-      const dirX = Math.sin(windRad);
-      const dirZ = Math.cos(windRad);
-      const k1 = 0.08;
-      const k2 = 0.14;
-      const t = timeSec * freq;
 
       const origX = geo.userData.origX;
       const origZ = geo.userData.origZ;
 
+      // Cấp 0 (Mặc định mở app): Mặt biển phẳng lặng như gương
+      if (amp <= 0.001) {
+        let needsReset = false;
+        for (let i = 0; i < posAttr.count; i++) {
+          if (posAttr.getY(i) !== 0 || posAttr.getX(i) !== origX[i] || posAttr.getZ(i) !== origZ[i]) {
+            posAttr.setXYZ(i, origX[i], 0, origZ[i]);
+            needsReset = true;
+          }
+        }
+        if (needsReset) {
+          posAttr.needsUpdate = true;
+          geo.computeVertexNormals();
+        }
+        if (ownShip && ownShip.mesh) {
+          ownShip.mesh.position.y = 0;
+          ownShip.mesh.rotation.x = 0;
+        }
+        if (targets && targets.length > 0) {
+          targets.forEach(tgt => {
+            if (tgt && tgt.mesh) {
+              tgt.mesh.position.y = 0;
+              tgt.mesh.rotation.x = 0;
+            }
+          });
+        }
+        return;
+      }
+
+      // Hướng truyền sóng theo hướng gió và góc lệch sóng chéo
+      const windRad = THREE.MathUtils.degToRad((environment.wind ? environment.wind.direction : 270) || 270);
+      const dirX1 = Math.sin(windRad);
+      const dirZ1 = Math.cos(windRad);
+      const dirX2 = Math.sin(windRad + 0.58);
+      const dirZ2 = Math.cos(windRad + 0.58);
+      const dirX3 = Math.sin(windRad - 1.15);
+      const dirZ3 = Math.cos(windRad - 1.15);
+
+      const t = timeSec * freq;
+      const k1 = 0.075; // Sóng lừng chính (Swell)
+      const k2 = 0.160; // Sóng chéo (Cross chop)
+      const k3 = 0.380; // Sóng ngắn (Short wave)
+      const k4 = 0.950; // Gợn sóng lăn tăn cấp 1 (Capillary ripple)
+      const k5 = 1.850; // Gợn sóng lăn tăn cấp 2 (Fine ripple)
+
+      const steepness = Math.min(0.28, amp * 0.12);
+
       for (let i = 0; i < posAttr.count; i++) {
-        const x = origX[i];
-        const z = origZ[i];
-        const wave1 = Math.sin(k1 * (x * dirX + z * dirZ) + t);
-        const wave2 = Math.cos(k2 * (x * dirZ - z * dirX) + t * 1.3) * 0.35;
-        const wave3 = Math.sin((k1 * 1.8) * (x * dirX + z * dirZ) + t * 2.1) * 0.20;
-        posAttr.setY(i, amp * (wave1 + wave2 + wave3));
+        const x0 = origX[i];
+        const z0 = origZ[i];
+
+        const phase1 = k1 * (x0 * dirX1 + z0 * dirZ1) + t * 1.0;
+        const phase2 = k2 * (x0 * dirX2 + z0 * dirZ2) + t * 1.35;
+        const phase3 = k3 * (x0 * dirX1 + z0 * dirZ1) + t * 2.10;
+        const phase4 = k4 * (x0 * dirX3 + z0 * dirZ3) + t * 3.40;
+        const phase5 = k5 * (x0 * dirX2 - z0 * dirX2) + t * 4.60;
+
+        // Tổng hợp độ cao sóng đa tần tạo gợn sóng biển tự nhiên
+        const y = amp * (
+          Math.sin(phase1) * 0.52 +
+          Math.sin(phase2) * 0.26 +
+          Math.sin(phase3) * 0.12 +
+          Math.sin(phase4) * 0.06 +
+          Math.sin(phase5) * 0.04
+        );
+
+        // Biến dạng Gerstner làm nhọn đỉnh sóng và phẳng chân sóng
+        const dx = -steepness * (dirX1 * Math.cos(phase1) + dirX2 * 0.5 * Math.cos(phase2));
+        const dz = -steepness * (dirZ1 * Math.cos(phase1) + dirZ2 * 0.5 * Math.cos(phase2));
+
+        posAttr.setXYZ(i, x0 + dx, y, z0 + dz);
       }
       posAttr.needsUpdate = true;
+      geo.computeVertexNormals();
 
       // Nhấp nhô nhẹ của thân tàu trên sóng biển
       if (ownShip && ownShip.mesh) {
-        ownShip.mesh.position.y = Math.sin(t * 1.2) * (amp * 0.12);
-        ownShip.mesh.rotation.x = Math.sin(t * 1.0) * (amp * 0.015);
+        const heave = Math.sin(t * 1.1) * (amp * 0.14);
+        const pitch = Math.sin(t * 0.95) * (amp * 0.018);
+        const roll = Math.cos(t * 0.85) * (amp * 0.022);
+        ownShip.mesh.position.y = heave;
+        ownShip.mesh.rotation.x = pitch;
+        ownShip.mesh.rotation.z = (ownShip.rot ? THREE.MathUtils.degToRad(ownShip.rot * 0.7) : 0) + roll;
       }
       if (targets && targets.length > 0) {
         targets.forEach((tgt, idx) => {
           if (tgt && tgt.mesh) {
-            const phase = idx * 1.4;
-            tgt.mesh.position.y = Math.sin(t * 1.2 + phase) * (amp * 0.10);
-            tgt.mesh.rotation.x = Math.sin(t * 1.0 + phase) * (amp * 0.012);
+            const ph = idx * 1.35;
+            tgt.mesh.position.y = Math.sin(t * 1.1 + ph) * (amp * 0.12);
+            tgt.mesh.rotation.x = Math.sin(t * 0.95 + ph) * (amp * 0.015);
+            tgt.mesh.rotation.z = Math.cos(t * 0.85 + ph) * (amp * 0.018);
           }
         });
       }
