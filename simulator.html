@@ -1943,11 +1943,62 @@
       text-align: center;
       margin-bottom: 4px;
     }
+    .quiz-scenario-box {
+      background: rgba(0, 48, 77, 0.45);
+      border-left: 3.5px solid #00e5ff;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 0.88rem;
+      color: #b2ebf2;
+      line-height: 1.4;
+    }
+    .quiz-scenario-title {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #00e5ff;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .quiz-scenario-desc {
+      font-size: 0.86rem;
+      color: #e0f7fa;
+      line-height: 1.4;
+    }
     .quiz-question-txt {
       font-size: 0.98rem;
       line-height: 1.45;
       font-weight: 600;
       color: #ffffff;
+    }
+    .quiz-mnemonic-box {
+      background: rgba(255, 179, 0, 0.12);
+      border: 1px dashed rgba(255, 179, 0, 0.6);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 0.86rem;
+      color: #ffe082;
+      line-height: 1.4;
+    }
+    .quiz-mnemonic-title {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #ffca28;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .quiz-mnemonic-desc {
+      font-size: 0.85rem;
+      color: #fff8e1;
+      line-height: 1.4;
+      font-weight: 500;
     }
     .quiz-options-list {
       display: flex;
@@ -2435,9 +2486,9 @@
       <button id="btnLangToggle" class="cam-btn" onclick="toggleLanguage()" style="border-color:#00e5ff; color:#00e5ff; font-weight:800; min-width:46px;" title="Chuyển ngôn ngữ (Switch Language)">
         🇻🇳 VI
       </button>
-      <!-- PDF Document Button -->
-      <button id="btnOpenPdfTop" class="cam-btn" onclick="openPdfModal('vi')" style="border-color:#29b6f6; color:#81d4fa; font-weight:700;" title="Đọc Công Ước Quốc Tế COLREG 72 (PDF)">
-        📖 <span class="btn-txt">Công Ước PDF</span>
+      <!-- Bilingual COLREG-72 Document Button -->
+      <button id="btnOpenPdfTop" class="cam-btn" onclick="openPdfModal('vi')" style="border-color:#29b6f6; color:#81d4fa; font-weight:700;" title="Đọc Công Ước Quốc Tế COLREG 72 (Song Ngữ)">
+        📖 <span class="btn-txt">Đọc Công Ước</span>
       </button>
       <!-- Quiz Exam Button -->
       <button id="btnOpenQuizTop" class="cam-btn" onclick="openQuizModal()" style="border-color:#ffb300; color:#ffd54f; font-weight:700;" title="Thi Trắc Nghiệm COLREGs 72">
@@ -2480,7 +2531,7 @@
         <button id="btnViewOrbit" class="cam-btn active" onclick="setCameraMode('orbit')" title="Góc nhìn tự do xoay quanh tàu (Orbit View)">
           🔭 <span>Tự do</span>
         </button>
-        <button id="btnViewBridge" class="cam-btn" onclick="setCameraMode('bridge')" title="Buồng lái 360° (Gyroscope & Cảm ứng vuốt xoay xung quanh)">
+        <button id="btnViewBridge" class="cam-btn" onclick="setCameraMode('bridge')" title="Buồng lái 360° (Vuốt/chạm xoay quan sát 360°)">
           🚢 <span>Buồng lái (360°)</span>
         </button>
         <button id="btnViewTop" class="cam-btn" onclick="setCameraMode('top')" title="Góc nhìn hải đồ từ trên cao (Top-down Navigation)">
@@ -2521,36 +2572,31 @@
         </select>
       </div>
 
-      <!-- Leeway & Ocean Current Physics (Wind & Drift) -->
+      <!-- Beaufort Wind & Dynamic Ocean Waves (Thang Beaufort & Sóng biển) -->
       <div class="env-card">
         <div class="env-row">
-          <span class="env-lbl">💨 GIÓ (WIND):</span>
-          <span id="windReadoutVal" class="env-val">270° @ 12 kts</span>
+          <span class="env-lbl">💨 GIÓ & 🌊 SÓNG (BEAUFORT):</span>
+          <span id="beaufortReadoutVal" class="env-val">Cấp 3 | Sóng 0.8m</span>
         </div>
-        <div style="display:flex; gap:6px;">
+        <div style="margin-top:3px;">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#90a4ae; margin-bottom:2px;">
+            <span>Cấp gió Beaufort:</span>
+            <span id="beaufortLevelBadge" style="color:#00e5ff; font-weight:700;">Cấp 3: Gió vừa (Gentle Breeze)</span>
+          </div>
+          <input id="beaufortSlider" class="slider-custom cyan" type="range" min="0" max="8" value="3" oninput="onBeaufortChange()" />
+        </div>
+        <div style="display:flex; gap:6px; margin-top:3px;">
           <div style="flex:1;">
-            <div style="font-size:9.5px; color:#90a4ae;">Hướng gió: <span id="windDirVal">270°</span></div>
-            <input id="windDirSlider" class="slider-custom cyan" type="range" min="0" max="359" value="270" oninput="onWindChange()" />
+            <div style="font-size:9.5px; color:#90a4ae;">Hướng gió & sóng: <span id="windDirVal">270° (Tây)</span></div>
+            <input id="windDirSlider" class="slider-custom cyan" type="range" min="0" max="359" value="270" oninput="onBeaufortChange()" />
           </div>
           <div style="flex:1;">
-            <div style="font-size:9.5px; color:#90a4ae;">Tốc độ: <span id="windSpdVal">12 kts</span></div>
-            <input id="windSpdSlider" class="slider-custom cyan" type="range" min="0" max="40" value="12" oninput="onWindChange()" />
+            <div style="font-size:9.5px; color:#90a4ae;">Vận tốc gió: <span id="windSpdVal">7 - 10 kts</span></div>
+            <div id="waveHeightVal" style="font-size:9.5px; color:#80deea; font-weight:700; margin-top:2px;">🌊 Sóng: 0.6 - 1.0 m (Cấp 3)</div>
           </div>
         </div>
-
-        <div class="env-row" style="margin-top:4px;">
-          <span class="env-lbl">🌊 DÒNG CHẢY (CURRENT):</span>
-          <span id="currentReadoutVal" class="env-val">090° @ 1.5 kts</span>
-        </div>
-        <div style="display:flex; gap:6px;">
-          <div style="flex:1;">
-            <div style="font-size:9.5px; color:#90a4ae;">Hướng chảy (Set): <span id="currentSetVal">090°</span></div>
-            <input id="currentSetSlider" class="slider-custom cyan" type="range" min="0" max="359" value="90" oninput="onCurrentChange()" />
-          </div>
-          <div style="flex:1;">
-            <div style="font-size:9.5px; color:#90a4ae;">Vận tốc (Drift): <span id="currentDriftVal">1.5 kts</span></div>
-            <input id="currentDriftSlider" class="slider-custom cyan" type="range" min="0" max="6" step="0.5" value="1.5" oninput="onCurrentChange()" />
-          </div>
+        <div id="seaStateDescVal" style="font-size:9px; color:#b0bec5; font-style:italic; margin-top:4px; line-height:1.2;">
+          Tình trạng biển: Sóng ngắn, vài bọt trắng nhỏ.
         </div>
       </div>
 
@@ -2715,15 +2761,15 @@
       </button>
     </div>
 
-    <!-- 8. Đọc Công Ước Quốc Tế COLREG 72 PDF -->
+    <!-- 8. Đọc Công Ước Quốc Tế COLREG 72 (Bilingual E-Reader) -->
     <div>
-      <div class="section-title">📖 CÔNG ƯỚC QUỐC TẾ COLREG 72 (PDF):</div>
+      <div class="section-title">📖 CÔNG ƯỚC QUỐC TẾ COLREG 72:</div>
       <div style="display:flex; flex-direction:column; gap:5px;">
         <button onclick="openPdfModal('vi')" style="width:100%; padding:8px; background:rgba(0,229,255,0.18); border:1.5px solid #00e5ff; color:#00e5ff; font-family:'Barlow Condensed',sans-serif; font-size:13.5px; font-weight:700; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px;">
-          🇻🇳 ĐỌC BẢN TIẾNG VIỆT (PDF)
+          🇻🇳 ĐỌC BẢN TIẾNG VIỆT
         </button>
         <button onclick="openPdfModal('en')" style="width:100%; padding:8px; background:rgba(41,182,246,0.18); border:1.5px solid #29b6f6; color:#81d4fa; font-family:'Barlow Condensed',sans-serif; font-size:13.5px; font-weight:700; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px;">
-          🇬🇧 READ ENGLISH VERSION (PDF)
+          🇬🇧 READ ENGLISH VERSION
         </button>
       </div>
     </div>
@@ -3025,12 +3071,26 @@
 
       <!-- Quiz Body: Question & Options -->
       <div id="quizViewActive" class="quiz-body">
+        <!-- Maritime Operational Scenario Context Box -->
+        <div id="quizScenarioBox" class="quiz-scenario-box">
+          <div class="quiz-scenario-title"><span>🌊</span> <span id="quizScenarioTitleTxt">TÌNH HUỐNG HÀNG HẢI THỰC TẾ</span></div>
+          <div id="quizScenarioContent" class="quiz-scenario-desc">Đang nạp tình huống hàng hải...</div>
+        </div>
+
         <div id="quizSvgBox" class="quiz-svg-container">
           <!-- SVG illustration dynamically injected here -->
         </div>
+
         <div id="quizQuestionText" class="quiz-question-txt">
           Đang nạp câu hỏi trắc nghiệm...
         </div>
+
+        <!-- Maritime COLREGs Mnemonic & Core Rule Guidance Box -->
+        <div id="quizMnemonicBox" class="quiz-mnemonic-box">
+          <div class="quiz-mnemonic-title"><span>💡</span> <span id="quizMnemonicTitleTxt">KHẨU QUYẾT HÀNG HẢI & NGUYÊN TẮC CỐT LÕI</span></div>
+          <div id="quizMnemonicContent" class="quiz-mnemonic-desc">Đang nạp khẩu quyết điều động...</div>
+        </div>
+
         <div id="quizOptionsList" class="quiz-options-list">
           <!-- 4 option buttons dynamically injected here -->
         </div>
@@ -3081,7 +3141,7 @@
   </div>
 
   <!-- ==========================================
-       COLREGS-72 BILINGUAL E-READER & PDF MODAL
+       COLREGS-72 BILINGUAL E-READER MODAL (100% OFFLINE)
        ========================================== -->
   <div id="colregsPdfModal" class="pdf-modal-backdrop">
     <div class="pdf-modal-card">
@@ -3089,24 +3149,16 @@
         <div class="pdf-modal-title">
           <span>📖</span> <span id="pdfModalTitleText">CÔNG ƯỚC QUỐC TẾ COLREG 72</span>
         </div>
-        <div class="pdf-tabs">
-          <!-- Reader View Mode Switcher -->
-          <button id="btnReaderModeText" class="pdf-tab active" onclick="switchReaderMode('text')">📖 Đọc Trong App (E-Reader)</button>
-          <button id="btnReaderModePdf" class="pdf-tab" onclick="switchReaderMode('pdf')">📄 Tệp PDF Gốc</button>
-        </div>
         <div style="display:flex; align-items:center; gap:6px;">
           <!-- Language Switcher -->
           <button id="pdfTabVi" class="pdf-lang-btn active" onclick="switchPdfTab('vi')">🇻🇳 VI</button>
           <button id="pdfTabEn" class="pdf-lang-btn" onclick="switchPdfTab('en')">🇬🇧 EN</button>
-          <a id="btnPdfOpenNewTab" href="colreg-72-viet-ver.pdf" target="_blank" class="pdf-btn-ext" title="Mở trong tab mới / Tải về">
-            ↗ Tải PDF
-          </a>
           <button class="quiz-close-btn" onclick="closePdfModal()" title="Đóng">✕</button>
         </div>
       </div>
 
-      <!-- VIEW 1: Built-in Native E-Reader (Works 100% offline, anywhere, no PDF plugin needed) -->
-      <div id="readerTextView" class="reader-text-container">
+      <!-- Built-in Native E-Reader (Works 100% offline, anywhere, no PDF plugin needed) -->
+      <div id="readerTextView" class="reader-text-container" style="display:flex;">
         <div class="reader-toolbar">
           <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:200px;">
             <span style="font-size:12px; color:#80deea; font-weight:700;">📑 MỤC LỤC:</span>
@@ -3125,17 +3177,6 @@
         </div>
         <div id="readerTextContent" class="reader-text-body">
           <!-- Text rendered here -->
-        </div>
-      </div>
-
-      <!-- VIEW 2: Raw PDF Frame View -->
-      <div id="readerPdfView" class="pdf-modal-body" style="display:none;">
-        <iframe id="colregsPdfFrame" src="colreg-72-viet-ver.pdf" title="COLREGs 72 Document"></iframe>
-        <div id="pdfFallbackNotice" class="pdf-fallback-notice">
-          <span style="color:#cfd8dc;">Nếu điện thoại của bạn không hiển thị PDF bên trên:</span>
-          <a id="pdfFallbackLink" href="colreg-72-viet-ver.pdf" target="_blank" class="btn-helm-spd" style="font-size:12px; padding:6px 14px; background:#00e5ff; color:#04141d;">
-            📥 Bấm vào đây để Mở / Tải Về File PDF Trực Tiếp
-          </a>
         </div>
       </div>
     </div>
@@ -4992,7 +5033,6 @@
       if (modal) modal.style.display = 'flex';
       initColregReader();
       switchPdfTab(lang);
-      switchReaderMode('text');
     }
 
     function closePdfModal() {
@@ -5001,16 +5041,9 @@
     }
 
     function switchReaderMode(mode) {
-      currentReaderMode = mode;
-      const btnText = document.getElementById('btnReaderModeText');
-      const btnPdf = document.getElementById('btnReaderModePdf');
+      currentReaderMode = 'text';
       const viewText = document.getElementById('readerTextView');
-      const viewPdf = document.getElementById('readerPdfView');
-
-      if (btnText) btnText.classList.toggle('active', mode === 'text');
-      if (btnPdf) btnPdf.classList.toggle('active', mode === 'pdf');
-      if (viewText) viewText.style.display = (mode === 'text') ? 'flex' : 'none';
-      if (viewPdf) viewPdf.style.display = (mode === 'pdf') ? 'flex' : 'none';
+      if (viewText) viewText.style.display = 'flex';
     }
 
     function switchPdfTab(lang) {
@@ -5018,18 +5051,10 @@
       const isEn = (lang === 'en');
       const tabVi = document.getElementById('pdfTabVi');
       const tabEn = document.getElementById('pdfTabEn');
-      const frame = document.getElementById('colregsPdfFrame');
-      const extLink = document.getElementById('btnPdfOpenNewTab');
-      const fallbackLink = document.getElementById('pdfFallbackLink');
       const title = document.getElementById('pdfModalTitleText');
 
       if (tabVi) tabVi.classList.toggle('active', !isEn);
       if (tabEn) tabEn.classList.toggle('active', isEn);
-
-      const pdfFile = isEn ? 'colreg-72-eng-ver.pdf' : 'colreg-72-viet-ver.pdf';
-      if (frame) frame.src = pdfFile;
-      if (extLink) extLink.href = pdfFile;
-      if (fallbackLink) fallbackLink.href = pdfFile;
 
       if (title) {
         title.textContent = isEn
@@ -5243,6 +5268,73 @@
       renderQuizQuestion(0);
     }
 
+    // Helper: Tạo bối cảnh tình huống thực tế và khẩu quyết hàng hải sống động cho từng câu hỏi
+    function getQuizScenarioAndMnemonic(q, isEn) {
+      const qText = (q.q_vi || q.question_vi || '').toLowerCase();
+      const expText = (q.explain_vi || q.exp_vi || '').toLowerCase();
+      const cat = (q.category || '').toLowerCase();
+
+      // 1. TÌNH HUỐNG HÀNG HẢI THỰC TẾ (MARITIME SITUATION)
+      let scenario = '';
+      if (cat.includes('đèn') || cat.includes('night') || qText.includes('ban đêm') || qText.includes('đèn')) {
+        scenario = isEn
+          ? '🌊 Operational Watch: Night time (00:00 - 04:00), meteorological visibility > 6 NM. Officer of the Watch (OOW) spots target navigation lights through marine binoculars.'
+          : '🌊 Tình huống thực tế: Ca trực đêm 00:00 - 04:00 trên vùng biển mở, tầm nhìn xa khí tượng tốt (> 6 NM). Sĩ quan trực ca phát hiện tín hiệu đèn của tàu mục tiêu qua ống nhòm hàng hải.';
+      } else if (cat.includes('dấu hiệu') || cat.includes('shape') || qText.includes('ban ngày') || qText.includes('dấu hiệu')) {
+        scenario = isEn
+          ? '☀️ Operational Watch: Daytime navigation in open waters, clear horizon. Lookout observes day shape configuration hoisted vertically on target vessel\'s forward mast.'
+          : '☀️ Tình huống thực tế: Ban ngày, trời quang mây tạnh, quan sát mục tiêu bằng ống nhòm phát hiện cụm dấu hiệu hình thể treo thẳng đứng trên cột buồm trước của tàu đối diện.';
+      } else if (cat.includes('tránh va') || cat.includes('cơ động') || cat.includes('steering') || qText.includes('đối đầu') || qText.includes('cắt hướng') || qText.includes('vượt')) {
+        scenario = isEn
+          ? '🧭 Operational Watch: Own ship underway at 14 kts. ARPA radar and visual lookout identify an approaching target with close-quarters collision risk (CPA < 1.0 NM, TCPA < 12 min).'
+          : '🧭 Tình huống thực tế: Tàu ta đang hành hải với vận tốc 14 kts. Màn hình Radar ARPA và quan sát mắt thường phát hiện tàu mục tiêu tiếp cận có nguy cơ đâm va tiềm tàng (CPA < 1.0 NM).';
+      } else if (cat.includes('âm thanh') || cat.includes('còi') || cat.includes('sound') || qText.includes('sương mù') || qText.includes('còi')) {
+        scenario = isEn
+          ? '🌁 Operational Watch: Restricted visibility in thick fog or congested narrow fairway. Bridge team monitors sound whistle signals from surrounding vessels.'
+          : '🌁 Tình huống thực tế: Tầm nhìn xa bị hạn chế do sương mù dày đặc hoặc hành hải trong luồng lạch hẹp. Buồng lái lắng nghe tín hiệu còi điều động và cảnh báo từ các tàu xung quanh.';
+      } else {
+        scenario = isEn
+          ? '⚓ Operational Watch: Seamanship situation requiring strict adherence to IMO COLREGs 72 statutory navigation rules.'
+          : '⚓ Tình huống thực tế: Tình huống pháp lý và nghiệp vụ hàng hải thực tế yêu cầu Sĩ quan boong nắm vững và áp dụng chuẩn xác Công ước Quốc tế COLREGs 72.';
+      }
+
+      // 2. KHẨU QUYẾT GHI NHỚ COLREGS (COLREG MNEMONICS & GUIDANCE)
+      let mnemonic = '';
+      if (qText.includes('đỏ trên trắng') || (expText.includes('đánh cá') && !expText.includes('lưới cào'))) {
+        mnemonic = isEn ? '💡 Mnemonic: "Red over White: Fishing at night" — Rule 26(c)' : '💡 Khẩu quyết: "Đỏ trên trắng: Đánh cá cưng" (Tàu đánh cá không bằng lưới cào) — Rule 26(c)';
+      } else if (qText.includes('xanh trên trắng') || expText.includes('lưới cào') || expText.includes('trawling')) {
+        mnemonic = isEn ? '💡 Mnemonic: "Green over White: Trawling at night" — Rule 26(b)' : '💡 Khẩu quyết: "Xanh trên trắng: Cào lướt sóng" (Tàu đánh cá bằng lưới cào) — Rule 26(b)';
+      } else if (qText.includes('trắng trên đỏ') || expText.includes('hoa tiêu') || expText.includes('pilot')) {
+        mnemonic = isEn ? '💡 Mnemonic: "White over Red: Pilot ahead" — Rule 29' : '💡 Khẩu quyết: "Trắng trên đỏ: Hoa tiêu đó" (Tàu hoa tiêu đang làm nhiệm vụ) — Rule 29';
+      } else if (qText.includes('2 đỏ') || qText.includes('mất khả năng điều động') || expText.includes('nuc') || expText.includes('mất khả năng')) {
+        mnemonic = isEn ? '💡 Mnemonic: "Red over Red: Captain is dead / Not Under Command" — Rule 27(a)' : '💡 Khẩu quyết: "Đỏ trên đỏ: Tàu nguy to — Mất khả năng điều động (NUC)" — Rule 27(a)';
+      } else if (qText.includes('đỏ - trắng - đỏ') || expText.includes('ram') || expText.includes('hạn chế khả năng')) {
+        mnemonic = isEn ? '💡 Mnemonic: "Red - White - Red: Restricted in Ability to Manoeuvre (RAM)" — Rule 27(b)' : '💡 Khẩu quyết: "Đỏ - Trắng - Đỏ: Hạn chế điều động chẳng màng (Tàu RAM)" — Rule 27(b)';
+      } else if (qText.includes('3 đỏ') || expText.includes('cbd') || expText.includes('mớn nước')) {
+        mnemonic = isEn ? '💡 Mnemonic: "Three Red lights in line: Constrained by Draft (CBD)" — Rule 28' : '💡 Khẩu quyết: "3 đỏ thẳng hàng: Mớn nước khống chế (Tàu CBD)" — Rule 28';
+      } else if (qText.includes('mắc cạn') || expText.includes('mắc cạn') || expText.includes('aground')) {
+        mnemonic = isEn ? '💡 Mnemonic: "Vessel Aground: Three black balls / Two red lights plus anchor lights" — Rule 30(d)' : '💡 Khẩu quyết: "Mắc cạn: 3 quả cầu đen ban ngày / 2 đèn đỏ + đèn neo ban đêm" — Rule 30(d)';
+      } else if (qText.includes('đối đầu') || expText.includes('head-on') || expText.includes('đối đầu')) {
+        mnemonic = isEn ? '💡 Mnemonic: "Head-on: Both vessels alter to starboard, pass port-to-port" — Rule 14' : '💡 Khẩu quyết: "Gặp đối đầu: Cùng bẻ sang phải, đi mạn trái nhau (Port to Port)" — Rule 14';
+      } else if (qText.includes('cắt hướng') || expText.includes('crossing') || expText.includes('cắt hướng')) {
+        mnemonic = isEn ? '💡 Mnemonic: "Crossing from starboard: You must give way, avoid crossing ahead" — Rule 15' : '💡 Khẩu quyết: "Cắt hướng nhìn thấy mạn phải tàu kia: Phải nhường đường, tránh cắt trước mũi" — Rule 15';
+      } else if (qText.includes('vượt') || expText.includes('overtaking') || expText.includes('vượt')) {
+        mnemonic = isEn ? '💡 Mnemonic: "Overtaking vessel: Any vessel overtaking another shall keep out of the way" — Rule 13' : '💡 Khẩu quyết: "Tàu vượt mọi tàu: Bất luận là loại tàu nào, tàu vượt phải chủ động tránh" — Rule 13';
+      } else if (qText.includes('tàu buồm') || expText.includes('buồm') || expText.includes('sailing')) {
+        mnemonic = isEn ? '💡 Mnemonic: "Port tack yields to starboard tack; windward yields to leeward" — Rule 12' : '💡 Khẩu quyết: "Gió mạn trái nhường gió mạn phải; cùng mạn gió thì trên gió nhường dưới gió" — Rule 12';
+      } else if (qText.includes('ưu tiên') || expText.includes('thứ tự') || expText.includes('hierarchy')) {
+        mnemonic = isEn ? '💡 Mnemonic: "Power yields to Sail, Sail to Fish, Fish to RAM & NUC" — Rule 18' : '💡 Khẩu quyết: "Máy nhường Buồm, Buồm nhường Cá, Cá nhường RAM & NUC" — Rule 18';
+      } else if (qText.includes('ngắn') || qText.includes('còi') || expText.includes('whistle') || expText.includes('rule 34')) {
+        mnemonic = isEn ? '💡 Mnemonic: "1 short: Starboard, 2 short: Port, 3 short: Astern, 5 short: Danger/Doubt" — Rule 34' : '💡 Khẩu quyết: "1 ngắn bẻ phải, 2 ngắn bẻ trái, 3 ngắn lùi máy, 5 ngắn cảnh báo nghi ngờ" — Rule 34';
+      } else if (qText.includes('sương mù') || expText.includes('sương mù') || expText.includes('rule 35')) {
+        mnemonic = isEn ? '💡 Mnemonic: "Fog signals: 1 prolonged = underway; 2 prolonged = stopped; 1 prolonged + 2 short = RAM/NUC/Fish" — Rule 35' : '💡 Khẩu quyết: "Sương mù: 2 phút 1 dài (đang chạy); 2 phút 2 dài (dừng trôi); 1 dài 2 ngắn (RAM/NUC/Cá)" — Rule 35';
+      } else {
+        mnemonic = isEn ? '💡 Golden Rule: "Action to avoid collision shall be positive, made in ample time with good seamanship" — Rule 8' : '💡 Quy tắc vàng: "Hành động tránh va phải rõ ràng, kịp thời, đủ lớn và giữ cự ly an toàn" — Rule 8';
+      }
+
+      return { scenario, mnemonic };
+    }
+
     function renderQuizQuestion(idx) {
       if (!quizState.questions || quizState.questions.length === 0) return;
       quizState.currentIndex = idx;
@@ -5259,6 +5351,24 @@
       const titleEl = document.getElementById('quizModalTitle');
       if (titleEl) {
         titleEl.textContent = isEn ? 'COLREGs 72 MARITIME QUIZ' : 'BÀI THI TRẮC NGHIỆM COLREGs 72';
+      }
+
+      // Populate Real-World Scenario & Maritime Mnemonic
+      const meta = getQuizScenarioAndMnemonic(q, isEn);
+      const scBox = document.getElementById('quizScenarioBox');
+      const scTitle = document.getElementById('quizScenarioTitleTxt');
+      const scContent = document.getElementById('quizScenarioContent');
+      if (scBox && scContent) {
+        if (scTitle) scTitle.textContent = isEn ? 'MARITIME OPERATIONAL SITUATION' : 'TÌNH HUỐNG HÀNG HẢI THỰC TẾ';
+        scContent.textContent = meta.scenario;
+      }
+
+      const mnBox = document.getElementById('quizMnemonicBox');
+      const mnTitle = document.getElementById('quizMnemonicTitleTxt');
+      const mnContent = document.getElementById('quizMnemonicContent');
+      if (mnBox && mnContent) {
+        if (mnTitle) mnTitle.textContent = isEn ? 'COLREG MNEMONIC & CORE GUIDANCE' : 'KHẨU QUYẾT GHI NHỚ & CĂN CỨ QUY TẮC';
+        mnContent.textContent = meta.mnemonic;
       }
 
       const svgBox = document.getElementById('quizSvgBox');
@@ -5413,8 +5523,14 @@
               <div>${isEn ? 'Your answer' : 'Bạn chọn'}: <b style="color:${isCorrect ? '#00e676' : '#ff5252'};">${userAns !== null ? letters[userAns] + '. ' + opts[userAns] : (isEn ? 'Not answered' : 'Chưa trả lời')}</b></div>
               <div>${isEn ? 'Correct answer' : 'Đáp án chuẩn'}: <b style="color:#00e676;">${letters[q.ans]}. ${opts[q.ans]}</b></div>
             </div>
+            <div style="font-size:0.78rem; line-height:1.35; color:#b2ebf2; background:rgba(0,77,107,0.25); padding:6px 8px; border-radius:6px; margin-top:4px; border-left:3px solid #00e5ff;">
+              🌊 <b>${isEn ? 'Maritime Scenario' : 'Tình huống'}:</b> ${getQuizScenarioAndMnemonic(q, isEn).scenario}
+            </div>
             <div style="font-size:0.80rem; line-height:1.4; color:#80deea; background:rgba(0,229,255,0.08); padding:8px; border-radius:6px; margin-top:4px;">
               💡 <b>${isEn ? 'Explanation & Rule' : 'Giải thích & Quy tắc'}:</b> ${expText}
+            </div>
+            <div style="font-size:0.78rem; line-height:1.35; color:#ffe082; background:rgba(255,179,0,0.12); padding:6px 8px; border-radius:6px; margin-top:4px; border-left:3px solid #ffca28;">
+              ${getQuizScenarioAndMnemonic(q, isEn).mnemonic}
             </div>
           `;
           reviewList.appendChild(item);
@@ -5480,13 +5596,29 @@
       history: []
     };
 
+    // Thang đo Beaufort & tương quan Cấp sóng / Độ cao sóng biển chuẩn WMO
+    const BEAUFORT_DATA = [
+      { level: 0, nameVi: 'Cấp 0: Gió lặng (Calm)', nameEn: 'Beaufort 0: Calm', spdKts: 0.5, spdRange: '< 1 kt', waveHeight: 0.0, waveRange: '0 m', seaState: 0, seaDescVi: 'Mặt biển phẳng lặng như gương', seaDescEn: 'Mirror-like sea', amp: 0.0, freq: 0.6 },
+      { level: 1, nameVi: 'Cấp 1: Gió nhẹ (Light Air)', nameEn: 'Beaufort 1: Light Air', spdKts: 2, spdRange: '1 - 3 kts', waveHeight: 0.1, waveRange: '0.1 m', seaState: 1, seaDescVi: 'Gợn sóng lăn tăn không bọt', seaDescEn: 'Ripples without crests', amp: 0.10, freq: 0.9 },
+      { level: 2, nameVi: 'Cấp 2: Gió nhẹ vừa (Light Breeze)', nameEn: 'Beaufort 2: Light Breeze', spdKts: 5, spdRange: '4 - 6 kts', waveHeight: 0.3, waveRange: '0.2 - 0.3 m', seaState: 2, seaDescVi: 'Sóng nhỏ lăn tăn, đỉnh chưa vỡ bọt', seaDescEn: 'Small wavelets', amp: 0.22, freq: 1.1 },
+      { level: 3, nameVi: 'Cấp 3: Gió vừa (Gentle Breeze)', nameEn: 'Beaufort 3: Gentle Breeze', spdKts: 9, spdRange: '7 - 10 kts', waveHeight: 0.8, waveRange: '0.6 - 1.0 m', seaState: 3, seaDescVi: 'Sóng ngắn, vài bọt trắng nhỏ', seaDescEn: 'Large wavelets, scattered whitecaps', amp: 0.40, freq: 1.3 },
+      { level: 4, nameVi: 'Cấp 4: Gió khá mạnh (Moderate Breeze)', nameEn: 'Beaufort 4: Moderate Breeze', spdKts: 14, spdRange: '11 - 16 kts', waveHeight: 1.3, waveRange: '1.0 - 1.5 m', seaState: 4, seaDescVi: 'Sóng dài hơn, nhiều bọt trắng ("ngựa biển")', seaDescEn: 'Small waves, frequent whitecaps', amp: 0.65, freq: 1.5 },
+      { level: 5, nameVi: 'Cấp 5: Gió mạnh (Fresh Breeze)', nameEn: 'Beaufort 5: Fresh Breeze', spdKts: 19, spdRange: '17 - 21 kts', waveHeight: 2.2, waveRange: '2.0 - 2.5 m', seaState: 5, seaDescVi: 'Sóng cuộn rõ rệt, bọt trắng diện rộng', seaDescEn: 'Moderate waves, extensive white foam', amp: 0.95, freq: 1.7 },
+      { level: 6, nameVi: 'Cấp 6: Gió rất mạnh (Strong Breeze)', nameEn: 'Beaufort 6: Strong Breeze', spdKts: 24, spdRange: '22 - 27 kts', waveHeight: 3.5, waveRange: '3.0 - 4.0 m', seaState: 6, seaDescVi: 'Sóng lớn cuộn bọt trắng, bụi nước bay', seaDescEn: 'Large waves, extensive spray', amp: 1.35, freq: 2.0 },
+      { level: 7, nameVi: 'Cấp 7: Gió gần bão (Near Gale)', nameEn: 'Beaufort 7: Near Gale', spdKts: 30, spdRange: '28 - 33 kts', waveHeight: 4.8, waveRange: '4.0 - 5.5 m', seaState: 7, seaDescVi: 'Biển động dữ dội, sóng lớn dựng đứng', seaDescEn: 'Sea heaps up, white foam blown in streaks', amp: 1.75, freq: 2.3 },
+      { level: 8, nameVi: 'Cấp 8: Gió bão (Gale)', nameEn: 'Beaufort 8: Gale', spdKts: 37, spdRange: '34 - 40 kts', waveHeight: 6.5, waveRange: '5.5 - 7.5 m', seaState: 8, seaDescVi: 'Biển động rất dữ dội, sóng cao cuộn trào', seaDescEn: 'Moderately high waves of greater length', amp: 2.20, freq: 2.6 }
+    ];
+
     // Environmental vectors, weather & navigation zones
     let environment = {
       fog: false,
       fogDensity: 0.045,
       visibilityNM: 6.0,
-      wind: { direction: 270, speed: 12, leewayCoeff: 0.04 },
-      current: { set: 90, drift: 1.5 },
+      beaufort: 3,
+      waveHeight: 0.8,
+      seaState: 3,
+      wind: { direction: 270, speed: 9, leewayCoeff: 0.04 },
+      current: { set: 0, drift: 0 }, // Dòng chảy đã được loại bỏ, không tính dạt
       zoneType: 'OPEN_SEA', // 'OPEN_SEA' | 'TSS' | 'NARROW_CHANNEL'
       ialaRegion: 'A',      // 'A' | 'B'
       tssMesh: null,
@@ -5886,8 +6018,17 @@
       gridHelper.position.y = 0.01;
       scene.add(gridHelper);
 
-      const planeGeo = new THREE.PlaneGeometry(300, 300, 64, 64);
+      const planeGeo = new THREE.PlaneGeometry(400, 400, 64, 64);
       planeGeo.rotateX(-Math.PI / 2);
+      const posAttr = planeGeo.attributes.position;
+      planeGeo.userData = {
+        origX: new Float32Array(posAttr.count),
+        origZ: new Float32Array(posAttr.count)
+      };
+      for (let i = 0; i < posAttr.count; i++) {
+        planeGeo.userData.origX[i] = posAttr.getX(i);
+        planeGeo.userData.origZ[i] = posAttr.getZ(i);
+      }
       const planeMat = new THREE.MeshStandardMaterial({
         color: 0x0a4d78,
         roughness: 0.25,
@@ -5956,33 +6097,112 @@
       }
     }
 
-    function onWindChange() {
-      const dirEl = document.getElementById('windDirSlider');
-      const spdEl = document.getElementById('windSpdSlider');
-      if (dirEl && spdEl) {
-        environment.wind.direction = parseFloat(dirEl.value);
-        environment.wind.speed = parseFloat(spdEl.value);
-        const dVal = document.getElementById('windDirVal');
-        const sVal = document.getElementById('windSpdVal');
-        const rVal = document.getElementById('windReadoutVal');
-        if (dVal) dVal.textContent = `${Math.round(environment.wind.direction).toString().padStart(3, '0')}°`;
-        if (sVal) sVal.textContent = `${environment.wind.speed.toFixed(0)} kts`;
-        if (rVal) rVal.textContent = `${Math.round(environment.wind.direction).toString().padStart(3, '0')}° @ ${environment.wind.speed.toFixed(0)} kts`;
+    function onBeaufortChange() {
+      const bSlider = document.getElementById('beaufortSlider');
+      const dirSlider = document.getElementById('windDirSlider');
+      const level = bSlider ? parseInt(bSlider.value, 10) : 3;
+      const dir = dirSlider ? parseFloat(dirSlider.value) : 270;
+
+      const data = BEAUFORT_DATA[Math.max(0, Math.min(8, level))] || BEAUFORT_DATA[3];
+      environment.beaufort = data.level;
+      environment.wind.speed = data.spdKts;
+      environment.wind.direction = dir;
+      environment.waveHeight = data.waveHeight;
+      environment.seaState = data.seaState;
+      environment.current = { set: 0, drift: 0 }; // Bỏ dòng chảy
+
+      const isEn = (currentLang === 'en');
+      const rVal = document.getElementById('beaufortReadoutVal');
+      if (rVal) rVal.textContent = isEn ? `Bft ${data.level} | Wave ${data.waveHeight}m` : `Cấp ${data.level} | Sóng ${data.waveHeight}m`;
+
+      const bBadge = document.getElementById('beaufortLevelBadge');
+      if (bBadge) bBadge.textContent = isEn ? data.nameEn : data.nameVi;
+
+      const dVal = document.getElementById('windDirVal');
+      if (dVal) {
+        const dirTxt = (dir >= 337.5 || dir < 22.5) ? 'Bắc (N)' :
+                       (dir < 67.5) ? 'Đông Bắc (NE)' :
+                       (dir < 112.5) ? 'Đông (E)' :
+                       (dir < 157.5) ? 'Đông Nam (SE)' :
+                       (dir < 202.5) ? 'Nam (S)' :
+                       (dir < 247.5) ? 'Tây Nam (SW)' :
+                       (dir < 292.5) ? 'Tây (W)' : 'Tây Bắc (NW)';
+        dVal.textContent = `${Math.round(dir).toString().padStart(3, '0')}° (${dirTxt})`;
       }
+
+      const sVal = document.getElementById('windSpdVal');
+      if (sVal) sVal.textContent = `${data.spdRange} (~${data.spdKts} kts)`;
+
+      const wVal = document.getElementById('waveHeightVal');
+      if (wVal) wVal.textContent = isEn
+        ? `🌊 Wave: ${data.waveRange} (Sea State ${data.seaState})`
+        : `🌊 Sóng: ${data.waveRange} (Cấp sóng ${data.seaState})`;
+
+      const descVal = document.getElementById('seaStateDescVal');
+      if (descVal) descVal.textContent = isEn ? `Sea: ${data.seaDescEn}` : `Tình trạng biển: ${data.seaDescVi}`;
+
+      const oldR = document.getElementById('windReadoutVal');
+      if (oldR) oldR.textContent = `${Math.round(dir).toString().padStart(3, '0')}° @ ${data.spdKts} kts`;
+    }
+
+    function onWindChange() {
+      onBeaufortChange();
     }
 
     function onCurrentChange() {
-      const setEl = document.getElementById('currentSetSlider');
-      const driftEl = document.getElementById('currentDriftSlider');
-      if (setEl && driftEl) {
-        environment.current.set = parseFloat(setEl.value);
-        environment.current.drift = parseFloat(driftEl.value);
-        const sVal = document.getElementById('currentSetVal');
-        const dVal = document.getElementById('currentDriftVal');
-        const rVal = document.getElementById('currentReadoutVal');
-        if (sVal) sVal.textContent = `${Math.round(environment.current.set).toString().padStart(3, '0')}°`;
-        if (dVal) dVal.textContent = `${environment.current.drift.toFixed(1)} kts`;
-        if (rVal) rVal.textContent = `${Math.round(environment.current.set).toString().padStart(3, '0')}° @ ${environment.current.drift.toFixed(1)} kts`;
+      onBeaufortChange();
+    }
+
+    // Hoạt họa sóng biển 3D động chân thực theo cấp gió/sóng Beaufort
+    function updateOceanWaves(timeSec) {
+      if (!waterMesh || !waterMesh.geometry) return;
+      const geo = waterMesh.geometry;
+      const posAttr = geo.attributes.position;
+      if (!posAttr || !geo.userData || !geo.userData.origX) return;
+
+      const bData = BEAUFORT_DATA[Math.max(0, Math.min(8, environment.beaufort || 3))] || BEAUFORT_DATA[3];
+      const amp = bData.amp;
+      const freq = bData.freq;
+
+      if (amp <= 0.001) {
+        for (let i = 0; i < posAttr.count; i++) posAttr.setY(i, 0);
+        posAttr.needsUpdate = true;
+        return;
+      }
+
+      const windRad = THREE.MathUtils.degToRad((environment.wind ? environment.wind.direction : 270) || 270);
+      const dirX = Math.sin(windRad);
+      const dirZ = Math.cos(windRad);
+      const k1 = 0.08;
+      const k2 = 0.14;
+      const t = timeSec * freq;
+
+      const origX = geo.userData.origX;
+      const origZ = geo.userData.origZ;
+
+      for (let i = 0; i < posAttr.count; i++) {
+        const x = origX[i];
+        const z = origZ[i];
+        const wave1 = Math.sin(k1 * (x * dirX + z * dirZ) + t);
+        const wave2 = Math.cos(k2 * (x * dirZ - z * dirX) + t * 1.3) * 0.35;
+        const wave3 = Math.sin((k1 * 1.8) * (x * dirX + z * dirZ) + t * 2.1) * 0.20;
+        posAttr.setY(i, amp * (wave1 + wave2 + wave3));
+      }
+      posAttr.needsUpdate = true;
+
+      // Nhấp nhô nhẹ của thân tàu trên sóng biển
+      if (ownShip && ownShip.mesh) {
+        ownShip.mesh.position.y = Math.sin(t * 1.2) * (amp * 0.12);
+        ownShip.mesh.rotation.x = Math.sin(t * 1.0) * (amp * 0.015);
+      }
+      if (targets && targets.length > 0) {
+        targets.forEach((tgt, idx) => {
+          if (tgt && tgt.mesh) {
+            const phase = idx * 1.4;
+            tgt.mesh.position.y = Math.sin(t * 1.2 + phase) * (amp * 0.10);
+            tgt.mesh.rotation.x = Math.sin(t * 1.0 + phase) * (amp * 0.012);
+          }
+        });
       }
     }
 
@@ -8677,13 +8897,13 @@
       ownShip.rot = THREE.MathUtils.lerp(ownShip.rot, rudderEffect, 0.08);
       ownShip.course = (ownShip.course + ownShip.rot * simDt + 360) % 360;
 
-      // 2. Own Ship Leeway & Current Drift Physics
-      const ownGv = calculateGroundVelocity(ownShip.course, ownShip.speed, environment.wind, environment.current);
+      // 2. Own Ship Kinematics (Không tính dạt gió/dòng chảy để tàu chạy chuẩn hướng lái)
+      const ownGv = calculateGroundVelocity(ownShip.course, ownShip.speed, null, null);
       ownShip.vgx = ownGv.vgx;
       ownShip.vgz = ownGv.vgz;
       ownShip.sog = ownGv.sog;
       ownShip.cog = ownGv.cog;
-      ownShip.crabAngle = ownGv.crabAngle;
+      ownShip.crabAngle = 0.0;
       ownShip.stw = ownShip.speed;
 
       ownShip.x += (ownGv.vgx / 3600) * simDt;
@@ -8712,12 +8932,12 @@
 
       targets.forEach((t) => {
         if (!t) return;
-        const tgv = calculateGroundVelocity(t.course, t.speed, environment.wind, environment.current);
+        const tgv = calculateGroundVelocity(t.course, t.speed, null, null);
         t.vgx = tgv.vgx;
         t.vgz = tgv.vgz;
         t.sog = tgv.sog;
         t.cog = tgv.cog;
-        t.crabAngle = tgv.crabAngle;
+        t.crabAngle = 0.0;
         t.stw = t.speed;
 
         t.x += (tgv.vgx / 3600) * simDt;
@@ -9773,6 +9993,11 @@
       // 5. Update Web Audio 3D Spatial Listener Position & Orientation
       if (typeof AudioEngine !== 'undefined' && AudioEngine.updateListener && camera) {
         AudioEngine.updateListener(camera);
+      }
+
+      // 6. Dynamic 3D Beaufort Ocean Waves Animation
+      if (typeof updateOceanWaves === 'function') {
+        updateOceanWaves(now / 1000);
       }
 
       updateCameraView();
@@ -10848,12 +11073,10 @@
           renderer.xr.enabled = true;
         }
 
-        // Device orientation listener
-        if (typeof window !== 'undefined' && window.addEventListener) {
-          window.addEventListener('deviceorientation', handleDeviceOrientation, true);
-        }
+        // Bỏ cảm biến con quay hồi chuyển (Gyroscope) theo yêu cầu - chỉ dùng vuốt/chạm 360° tự do
+        gyroEnabled = false;
 
-        // Pointer/touch drag fallback for 360° look
+        // Pointer/touch drag mượt mà cho góc nhìn buồng lái 360°
         const container = document.getElementById('canvas-container') || document.body;
         if (container) {
           container.addEventListener('mousedown', onPointerDown);
@@ -10866,36 +11089,23 @@
         }
       }
 
-      function handleDeviceOrientation(evt) {
-        if (!isVRActive || !gyroEnabled) return;
-        if (evt.alpha === null || evt.alpha === undefined) return;
-
-        if (initialAlpha === null) {
-          initialAlpha = evt.alpha;
-        }
-
-        currentAlpha = evt.alpha;
-        currentBeta = evt.beta || 0;
-        currentGamma = evt.gamma || 0;
-      }
-
       function onPointerDown(e) {
-        if (!isVRActive || cameraMode !== 'bridge') return;
-        if (e.target && (e.target.closest('button') || e.target.closest('.modal-content') || e.target.closest('.panel') || e.target.closest('#radarPanel') || e.target.closest('.hud-header'))) return;
+        if (cameraMode !== 'bridge') return;
+        if (e.target && (e.target.closest('button') || e.target.closest('.modal-content') || e.target.closest('.panel') || e.target.closest('#radarPanel') || e.target.closest('.hud-header') || e.target.closest('.drawer-mobile') || e.target.closest('.bottom-right-radar-hud'))) return;
         isDragging = true;
         dragStartX = e.clientX;
         dragStartY = e.clientY;
       }
 
       function onPointerMove(e) {
-        if (!isDragging || !isVRActive) return;
+        if (!isDragging || cameraMode !== 'bridge') return;
         const deltaX = e.clientX - dragStartX;
         const deltaY = e.clientY - dragStartY;
         dragStartX = e.clientX;
         dragStartY = e.clientY;
 
-        yawOffset += deltaX * 0.005;
-        pitchOffset = Math.max(-Math.PI / 2.5, Math.min(Math.PI / 2.5, pitchOffset - deltaY * 0.005));
+        yawOffset += deltaX * 0.0055;
+        pitchOffset = Math.max(-Math.PI / 2.5, Math.min(Math.PI / 2.5, pitchOffset - deltaY * 0.0055));
       }
 
       function onPointerUp() {
@@ -10903,10 +11113,10 @@
       }
 
       function onTouchStart(e) {
-        if (!isVRActive || cameraMode !== 'bridge') return;
+        if (cameraMode !== 'bridge') return;
         if (e.touches.length === 1) {
           const t = e.touches[0];
-          if (t.target && (t.target.closest('button') || t.target.closest('.modal-content') || t.target.closest('.panel') || t.target.closest('#radarPanel') || t.target.closest('.hud-header'))) return;
+          if (t.target && (t.target.closest('button') || t.target.closest('.modal-content') || t.target.closest('.panel') || t.target.closest('#radarPanel') || t.target.closest('.hud-header') || t.target.closest('.drawer-mobile') || t.target.closest('.bottom-right-radar-hud'))) return;
           isDragging = true;
           dragStartX = t.clientX;
           dragStartY = t.clientY;
@@ -10914,37 +11124,24 @@
       }
 
       function onTouchMove(e) {
-        if (!isDragging || !isVRActive || e.touches.length !== 1) return;
+        if (!isDragging || cameraMode !== 'bridge' || e.touches.length !== 1) return;
         const t = e.touches[0];
         const deltaX = t.clientX - dragStartX;
         const deltaY = t.clientY - dragStartY;
         dragStartX = t.clientX;
         dragStartY = t.clientY;
 
-        yawOffset += deltaX * 0.006;
-        pitchOffset = Math.max(-Math.PI / 2.5, Math.min(Math.PI / 2.5, pitchOffset - deltaY * 0.006));
+        yawOffset += deltaX * 0.0065;
+        pitchOffset = Math.max(-Math.PI / 2.5, Math.min(Math.PI / 2.5, pitchOffset - deltaY * 0.0065));
       }
 
       function onTouchEnd() {
         isDragging = false;
       }
 
-      function requestGyroPermission() {
-        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-          DeviceOrientationEvent.requestPermission().then(function (state) {
-            if (state === 'granted') {
-              gyroEnabled = true;
-              initialAlpha = null;
-            }
-          }).catch(function (err) {
-            console.warn('Gyro permission request error:', err);
-          });
-        }
-      }
-
       function onEnterVR() {
         isVRActive = true;
-        gyroEnabled = true; // Mặc định bật Gyro
+        gyroEnabled = false; // Không dùng Gyro
         initialAlpha = null;
         yawOffset = 0;
         pitchOffset = 0;
@@ -10953,7 +11150,6 @@
           renderer.xr.enabled = true;
         }
 
-        // Try WebXR session if supported
         if (hasWebXR && navigator.xr && renderer && renderer.xr) {
           navigator.xr.requestSession('immersive-vr').then(function (session) {
             xrSession = session;
@@ -10963,11 +11159,9 @@
               setCameraMode('bridge');
             });
           }).catch(function (err) {
-            console.log('WebXR session request fallback to Gyro/Touch VR:', err);
+            console.log('WebXR session request fallback to Touch 360 VR:', err);
           });
         }
-
-        requestGyroPermission();
       }
 
       function onExitVR() {
@@ -11046,21 +11240,9 @@
         cam.position.set(posData.cam[0], posData.cam[1], posData.cam[2]);
 
         const shipHdgRad = THREE.MathUtils.degToRad(ship.course || 0);
-        let totalYaw = -shipHdgRad;
-        let totalPitch = 0;
-
-        // Apply Gyroscope orientation
-        if (gyroEnabled && initialAlpha !== null) {
-          const deltaAlphaRad = THREE.MathUtils.degToRad(currentAlpha - initialAlpha);
-          const betaRad = THREE.MathUtils.degToRad(currentBeta);
-          totalYaw -= deltaAlphaRad;
-          totalPitch += betaRad * 0.7;
-        }
-
-        // Apply manual drag offsets
-        totalYaw += yawOffset;
-        totalPitch += pitchOffset;
-        totalPitch = Math.max(-1.3, Math.min(1.3, totalPitch));
+        // Chỉ quan sát 360° bằng vuốt chạm màn hình, không rung lắc cảm biến
+        let totalYaw = -shipHdgRad + yawOffset;
+        let totalPitch = Math.max(-1.3, Math.min(1.3, pitchOffset));
 
         const lookDist = 30.0;
         const targetX = posData.cam[0] - Math.sin(-totalYaw) * Math.cos(totalPitch) * lookDist;
